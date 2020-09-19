@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="LoginPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+    <children>
+        <Button fx:id="btnLogin" layoutX="362.0" layoutY="279.0" onAction="#verifyLoginAndPassword" prefHeight="35.0" prefWidth="129.0" text="Entrar" />
+      <Label layoutX="25.0" layoutY="14.0" prefHeight="58.0" prefWidth="190.0" text="LOGIN" textFill="WHITE">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="151.0" layoutY="153.0" text="E-mail:" textFill="WHITE" />
+      <TextField fx:id="txtEmail" layoutX="208.0" layoutY="146.0" prefHeight="25.0" prefWidth="276.0" promptText="E-mail">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="151.0" layoutY="215.0" text="Senha:" textFill="WHITE" />
+      <RadioButton fx:id="rdbAdm" layoutX="208.0" layoutY="288.0" mnemonicParsing="false" text="Administrador?" textFill="WHITE" />
+      <Label layoutX="25.0" layoutY="65.0" text="Bem-vindo a Smart library" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Hyperlink fx:id="linkRegister" layoutX="208.0" layoutY="237.0" onAction="#callRegisterScreen" text="Faça seu cadastro" textFill="WHITE" underline="true" />
+      <Hyperlink fx:id="linkForgetPassword" layoutX="368.0" layoutY="237.0" onAction="#callForgetPasswordScreen" text="Esqueci a senha" textFill="WHITE" underline="true" />
+      <PasswordField fx:id="txtPassword" layoutX="208.0" layoutY="208.0" prefHeight="25.0" prefWidth="276.0" promptText="Senha">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </PasswordField>
+      <Text fx:id="textError" fill="#b22312" fontSmoothingType="LCD" layoutX="208.0" layoutY="275.0" opacity="0.91" smooth="false" stroke="#0a0707" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="276.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Text>
+    </children>
+</AnchorPane>
