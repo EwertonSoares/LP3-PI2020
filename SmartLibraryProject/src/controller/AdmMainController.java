@@ -7,6 +7,8 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,8 +16,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.QueriesDAO;
 import model.Utils;
+import screens.AdmTablePage;
+import screens.AdmUsersPage;
 
 /**
  *
@@ -30,7 +35,7 @@ public class AdmMainController implements Initializable {
     private Button btnEnter;
 
     @FXML
-    private RadioButton rdbCreateAdm;
+    private RadioButton rdbConfigAdm;
 
     @FXML
     private RadioButton rdbUsers;
@@ -43,17 +48,45 @@ public class AdmMainController implements Initializable {
 
     @FXML
     public void selectNextAction(ActionEvent event) {
-
+        this.changeScreen();
     }
 
-    public void checkRdbCreateAdm() {
+    public void changeScreen() {
+        if (rdbBooks.isSelected()) {
+            try {
+                AdmTablePage admTablePage = new AdmTablePage();
+                admTablePage.start(new Stage());
 
-        if (this.rdbCreateAdm.isSelected()) {
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (rdbUsers.isSelected()) {
+
+            try {
+                AdmUsersPage admUsersPage = new AdmUsersPage();
+                admUsersPage.start(new Stage());
+
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (rdbConfigAdm.isSelected()) {
+
+        } else {
+            utils.showAlert("ERRO", "Topico não selecionada",
+                    "Você deve escolher um topico!", Alert.AlertType.ERROR);
+        }
+    }
+
+    public void checkRdbConfigAdm() {
+
+        if (this.rdbConfigAdm.isSelected()) {
             this.rdbUsers.setDisable(true);
             this.rdbBooks.setDisable(true);
         }
 
-        if (!this.rdbCreateAdm.isSelected()) {
+        if (!this.rdbConfigAdm.isSelected()) {
             this.rdbUsers.setDisable(false);
             this.rdbBooks.setDisable(false);
         }
@@ -62,12 +95,12 @@ public class AdmMainController implements Initializable {
 
     public void checkRdbUsers() {
         if (this.rdbUsers.isSelected()) {
-            this.rdbCreateAdm.setDisable(true);
+            this.rdbConfigAdm.setDisable(true);
             this.rdbBooks.setDisable(true);
         }
 
         if (!this.rdbUsers.isSelected()) {
-            this.rdbCreateAdm.setDisable(false);
+            this.rdbConfigAdm.setDisable(false);
             this.rdbBooks.setDisable(false);
         }
 
@@ -76,12 +109,12 @@ public class AdmMainController implements Initializable {
     public void checkRdbBooks() {
         if (this.rdbBooks.isSelected()) {
             this.rdbUsers.setDisable(true);
-            this.rdbCreateAdm.setDisable(true);
+            this.rdbConfigAdm.setDisable(true);
         }
 
         if (!this.rdbBooks.isSelected()) {
             this.rdbUsers.setDisable(false);
-            this.rdbCreateAdm.setDisable(false);
+            this.rdbConfigAdm.setDisable(false);
         }
     }
 

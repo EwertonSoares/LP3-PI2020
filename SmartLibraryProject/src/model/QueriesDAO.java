@@ -132,12 +132,12 @@ public class QueriesDAO {
                 Date releaseDate = result.getDate("Data do emprestimo");
                 Date expectedDate = result.getDate("Data esperada da devolução");
                 Date returnDate = result.getDate("Data real da devolução");
-                
-                Book book = new Book(bookName, genre, publiser, author, price, 
+
+                Book book = new Book(bookName, genre, publiser, author, price,
                         releaseDate, expectedDate, returnDate);
-                
+
                 bookList.add(book);
-                
+
             }
 
         } catch (SQLException ex) {
@@ -148,4 +148,38 @@ public class QueriesDAO {
 
         return bookList;
     }
+
+    public List<User> getUsersList() {
+
+        ResultSet result;
+        List<User> userList = new ArrayList();
+
+        try {
+
+            stmt = con.prepareStatement("SELECT * FROM vw_users_and_phones");
+
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                String username = result.getString("username");
+                String userType = result.getString("userType");
+                String phone = result.getString("phone");
+                String mobilePhone = result.getString("mobilePhone");
+                String email = result.getString("email");
+
+                User user = new User(username, userType, phone, mobilePhone, email);
+
+                userList.add(user);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+
+        return userList;
+    }
+
 }
