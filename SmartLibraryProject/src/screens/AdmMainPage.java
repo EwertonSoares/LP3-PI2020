@@ -34,7 +34,7 @@ public class AdmMainPage extends Application {
         Parent root = (Parent) loader.load();
 
         AdmMainController admMainController = loader.getController();
-        admMainController.admPage(this.getText());
+        admMainController.setInitialText(this.getText());
         
         Scene scene = new Scene(root);
 
