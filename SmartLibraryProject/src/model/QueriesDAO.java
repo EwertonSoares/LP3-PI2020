@@ -124,6 +124,7 @@ public class QueriesDAO {
             result = stmt.executeQuery();
 
             while (result.next()) {
+                Long codBook = result.getLong("Codigo do livro");
                 String bookName = result.getString("Nome do livro");
                 String genre = result.getString("Gênero");
                 String publiser = result.getString("Editora");
@@ -133,7 +134,7 @@ public class QueriesDAO {
                 Date expectedDate = result.getDate("Data esperada da devolução");
                 Date returnDate = result.getDate("Data real da devolução");
 
-                Book book = new Book(bookName, genre, publiser, author, price,
+                Book book = new Book(codBook, bookName, genre, publiser, author, price,
                         releaseDate, expectedDate, returnDate);
 
                 bookList.add(book);
@@ -181,6 +182,34 @@ public class QueriesDAO {
 
         return userList;
     }
+    
+        public boolean removeBook(Long codBook) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean removed = false;
+
+        try {
+
+            stmet = conn.prepareStatement("DELETE FROM books WHERE codBook = ?");
+            stmet.setLong(1, codBook);
+
+            removed = stmet.execute();
+
+            if (!removed) {
+                removed = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return removed;
+    }
 
     public boolean removeUser(Long codUser) {
 
@@ -188,26 +217,26 @@ public class QueriesDAO {
         PreparedStatement stmet = null;
 
         ResultSet result;
-        boolean saved = false;
+        boolean removed = false;
 
         try {
 
             stmet = conn.prepareStatement("DELETE FROM users WHERE codUser = ?");
             stmet.setLong(1, codUser);
 
-            saved = stmet.execute();
+            removed = stmet.execute();
 
-            if (!saved) {
-                saved = true;
+            if (!removed) {
+                removed = true;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            ConnectionFactory.closeConnection(con, stmet);
+            ConnectionFactory.closeConnection(conn, stmet);
         }
 
-        return saved;
+        return removed;
     }
 
 }

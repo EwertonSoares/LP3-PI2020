@@ -17,8 +17,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
-import model.Book;
 import model.QueriesDAO;
 import model.User;
 import model.Utils;
@@ -51,7 +49,6 @@ public class admUsersPageController implements Initializable {
 
     QueriesDAO queriesDAO = new QueriesDAO();
     Utils utils = new Utils();
-    boolean removed = false;
 
     @FXML
     public void selectNextAction(ActionEvent event) {
@@ -87,7 +84,7 @@ public class admUsersPageController implements Initializable {
     public void removeUser() {
         User user = tableViewUsers.getSelectionModel().getSelectedItem();
 
-        removed = queriesDAO.removeUser(user.getCodUser());
+        boolean removed = queriesDAO.removeUser(user.getCodUser());
         if (removed) {
             tableViewUsers.getItems().remove(user);
             utils.showAlert("Sucesso", "Usuario removido", "O usuario foi removido com sucesso!",

@@ -17,12 +17,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Book;
 import model.QueriesDAO;
+import model.User;
 import model.Utils;
 import screens.Login;
 
@@ -87,7 +89,13 @@ public class AdmTablePageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.loadBooksTable();
+        
+        tableViewBooks.getSelectionModel().selectedItemProperty().addListener(
+                (obervable, oldValue, newValue) -> selectedItem(newValue));
+    }
 
+    private void loadBooksTable() {
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
         this.clnPub.setCellValueFactory(new PropertyValueFactory<>("publisher"));
@@ -103,5 +111,25 @@ public class AdmTablePageController implements Initializable {
 
         tableViewBooks.setItems(observableBookList);
     }
+    
+     public void selectedItem(Book book){
+         System.out.println(book.getBookName());
+     }
 
+     
+    @FXML
+    public void removeBook() {
+        Book book = tableViewBooks.getSelectionModel().getSelectedItem();
+
+       boolean removed = queriesDAO.removeBook(book.getCodBook());
+        if (removed) {
+            tableViewBooks.getItems().remove(book);
+            utils.showAlert("Sucesso", "Livro removido", "O livro foi removido com sucesso!",
+                    Alert.AlertType.INFORMATION);
+        } 
+        else {
+            utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
+                    Alert.AlertType.ERROR);
+        }
+    }
 }

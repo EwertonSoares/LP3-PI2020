@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -13,7 +12,8 @@ import java.util.Date;
  * @author ewerton
  */
 public class Book {
-    
+
+    private Long codBook;
     private String bookName;
     private String author;
     private String genre;
@@ -23,11 +23,11 @@ public class Book {
     private Date returnDate;
     private Date extectedReurnDate;
 
-    public Book () {
-        
+    public Book() {
     }
-
-    public Book(String bookName, String author, String genre, String publisher, Float price, Date releaseDate, Date returnDate, Date extectedReurnDate) {
+    
+    public Book(Long codBook, String bookName, String author, String genre, String publisher, Float price, Date releaseDate, Date returnDate, Date extectedReurnDate) {
+        this.codBook = codBook;
         this.bookName = bookName;
         this.author = author;
         this.genre = genre;
@@ -36,6 +36,14 @@ public class Book {
         this.releaseDate = releaseDate;
         this.returnDate = returnDate;
         this.extectedReurnDate = extectedReurnDate;
+    }
+    
+    public Long getCodBook() {
+        return codBook;
+    }
+
+    public void setCodBook(Long codBook) {
+        this.codBook = codBook;
     }
 
     public void setBookName(String bookName) {
@@ -100,6 +108,6 @@ public class Book {
 
     public Date getExtectedReurnDate() {
         return extectedReurnDate;
-    } 
-    
+    }
+
 }
