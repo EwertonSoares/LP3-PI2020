@@ -161,16 +161,16 @@ public class QueriesDAO {
             result = stmt.executeQuery();
 
             while (result.next()) {
+                Long codUser = result.getLong("codUser");
                 String username = result.getString("username");
                 String userType = result.getString("userType");
                 String phone = result.getString("phone");
                 String mobilePhone = result.getString("mobilePhone");
                 String email = result.getString("email");
 
-                User user = new User(username, userType, phone, mobilePhone, email);
+                User user = new User(codUser, username, userType, phone, mobilePhone, email);
 
                 userList.add(user);
-
             }
 
         } catch (SQLException ex) {
@@ -180,6 +180,34 @@ public class QueriesDAO {
         }
 
         return userList;
+    }
+
+    public boolean removeUser(Long codUser) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean saved = false;
+
+        try {
+
+            stmet = conn.prepareStatement("DELETE FROM users WHERE codUser = ?");
+            stmet.setLong(1, codUser);
+
+            saved = stmet.execute();
+
+            if (!saved) {
+                saved = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmet);
+        }
+
+        return saved;
     }
 
 }

@@ -8,7 +8,6 @@ package controller;
 import javafx.fxml.Initializable;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;

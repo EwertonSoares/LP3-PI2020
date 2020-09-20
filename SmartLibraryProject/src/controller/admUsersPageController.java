@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,7 +30,7 @@ import model.Utils;
 public class admUsersPageController implements Initializable {
 
     @FXML
-    private TableView<User> tableViewUsrs;
+    private TableView<User> tableViewUsers;
 
     @FXML
     private TableColumn<User, String> clnUserName;
@@ -50,6 +51,7 @@ public class admUsersPageController implements Initializable {
 
     QueriesDAO queriesDAO = new QueriesDAO();
     Utils utils = new Utils();
+    boolean removed = false;
 
     @FXML
     public void selectNextAction(ActionEvent event) {
@@ -57,7 +59,13 @@ public class admUsersPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.loadUsersTable();
 
+        tableViewUsers.getSelectionModel().selectedItemProperty().addListener(
+                (obervable, oldValue, newValue) -> selectedItem(newValue));
+    }
+
+    public void loadUsersTable() {
         this.clnUserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
         this.clnUserType.setCellValueFactory(new PropertyValueFactory<>("userType"));
         this.clnphone.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -68,6 +76,26 @@ public class admUsersPageController implements Initializable {
 
         this.observableUserList = FXCollections.observableArrayList(userList);
 
-        tableViewUsrs.setItems(this.observableUserList);
+        tableViewUsers.setItems(this.observableUserList);
+    }
+
+    public void selectedItem(User user) {
+        System.out.println(user.getUserName());
+    }
+
+    @FXML
+    public void removeUser() {
+        User user = tableViewUsers.getSelectionModel().getSelectedItem();
+
+        removed = queriesDAO.removeUser(user.getCodUser());
+        if (removed) {
+            tableViewUsers.getItems().remove(user);
+            utils.showAlert("Sucesso", "Usuario removido", "O usuario foi removido com sucesso!",
+                    Alert.AlertType.INFORMATION);
+        } 
+        else {
+            utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
+                    Alert.AlertType.ERROR);
+        }
     }
 }

@@ -11,6 +11,7 @@ package model;
  */
 public class User {
 
+    private Long codUser;
     private String userName;
     private String userType;
     private String phone;
@@ -18,15 +19,23 @@ public class User {
     private String email;
 
     public User() {
-
     }
 
-    public User(String userName, String userType, String phone, String mobilePhone, String email) {
+    public User(Long codUser, String userName, String userType, String phone, String mobilePhone, String email) {
+        this.codUser = codUser;
         this.userName = userName;
         this.userType = userType;
         this.phone = phone;
         this.mobilePhone = mobilePhone;
         this.email = email;
+    }
+
+    public Long getCodUser() {
+        return codUser;
+    }
+
+    public void setCodUser(Long codUser) {
+        this.codUser = codUser;
     }
 
     public String getUserName() {
