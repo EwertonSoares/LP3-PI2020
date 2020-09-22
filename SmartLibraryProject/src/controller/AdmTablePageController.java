@@ -16,15 +16,19 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.FloatStringConverter;
 import model.Book;
 import model.QueriesDAO;
-import model.User;
 import model.Utils;
 import screens.Login;
 
@@ -61,10 +65,12 @@ public class AdmTablePageController implements Initializable {
     @FXML
     private TableColumn<Book, String> clnAut;
 
+    private Book bookSelected;
+
     private ObservableList<Book> observableBookList;
 
-    QueriesDAO queriesDAO = new QueriesDAO();
-    Utils utils = new Utils();
+    private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final Utils utils = new Utils();
 
     /**
      *
@@ -90,9 +96,9 @@ public class AdmTablePageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.loadBooksTable();
-        
-        tableViewBooks.getSelectionModel().selectedItemProperty().addListener(
-                (obervable, oldValue, newValue) -> selectedItem(newValue));
+
+//        tableViewBooks.getSelectionModel().selectedItemProperty().addListener(
+//                (obervable, oldValue, newValue) -> selectedItem(newValue));
     }
 
     private void loadBooksTable() {
@@ -109,27 +115,65 @@ public class AdmTablePageController implements Initializable {
 
         this.observableBookList = FXCollections.observableArrayList(bookList);
 
-        tableViewBooks.setItems(observableBookList);
-    }
-    
-     public void selectedItem(Book book){
-         System.out.println(book.getBookName());
-     }
+        this.tableViewBooks.setItems(observableBookList);
 
-     
+        tableViewBooks.setEditable(true);
+        this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnGenre.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnPub.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnAut.setCellFactory(TextFieldTableCell.forTableColumn());
+//        this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn());
+    }
+
     @FXML
     public void removeBook() {
         Book book = tableViewBooks.getSelectionModel().getSelectedItem();
 
-       boolean removed = queriesDAO.removeBook(book.getCodBook());
+        boolean removed = queriesDAO.removeBook(book.getCodBook());
         if (removed) {
             tableViewBooks.getItems().remove(book);
             utils.showAlert("Sucesso", "Livro removido", "O livro foi removido com sucesso!",
                     Alert.AlertType.INFORMATION);
-        } 
-        else {
+        } else {
             utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
                     Alert.AlertType.ERROR);
         }
     }
+
+    @FXML
+    public void updateBookName(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setBookName(editcell.getNewValue().toString());
+    }
+
+    @FXML
+    public void updateGenre(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setGenre(editcell.getNewValue().toString());
+    }
+
+    @FXML
+    public void updatepublisher(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setPublisher(editcell.getNewValue().toString());
+
+    }
+
+    @FXML
+    public void updateAuthor(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setAuthor(editcell.getNewValue().toString());
+    }
+
+    @FXML
+    public void updatePrice(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setPrice((Float) editcell.getNewValue());
+    }
+
+    
+    private void updateBook() {
+        
+    }
 }
+//

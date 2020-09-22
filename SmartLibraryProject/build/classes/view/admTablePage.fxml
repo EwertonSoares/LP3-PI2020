@@ -11,8 +11,8 @@
    <children>
       <TableView fx:id="tableViewBooks" layoutX="3.0" layoutY="50.0" prefHeight="286.0" prefWidth="705.0">
         <columns>
-          <TableColumn fx:id="clnBookName" prefWidth="111.0" text="Livro " />
-          <TableColumn fx:id="clnGenre" minWidth="0.0" prefWidth="95.0" text="Gênero" />
+          <TableColumn fx:id="clnBookName" onEditCommit="#updateBookName" prefWidth="111.0" text="Livro " />
+          <TableColumn fx:id="clnGenre" minWidth="0.0" onEditCommit="#updateGenre" prefWidth="95.0" text="Gênero" />
             <TableColumn fx:id="clnPub" minWidth="0.0" prefWidth="71.0" text="Editora" />
             <TableColumn fx:id="clnAut" minWidth="0.0" prefWidth="111.0" text="Autor" />
             <TableColumn fx:id="clnPrice" minWidth="0.0" prefWidth="55.0" text="Preço" />

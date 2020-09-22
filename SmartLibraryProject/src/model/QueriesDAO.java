@@ -182,8 +182,8 @@ public class QueriesDAO {
 
         return userList;
     }
-    
-        public boolean removeBook(Long codBook) {
+
+    public boolean removeBook(Long codBook) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -237,6 +237,42 @@ public class QueriesDAO {
         }
 
         return removed;
+    }
+
+    public boolean updateBook(Book book) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean updated = false;
+
+        try {
+
+            stmet = conn.prepareStatement("UPDATE books SET bookName = ? AND releaseDate = ? "
+                    + "AND returnDate = ? AND price = ? AND expectedReturnDate = ? WHERE codBook = ?");
+
+            stmet.setString(1, book.getBookName());
+            stmet.setDate(2, (java.sql.Date) book.getReleaseDate());
+            stmet.setDate(3, (java.sql.Date) book.getReturnDate());
+            stmet.setFloat(4, book.getPrice());
+            stmet.setDate(5, (java.sql.Date) book.getExtectedReurnDate());
+            stmet.setLong(4, book.getCodBook());
+
+
+            updated = stmet.execute();
+
+            if (!updated) {
+                updated = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return updated;
     }
 
 }
