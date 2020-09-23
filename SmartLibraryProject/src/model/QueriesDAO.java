@@ -124,18 +124,18 @@ public class QueriesDAO {
             result = stmt.executeQuery();
 
             while (result.next()) {
-                Long codBook = result.getLong("Codigo do livro");
-                String bookName = result.getString("Nome do livro");
-                String genre = result.getString("Gênero");
-                String publiser = result.getString("Editora");
-                String author = result.getString("Autor");
-                Float price = result.getFloat("Preço");
-                Date releaseDate = result.getDate("Data do emprestimo");
-                Date expectedDate = result.getDate("Data esperada da devolução");
-                Date returnDate = result.getDate("Data real da devolução");
+                Long codBook = result.getLong("codBook");
+                String bookName = result.getString("bookName");
+                String genre = result.getString("genre");
+                String publiser = result.getString("publiser");
+                String author = result.getString("authorName");
+                Float price = result.getFloat("price");
+                Date releaseDate = result.getDate("releaseDate");
+                Date expectedDate = result.getDate("expectedDate");
+                Date returnDate = result.getDate("returnDate");
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
-                        releaseDate, expectedDate, returnDate);
+                        releaseDate, returnDate, expectedDate);
 
                 bookList.add(book);
 
@@ -249,15 +249,15 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("UPDATE books SET bookName = ?, releaseDate = ?, returnDate = ?, expectedReturnDate = ? WHERE codBook = ?");
+            stmet = conn.prepareStatement("UPDATE books SET bookName = ?, releaseDate = ?, "
+                    + "returnDate = ?, price = ?, expectedDate = ? WHERE codBook = ?");
 
             stmet.setString(1, book.getBookName());
             stmet.setDate(2, (java.sql.Date) book.getReleaseDate());
             stmet.setDate(3, (java.sql.Date) book.getReturnDate());
-//            stmet.setFloat(4, book.getPrice());
-            stmet.setDate(4, (java.sql.Date) book.getExtectedReurnDate());
-            stmet.setLong(5, book.getCodBook());
-
+            stmet.setFloat(4, book.getPrice());
+            stmet.setDate(5, (java.sql.Date) book.getExpectedDate());
+            stmet.setLong(6, book.getCodBook());
 
             updated = stmet.execute();
 

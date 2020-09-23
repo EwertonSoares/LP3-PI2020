@@ -21,12 +21,14 @@ public class Book {
     private Float price;
     private Date releaseDate;
     private Date returnDate;
-    private Date extectedReurnDate;
+    private Date expectedDate;
 
     public Book() {
     }
-    
-    public Book(Long codBook, String bookName, String author, String genre, String publisher, Float price, Date releaseDate, Date returnDate, Date extectedReurnDate) {
+
+    public Book(Long codBook, String bookName, String author, String genre, String publisher, 
+            Float price, Date releaseDate, Date returnDate, Date expectedDate) {
+        
         this.codBook = codBook;
         this.bookName = bookName;
         this.author = author;
@@ -35,7 +37,7 @@ public class Book {
         this.price = price;
         this.releaseDate = releaseDate;
         this.returnDate = returnDate;
-        this.extectedReurnDate = extectedReurnDate;
+        this.expectedDate = expectedDate;
     }
 
     public Long getCodBook() {
@@ -102,11 +104,14 @@ public class Book {
         this.returnDate = returnDate;
     }
 
-    public Date getExtectedReurnDate() {
-        return extectedReurnDate;
+    public Date getExpectedDate() {
+        return expectedDate;
     }
 
-    public void setExtectedReurnDate(Date extectedReurnDate) {
-        this.extectedReurnDate = extectedReurnDate;
+    public void setExpectedDate(Date expectedDate) {
+        this.expectedDate = expectedDate;
     }
+    
+    
+
 }

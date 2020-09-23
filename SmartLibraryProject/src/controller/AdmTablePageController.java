@@ -6,17 +6,13 @@
 package controller;
 
 import javafx.fxml.Initializable;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -24,13 +20,11 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
+import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import model.Book;
 import model.QueriesDAO;
 import model.Utils;
-import screens.Login;
 
 /**
  *
@@ -42,7 +36,10 @@ public class AdmTablePageController implements Initializable {
     private TableView<Book> tableViewBooks;
 
     @FXML
-    private TableColumn<Book, Date> clnExRetDate;
+    private TableColumn<Book, Long> clnCodBook;
+
+    @FXML
+    private TableColumn<Book, Date> clnExpectedDate;
 
     @FXML
     private TableColumn<Book, Date> clnReaDate;
@@ -51,7 +48,7 @@ public class AdmTablePageController implements Initializable {
     private TableColumn<Book, Date> clnRetDate;
 
     @FXML
-    private TableColumn<Book, BigDecimal> clnPrice;
+    private TableColumn<Book, Float> clnPrice;
 
     @FXML
     private TableColumn<Book, String> clnBookName;
@@ -82,34 +79,32 @@ public class AdmTablePageController implements Initializable {
         updated = queriesDAO.updateBook(bookSelected);
     }
 
-    public void closeAdminPageMain() {
-        try {
-            Login login = new Login();
-            login.start(new Stage());
-
-//            Stage stage = (Stage) btnCancelar.getScene().getWindow();
-//            stage.close();
-        } catch (Exception ex) {
-            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void closeAdminPageMain() {
+//        try {
+//            Login login = new Login();
+//            login.start(new Stage());
+//
+////            Stage stage = (Stage) btnCancelar.getScene().getWindow();
+////            stage.close();
+//        } catch (Exception ex) {
+//            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.loadBooksTable();
-
-//        tableViewBooks.getSelectionModel().selectedItemProperty().addListener(
-//                (obervable, oldValue, newValue) -> selectedItem(newValue));
     }
 
     private void loadBooksTable() {
+        this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
         this.clnPub.setCellValueFactory(new PropertyValueFactory<>("publisher"));
         this.clnAut.setCellValueFactory(new PropertyValueFactory<>("author"));
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.clnReaDate.setCellValueFactory(new PropertyValueFactory<>("releaseDate"));
-        this.clnExRetDate.setCellValueFactory(new PropertyValueFactory<>("expectedReturnDate"));
+        this.clnExpectedDate.setCellValueFactory(new PropertyValueFactory<>("expectedDate"));
         this.clnRetDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
         List<Book> bookList = queriesDAO.getBookList();
@@ -120,10 +115,9 @@ public class AdmTablePageController implements Initializable {
 
         tableViewBooks.setEditable(true);
         this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.clnGenre.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.clnPub.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.clnAut.setCellFactory(TextFieldTableCell.forTableColumn());
-//        this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        this.clnReaDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+        this.clnRetDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
     }
 
     @FXML
@@ -142,35 +136,30 @@ public class AdmTablePageController implements Initializable {
     }
 
     @FXML
-    public void updateBookName(CellEditEvent editcell) {
+    public void getNewBookName(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setBookName(editcell.getNewValue().toString());
     }
 
     @FXML
-    public void updateGenre(CellEditEvent editcell) {
+    public void getNewReleaseDate(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setGenre(editcell.getNewValue().toString());
+        bookSelected.setReleaseDate((Date) editcell.getNewValue());
     }
 
     @FXML
-    public void updatepublisher(CellEditEvent editcell) {
+    public void getNewReturnDate(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setPublisher(editcell.getNewValue().toString());
+        bookSelected.setReturnDate((Date) editcell.getNewValue());
 
     }
 
     @FXML
-    public void updateAuthor(CellEditEvent editcell) {
-        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setAuthor(editcell.getNewValue().toString());
-    }
-
-    @FXML
-    public void updatePrice(CellEditEvent editcell) {
+    public void getNewPrice(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setPrice((Float) editcell.getNewValue());
     }
+
 
 }
 //

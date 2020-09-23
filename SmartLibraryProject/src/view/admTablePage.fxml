@@ -9,27 +9,22 @@
 
 <AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmTablePageController">
    <children>
-      <TableView fx:id="tableViewBooks" layoutX="3.0" layoutY="50.0" prefHeight="286.0" prefWidth="705.0">
+      <TableView fx:id="tableViewBooks" layoutX="3.0" layoutY="4.0" prefHeight="262.0" prefWidth="705.0">
         <columns>
-          <TableColumn fx:id="clnBookName" onEditCommit="#updateBookName" prefWidth="111.0" text="Livro " />
-          <TableColumn fx:id="clnGenre" minWidth="0.0" onEditCommit="#updateGenre" prefWidth="95.0" text="Gênero" />
+            <TableColumn fx:id="clnCodBook" prefWidth="67.0" text="Codigo " />
+          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="98.0" text="Livro " />
+          <TableColumn fx:id="clnGenre" minWidth="0.0" prefWidth="95.0" text="Gênero" />
             <TableColumn fx:id="clnPub" minWidth="0.0" prefWidth="71.0" text="Editora" />
             <TableColumn fx:id="clnAut" minWidth="0.0" prefWidth="111.0" text="Autor" />
-            <TableColumn fx:id="clnPrice" minWidth="0.0" prefWidth="55.0" text="Preço" />
-            <TableColumn fx:id="clnReaDate" prefWidth="60.0" text="Data do &#10;aluguel" />
-            <TableColumn fx:id="clnExRetDate" prefWidth="89.0" text="Data de &#10;retorno &#10;esperada" />
-            <TableColumn fx:id="clnRetDate" prefWidth="69.0" text="Data de &#10;retorno" />
+            <TableColumn fx:id="clnPrice" minWidth="0.0" onEditCommit="#getNewPrice" prefWidth="55.0" text="Preço" />
+            <TableColumn fx:id="clnReaDate" onEditCommit="#getNewReleaseDate" prefWidth="60.0" text="Retirada" />
+            <TableColumn fx:id="clnExpectedDate" prefWidth="89.0" text="Retorno &#10;esperado" />
+            <TableColumn fx:id="clnRetDate" onEditCommit="#getNewReturnDate" prefWidth="69.0" text="Retorno" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Text fill="WHITE" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TABELA DE LIVROS" wrappingWidth="373.7294921875">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Text>
-      <Button fx:id="ibBack" layoutX="637.0" layoutY="2.0" mnemonicParsing="false" text="Voltar" />
       <Button fx:id="btnRemove" layoutX="617.0" layoutY="350.0" mnemonicParsing="false" onAction="#removeBook" text="Remover" />
       <Button fx:id="btnUpdate" layoutX="534.0" layoutY="350.0" mnemonicParsing="false" onAction="#updateBook" text="Atualizar" />
    </children>
