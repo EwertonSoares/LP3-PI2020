@@ -29,7 +29,8 @@
             <Font size="35.0" />
          </font>
       </Text>
-      <Button fx:id="ibBack" layoutX="655.0" layoutY="2.0" mnemonicParsing="false" text="Voltar" />
+      <Button fx:id="ibBack" layoutX="637.0" layoutY="2.0" mnemonicParsing="false" text="Voltar" />
       <Button fx:id="btnRemove" layoutX="617.0" layoutY="350.0" mnemonicParsing="false" onAction="#removeBook" text="Remover" />
+      <Button fx:id="btnUpdate" layoutX="534.0" layoutY="350.0" mnemonicParsing="false" onAction="#updateBook" text="Atualizar" />
    </children>
 </AnchorPane>

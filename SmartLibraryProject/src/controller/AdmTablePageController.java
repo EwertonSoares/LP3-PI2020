@@ -77,8 +77,9 @@ public class AdmTablePageController implements Initializable {
      * @param event
      */
     @FXML
-    public void showAdminArea(ActionEvent event) {
-
+    private void updateBook(ActionEvent event) {
+        boolean updated = false;
+        updated = queriesDAO.updateBook(bookSelected);
     }
 
     public void closeAdminPageMain() {
@@ -171,9 +172,5 @@ public class AdmTablePageController implements Initializable {
         bookSelected.setPrice((Float) editcell.getNewValue());
     }
 
-    
-    private void updateBook() {
-        
-    }
 }
 //

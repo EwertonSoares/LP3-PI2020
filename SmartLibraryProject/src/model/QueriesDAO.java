@@ -249,15 +249,14 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("UPDATE books SET bookName = ? AND releaseDate = ? "
-                    + "AND returnDate = ? AND price = ? AND expectedReturnDate = ? WHERE codBook = ?");
+            stmet = conn.prepareStatement("UPDATE books SET bookName = ?, releaseDate = ?, returnDate = ?, expectedReturnDate = ? WHERE codBook = ?");
 
             stmet.setString(1, book.getBookName());
             stmet.setDate(2, (java.sql.Date) book.getReleaseDate());
             stmet.setDate(3, (java.sql.Date) book.getReturnDate());
-            stmet.setFloat(4, book.getPrice());
-            stmet.setDate(5, (java.sql.Date) book.getExtectedReurnDate());
-            stmet.setLong(4, book.getCodBook());
+//            stmet.setFloat(4, book.getPrice());
+            stmet.setDate(4, (java.sql.Date) book.getExtectedReurnDate());
+            stmet.setLong(5, book.getCodBook());
 
 
             updated = stmet.execute();
