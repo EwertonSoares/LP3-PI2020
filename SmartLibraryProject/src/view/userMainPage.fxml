@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserMainPageController">
+   <children>
+      <Text fx:id="txtStr" fill="WHITE" layoutX="7.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="586.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <TextArea layoutX="7.0" layoutY="105.0" prefHeight="282.0" prefWidth="586.0" style="-fx-background-color: red;" />
+      <RadioButton fx:id="rdbBooks" layoutX="89.0" layoutY="133.0" mnemonicParsing="false" onAction="#checkRdbBooks" text="Meus Livros" />
+      <RadioButton fx:id="rdbAltEmailPwd" layoutX="367.0" layoutY="133.0" mnemonicParsing="false" onAction="#checkRdbEmailPwd" text="Alerar Email / Senha" />
+      <Button fx:id="btnEnter" layoutX="495.0" layoutY="307.0" mnemonicParsing="false" onAction="#selectNextAction" prefHeight="35.0" prefWidth="81.0" text="Entrar" />
+   </children>
+</AnchorPane>

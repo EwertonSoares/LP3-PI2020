@@ -11,9 +11,9 @@
    <children>
       <TableView fx:id="tableViewBooks" layoutX="4.0" layoutY="39.0" prefHeight="229.0" prefWidth="711.0">
         <columns>
-            <TableColumn fx:id="clnCodBook" prefWidth="67.0" text="Codigo " />
-            <TableColumn fx:id="clnquantity" onEditCommit="#getNewQuantity" prefWidth="67.0" style="fx-background-color: lightblue;" text="Qtd" />
-          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="98.0" style="-fx-background-color: lightblue;" text="Livro " />
+            <TableColumn fx:id="clnCodBook" prefWidth="69.0" text="Codigo " />
+            <TableColumn fx:id="clnquantity" onEditCommit="#getNewQuantity" prefWidth="50.0" style="fx-background-color: lightblue;" text="Qtd" />
+          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="100.0" style="-fx-background-color: lightblue;" text="Livro " />
             <TableColumn fx:id="clnPrice" minWidth="0.0" onEditCommit="#getNewPrice" prefWidth="55.0" style="-fx-background-color: lightblue;" text="Preço" />
             <TableColumn fx:id="clnReaDate" onEditCommit="#getReleaseDate" prefWidth="60.0" style="-fx-background-color: lightblue;" text="Retirada" />
             <TableColumn fx:id="clnExpectedDate" prefWidth="89.0" text="Retorno &#10;esperado" />

@@ -23,6 +23,7 @@ import utils.Utils;
 import screens.AdmMainPage;
 import screens.ForgetPassword;
 import screens.RegisterUser;
+import screens.UserMainPage;
 
 /**
  *
@@ -52,36 +53,35 @@ public class LoginController implements Initializable {
     private void verifyLoginAndPassword(ActionEvent event) {
         boolean checked = false;
 
-        if (rdbAdm.isSelected()) {
-
+        if (this.rdbAdm.isSelected()) {
             this.checkLoginAndPasswordField();
-
-            checked = login.verifyLoginAndPassword(txtEmail.getText(), txtPassword.getText(), "adm");
+            checked = login.verifyLoginAndPassword(this.txtEmail.getText(), this.txtPassword.getText(), "adm");
 
             if (checked) {
 
-                //CHAMAR TELA PRINCIPAL PARA ADM
-                this.callAdmPageMain(txtEmail.getText().split("@")[0]);
-                       
+                this.callAdmPageMain(this.txtEmail.getText().split("@")[0]);
+
             } else {
 
                 textError.setText("Usuario ou senha invalido!");
+                this.setTextEmpty();
             }
         } else {
             this.checkLoginAndPasswordField();
-
-            checked = login.verifyLoginAndPassword(txtEmail.getText(), txtPassword.getText(), "user");
+            checked = login.verifyLoginAndPassword(this.txtEmail.getText(), this.txtPassword.getText(), "user");
 
             if (checked) {
-                //CHAMAR TELA PRINCIPAL PARA USER
-                // textError.setText("SUCESSO!!!");
+
+                this.callUserMainPage(this.txtEmail.getText().split("@")[0]);
+
             } else {
                 textError.setText("Usuario ou senha invalido!");
+                this.setTextEmpty();
             }
         }
 
     }
-    
+
     @FXML
     private void callAdmPageMain(String text) {
         try {
@@ -96,7 +96,21 @@ public class LoginController implements Initializable {
         }
 
     }
-    
+
+    @FXML
+    private void callUserMainPage(String text) {
+        try {
+            UserMainPage userMainPage = new UserMainPage();
+
+            userMainPage.setText(text);
+            userMainPage.start(new Stage());
+
+            closeLoginScreen();
+        } catch (Exception ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     @FXML
     private void callRegisterScreen(ActionEvent event) {
@@ -138,6 +152,11 @@ public class LoginController implements Initializable {
     public void closeLoginScreen() {
         Stage stage = (Stage) btnLogin.getScene().getWindow();
         stage.close();
+    }
+
+    public void setTextEmpty() {
+        this.txtEmail.setText("");
+        this.txtPassword.setText("");
     }
 
     @Override

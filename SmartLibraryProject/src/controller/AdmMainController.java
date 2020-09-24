@@ -79,6 +79,7 @@ public class AdmMainController implements Initializable {
         }
     }
 
+    @FXML
     public void checkRdbConfigAdm() {
 
         if (this.rdbConfigAdm.isSelected()) {
@@ -93,6 +94,7 @@ public class AdmMainController implements Initializable {
 
     }
 
+    @FXML
     public void checkRdbUsers() {
         if (this.rdbUsers.isSelected()) {
             this.rdbConfigAdm.setDisable(true);
@@ -106,6 +108,7 @@ public class AdmMainController implements Initializable {
 
     }
 
+    @FXML
     public void checkRdbBooks() {
         if (this.rdbBooks.isSelected()) {
             this.rdbUsers.setDisable(true);
