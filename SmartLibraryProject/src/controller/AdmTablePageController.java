@@ -7,6 +7,7 @@ package controller;
 
 import javafx.fxml.Initializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,20 +19,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.FloatStringConverter;
+import model.Author;
 import model.Book;
+import model.Genre;
+import model.Publisher;
 import model.QueriesDAO;
 import model.Utils;
-import screens.AdmMainPage;
-import screens.AdmTablePage;
-import screens.Login;
 
 /**
  *
@@ -70,7 +73,25 @@ public class AdmTablePageController implements Initializable {
     private TableColumn<Book, String> clnAut;
 
     @FXML
+    private ComboBox<Genre> cbGenre;
+
+    @FXML
+    private ComboBox<Publisher> cbPub;
+
+    @FXML
+    private ComboBox<Author> cbAlt;
+
+    @FXML
+    private TextField txtBook;
+
+    @FXML
+    private TextField txtPrice;
+
+    @FXML
     private Button btnClose;
+
+    @FXML
+    private Button btnInsert;
 
     private Book bookSelected;
 
@@ -109,9 +130,14 @@ public class AdmTablePageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.loadBooksTable();
+        this.loadGenres();
+        this.loadAuthors();
+        this.loadPublishers();
     }
 
     private void loadBooksTable() {
+
+        //Preenchendo tabela
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
@@ -128,11 +154,39 @@ public class AdmTablePageController implements Initializable {
 
         this.tableViewBooks.setItems(observableBookList);
 
+        //Tornando colunas editavel
         tableViewBooks.setEditable(true);
         this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
         this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
         this.clnReaDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
         this.clnRetDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+    }
+
+    public void loadGenres() {
+        List<Genre> genres = this.queriesDAO.getGenres();
+        ObservableList<Genre> obsGenre;
+
+        obsGenre = FXCollections.observableArrayList(genres);
+
+        cbGenre.setItems(obsGenre);
+    }
+
+    public void loadAuthors() {
+        List<Author> authors = this.queriesDAO.getAuthors();
+        ObservableList<Author> obsAuthor;
+
+        obsAuthor = FXCollections.observableArrayList(authors);
+
+        cbAlt.setItems(obsAuthor);
+    }
+
+    public void loadPublishers() {
+        List<Publisher> publisher = this.queriesDAO.getPublishers();
+        ObservableList<Publisher> obsPublisher;
+
+        obsPublisher = FXCollections.observableArrayList(publisher);
+
+        cbPub.setItems(obsPublisher);
     }
 
     @FXML

@@ -274,4 +274,100 @@ public class QueriesDAO {
         return updated;
     }
 
+    public List<Genre> getGenres() {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        List<Genre> genreList = new ArrayList();
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT * FROM genres");
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                Long codGenre = result.getLong("codGenre");
+                String genre = result.getString("genre");
+
+                Genre genres = new Genre(codGenre, genre);
+
+                genreList.add(genres);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return genreList;
+    }
+
+    public List<Author> getAuthors() {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        List<Author> authorList = new ArrayList();
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT * FROM authors");
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                Long codAuthor = result.getLong("codAuthor");
+                String author = result.getString("authorName");
+
+                Author authors = new Author(codAuthor, author);
+
+                authorList.add(authors);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return authorList;
+    }
+
+    public List<Publisher> getPublishers() {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        List<Publisher> publisherList = new ArrayList();
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT * FROM publishers");
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                Long codPublisher = result.getLong("codPublisher");
+                String publisher = result.getString("publiser");
+
+                Publisher publishers = new Publisher(codPublisher, publisher);
+
+                publisherList.add(publishers);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return publisherList;
+    }
+
 }
