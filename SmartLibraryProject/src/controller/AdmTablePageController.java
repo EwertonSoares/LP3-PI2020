@@ -35,6 +35,7 @@ import model.Genre;
 import model.Publisher;
 import model.QueriesDAO;
 import model.Utils;
+import screens.AdmTablePage;
 
 /**
  *
@@ -93,6 +94,9 @@ public class AdmTablePageController implements Initializable {
     @FXML
     private Button btnInsert;
 
+    @FXML
+    private Button btnReload;
+
     private Book bookSelected;
 
     private Long selectedGenre;
@@ -141,10 +145,32 @@ public class AdmTablePageController implements Initializable {
 
     @FXML
     public void InsertBook(ActionEvent actionEvent) {
+        String empty = "";
         boolean inserted = false;
-        
-        inserted = queriesDAO.insertBook(this.txtBook.getText(), this.selectedAuthor, 
+
+        if (this.txtBook.getText().compareTo(empty) == 0 || this.txtPrice.getText().compareTo(empty) == 0) {
+            utils.showAlert("Atençao", "Campos obrigatório!",
+                    "Os campos 'Nome do livro' e 'preço' são obrigatórios para a inserção de um novo livro!",
+                    Alert.AlertType.INFORMATION);
+        }
+
+        inserted = queriesDAO.insertBook(this.txtBook.getText(), this.selectedAuthor,
                 this.selectedGenre, this.selectedPublisher, Float.parseFloat(this.txtPrice.getText()));
+
+        if (inserted) {
+            utils.showAlert("Sucesso", "Livro inserido", "O livro foi inserido com sucesso",
+                    Alert.AlertType.INFORMATION);
+            
+        } else {
+            utils.showAlert("Erro", "Algo inesperado ocorreu", "Erro a o inserir o livro",
+                    Alert.AlertType.ERROR);
+
+            this.txtBook.setText("");
+            this.selectedAuthor = null;
+            this.selectedGenre = null;
+            this.selectedPublisher = null;
+            this.txtPrice.setText("");
+        }
     }
 
     @FXML
@@ -256,6 +282,19 @@ public class AdmTablePageController implements Initializable {
     public void getNewPrice(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setPrice((Float) editcell.getNewValue());
+    }
+
+    public void reloadBookTable() {
+        try {
+            Stage stage = (Stage) btnReload.getScene().getWindow();
+            stage.close();
+
+            AdmTablePage admTablePage = new AdmTablePage();
+            admTablePage.start(new Stage());
+
+        } catch (Exception ex) {
+            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
 //
