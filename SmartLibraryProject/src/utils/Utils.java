@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package utils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import javafx.scene.control.Alert;
 
@@ -28,14 +29,25 @@ public class Utils {
         alert.showAndWait();
     }
 
-    public String formatDateToBr(Date date) {
-        if(date == null) {
+    public String formatDate(Date date) {
+        if (date == null) {
             return null;
         }
-        
+
         SimpleDateFormat formatedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         String result = formatedDate.format(date);
-        
+
         return result;
+    }
+
+    public String formatDate(String strDate) {
+        if (strDate == null) {
+            return null;
+        }
+
+        String[] result = strDate.split("-");
+        String date = result[2].concat("-").concat(result[1]).concat("-").concat(result[0]);
+
+        return date;
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package utils;
 
 import connection.ConnectionFactory;
 import java.sql.Connection;
@@ -15,6 +15,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Author;
+import model.Book;
+import model.Genre;
+import model.Publisher;
+import model.User;
 
 /**
  *
@@ -132,15 +137,13 @@ public class QueriesDAO {
                 String author = result.getString("authorName");
                 Float price = result.getFloat("price");
                 Date releaseDate = result.getDate("releaseDate");
-                String formatedReleaseDate = utils.formatDateToBr(releaseDate);
-                
+                String formatedReleaseDate = utils.formatDate(releaseDate);
+
                 Date expectedDate = result.getDate("expectedDate");
-                String formatedEspectedDate = utils.formatDateToBr(expectedDate);
+                String formatedEspectedDate = utils.formatDate(expectedDate);
 
-                
                 Date returnDate = result.getDate("returnDate");
-                String formatedReurnDate = utils.formatDateToBr(returnDate);
-
+                String formatedReurnDate = utils.formatDate(returnDate);
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
                         formatedReleaseDate, formatedReurnDate, formatedEspectedDate);
@@ -249,6 +252,11 @@ public class QueriesDAO {
 
     public boolean updateBook(Book book) {
 
+        Utils utils = new Utils();
+        String releaseDate = utils.formatDate(book.getReleaseDate());
+        String expectedDate = utils.formatDate(book.getExpectedDate());
+        String returnDate = utils.formatDate(book.getReturnDate());
+
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
 
@@ -257,12 +265,15 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("UPDATE books SET bookName = ?, price = ? "
-                    + "WHERE codBook = ?");
+            stmet = conn.prepareStatement("UPDATE books SET bookName = ?, price = ?, "
+                    + "releaseDate = ?, expectedDate = ?, returnDate = ? WHERE codBook = ?");
 
             stmet.setString(1, book.getBookName());
             stmet.setFloat(2, book.getPrice());
-            stmet.setLong(3, book.getCodBook());
+            stmet.setString(3, releaseDate);
+            stmet.setString(4, expectedDate);
+            stmet.setString(5, returnDate);
+            stmet.setLong(6, book.getCodBook());
 
             updated = stmet.execute();
 

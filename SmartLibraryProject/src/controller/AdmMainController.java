@@ -17,8 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.QueriesDAO;
-import model.Utils;
+import utils.QueriesDAO;
+import utils.Utils;
 import screens.AdmTablePage;
 import screens.AdmUsersPage;
 

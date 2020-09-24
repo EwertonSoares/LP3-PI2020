@@ -7,8 +7,6 @@ package controller;
 
 import javafx.fxml.Initializable;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,14 +25,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import model.Author;
 import model.Book;
 import model.Genre;
 import model.Publisher;
-import model.QueriesDAO;
-import model.Utils;
+import utils.QueriesDAO;
+import utils.Utils;
 import screens.AdmTablePage;
 
 /**
