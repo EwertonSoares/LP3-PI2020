@@ -114,6 +114,7 @@ public class QueriesDAO {
 
     public List<Book> getBookList() {
 
+        Utils utils = new Utils();
         ResultSet result;
         List<Book> bookList = new ArrayList();
 
@@ -131,11 +132,18 @@ public class QueriesDAO {
                 String author = result.getString("authorName");
                 Float price = result.getFloat("price");
                 Date releaseDate = result.getDate("releaseDate");
+                String formatedReleaseDate = utils.formatDateToBr(releaseDate);
+                
                 Date expectedDate = result.getDate("expectedDate");
+                String formatedEspectedDate = utils.formatDateToBr(expectedDate);
+
+                
                 Date returnDate = result.getDate("returnDate");
+                String formatedReurnDate = utils.formatDateToBr(returnDate);
+
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
-                        releaseDate, returnDate, expectedDate);
+                        formatedReleaseDate, formatedReurnDate, formatedEspectedDate);
 
                 bookList.add(book);
 

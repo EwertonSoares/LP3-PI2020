@@ -50,13 +50,13 @@ public class AdmTablePageController implements Initializable {
     private TableColumn<Book, Long> clnCodBook;
 
     @FXML
-    private TableColumn<Book, Date> clnExpectedDate;
+    private TableColumn<Book, String> clnExpectedDate;
 
     @FXML
-    private TableColumn<Book, Date> clnReaDate;
+    private TableColumn<Book, String> clnReaDate;
 
     @FXML
-    private TableColumn<Book, Date> clnRetDate;
+    private TableColumn<Book, String> clnRetDate;
 
     @FXML
     private TableColumn<Book, Float> clnPrice;
@@ -188,31 +188,6 @@ public class AdmTablePageController implements Initializable {
         }
     }
 
-    private void loadBooksTable() {
-
-        //Preenchendo tabela
-        this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
-        this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-        this.clnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        this.clnPub.setCellValueFactory(new PropertyValueFactory<>("publisher"));
-        this.clnAut.setCellValueFactory(new PropertyValueFactory<>("author"));
-        this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        this.clnReaDate.setCellValueFactory(new PropertyValueFactory<>("releaseDate"));
-        this.clnExpectedDate.setCellValueFactory(new PropertyValueFactory<>("expectedDate"));
-        this.clnRetDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-
-        List<Book> bookList = queriesDAO.getBookList();
-
-        this.observableBookList = FXCollections.observableArrayList(bookList);
-
-        this.tableViewBooks.setItems(observableBookList);
-
-        //Tornando colunas editavel
-        tableViewBooks.setEditable(true);
-        this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
-    }
-
     public void loadGenres() {
         List<Genre> genres = this.queriesDAO.getGenres();
         ObservableList<Genre> obsGenre;
@@ -262,12 +237,25 @@ public class AdmTablePageController implements Initializable {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setBookName(editcell.getNewValue().toString());
     }
-
+    
     @FXML
     public void getNewPrice(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setPrice((Float) editcell.getNewValue());
     }
+
+    @FXML
+    public void getReleaseDate(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setReleaseDate(editcell.getNewValue().toString());
+    }
+    
+    @FXML
+    public void getNewReturnDate(CellEditEvent editcell) {
+        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
+        bookSelected.setReturnDate(editcell.getNewValue().toString());
+    }
+
 
     public void reloadBookTable() {
         try {
@@ -281,5 +269,32 @@ public class AdmTablePageController implements Initializable {
             Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void loadBooksTable() {
+
+        //Preenchendo tabela
+        this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
+        this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        this.clnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        this.clnPub.setCellValueFactory(new PropertyValueFactory<>("publisher"));
+        this.clnAut.setCellValueFactory(new PropertyValueFactory<>("author"));
+        this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        this.clnReaDate.setCellValueFactory(new PropertyValueFactory<>("releaseDate"));
+        this.clnExpectedDate.setCellValueFactory(new PropertyValueFactory<>("expectedDate"));
+        this.clnRetDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+
+        List<Book> bookList = queriesDAO.getBookList();
+
+        this.observableBookList = FXCollections.observableArrayList(bookList);
+
+        this.tableViewBooks.setItems(observableBookList);
+
+        //Tornando colunas editavel
+        tableViewBooks.setEditable(true);
+        this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnRetDate.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnReaDate.setCellFactory(TextFieldTableCell.forTableColumn());
+        this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+
+    }
 }
-//

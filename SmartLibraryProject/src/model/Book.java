@@ -19,15 +19,15 @@ public class Book {
     private String genre;
     private String publisher;
     private Float price;
-    private Date releaseDate;
-    private Date returnDate;
-    private Date expectedDate;
+    private String releaseDate;
+    private String returnDate;
+    private String expectedDate;
 
     public Book() {
     }
 
     public Book(Long codBook, String bookName, String author, String genre, String publisher, 
-            Float price, Date releaseDate, Date returnDate, Date expectedDate) {
+            Float price, String releaseDate, String returnDate, String expectedDate) {
         
         this.codBook = codBook;
         this.bookName = bookName;
@@ -88,27 +88,27 @@ public class Book {
         this.price = price;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public Date getReturnDate() {
+    public String getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(String returnDate) {
         this.returnDate = returnDate;
     }
 
-    public Date getExpectedDate() {
+    public String getExpectedDate() {
         return expectedDate;
     }
 
-    public void setExpectedDate(Date expectedDate) {
+    public void setExpectedDate(String expectedDate) {
         this.expectedDate = expectedDate;
     }
     

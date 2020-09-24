@@ -5,6 +5,10 @@
  */
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import javafx.scene.control.Alert;
 
 /**
@@ -22,5 +26,16 @@ public class Utils {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public String formatDateToBr(Date date) {
+        if(date == null) {
+            return null;
+        }
+        
+        SimpleDateFormat formatedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String result = formatedDate.format(date);
+        
+        return result;
     }
 }
