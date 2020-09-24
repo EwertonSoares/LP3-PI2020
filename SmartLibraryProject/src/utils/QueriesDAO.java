@@ -36,7 +36,7 @@ public class QueriesDAO {
 
         try {
 
-            stmt = con.prepareStatement("SELECT * FROM users WHERE email = ? AND pwd = ? AND userType = ?");
+            stmt = con.prepareStatement("SELECT * FROM users WHERE email = ? AND userPassword = ? AND userType = ?");
             stmt.setString(1, email);
             stmt.setString(2, password);
             stmt.setString(3, userType);
@@ -133,12 +133,13 @@ public class QueriesDAO {
                 Long codBook = result.getLong("codBook");
                 String bookName = result.getString("bookName");
                 String genre = result.getString("genre");
-                String publiser = result.getString("publiser");
+                String publiser = result.getString("publisher");
                 String author = result.getString("authorName");
                 Float price = result.getFloat("price");
+                Long quantity = result.getLong("quantity");
                 Date releaseDate = result.getDate("releaseDate");
                 String formatedReleaseDate = utils.formatDate(releaseDate);
-
+                
                 Date expectedDate = result.getDate("expectedDate");
                 String formatedEspectedDate = utils.formatDate(expectedDate);
 
@@ -146,7 +147,7 @@ public class QueriesDAO {
                 String formatedReurnDate = utils.formatDate(returnDate);
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
-                        formatedReleaseDate, formatedReurnDate, formatedEspectedDate);
+                        formatedReleaseDate, formatedReurnDate, formatedEspectedDate, quantity);
 
                 bookList.add(book);
 
@@ -253,10 +254,7 @@ public class QueriesDAO {
     public boolean updateBook(Book book) {
 
         Utils utils = new Utils();
-        String releaseDate = utils.formatDate(book.getReleaseDate());
-        String expectedDate = utils.formatDate(book.getExpectedDate());
-        String returnDate = utils.formatDate(book.getReturnDate());
-
+   
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
 
@@ -266,14 +264,16 @@ public class QueriesDAO {
         try {
 
             stmet = conn.prepareStatement("UPDATE books SET bookName = ?, price = ?, "
-                    + "releaseDate = ?, expectedDate = ?, returnDate = ? WHERE codBook = ?");
+                    + "releaseDate = ?, expectedDate = ?, returnDate = ?, quantity = ? WHERE codBook = ?");
 
             stmet.setString(1, book.getBookName());
             stmet.setFloat(2, book.getPrice());
-            stmet.setString(3, releaseDate);
-            stmet.setString(4, expectedDate);
-            stmet.setString(5, returnDate);
-            stmet.setLong(6, book.getCodBook());
+            stmet.setString(3, utils.formatDate(book.getReleaseDate()));
+            stmet.setString(4, utils.formatDate(book.getExpectedDate()));
+            stmet.setString(5, utils.formatDate(book.getReturnDate()));
+            stmet.setLong(6, book.getQuantity());
+            stmet.setLong(7, book.getCodBook());
+
 
             updated = stmet.execute();
 
@@ -370,7 +370,7 @@ public class QueriesDAO {
 
             while (result.next()) {
                 Long codPublisher = result.getLong("codPublisher");
-                String publisher = result.getString("publiser");
+                String publisher = result.getString("publisher");
 
                 Publisher publishers = new Publisher(codPublisher, publisher);
 
@@ -387,7 +387,7 @@ public class QueriesDAO {
     }
 
     public boolean insertBook(String bookName, Long codAuthor, Long codGenre,
-            Long codPublisher, Float price) {
+            Long codPublisher, Float price, Long quantity ) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -398,13 +398,15 @@ public class QueriesDAO {
         try {
 
             stmet = conn.prepareStatement("INSERT INTO books (bookName, codAuthor, codGenre, "
-                    + "codPublisher, price) VALUES (?, ?, ?, ?, ?);");
+                    + "codPublisher, price, quantity) VALUES (?, ?, ?, ?, ?, ?);");
 
             stmet.setString(1, bookName);
             stmet.setLong(2, codAuthor);
             stmet.setLong(3, codGenre);
             stmet.setLong(4, codPublisher);
             stmet.setFloat(5, price);
+            stmet.setFloat(6, quantity);
+
 
             saved = stmet.execute();
 

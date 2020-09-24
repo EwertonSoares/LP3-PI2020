@@ -11,9 +11,9 @@
    <children>
       <TableView fx:id="tableViewBooks" layoutX="4.0" layoutY="39.0" prefHeight="229.0" prefWidth="711.0">
         <columns>
-            <TableColumn fx:id="clnCodBook" prefWidth="67.0" text="Codigo " />
-            <TableColumn fx:id="clnCodBook1" prefWidth="67.0" text="Qtd" />
-          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="98.0" style="-fx-background-color: lightblue;" text="Livro " />
+            <TableColumn fx:id="clnCodBook" prefWidth="69.0" text="Codigo " />
+            <TableColumn fx:id="clnquantity" onEditCommit="#getNewQuantity" prefWidth="50.0" style="fx-background-color: lightblue;" text="Qtd" />
+          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="100.0" style="-fx-background-color: lightblue;" text="Livro " />
             <TableColumn fx:id="clnPrice" minWidth="0.0" onEditCommit="#getNewPrice" prefWidth="55.0" style="-fx-background-color: lightblue;" text="Preço" />
             <TableColumn fx:id="clnReaDate" onEditCommit="#getReleaseDate" prefWidth="60.0" style="-fx-background-color: lightblue;" text="Retirada" />
             <TableColumn fx:id="clnExpectedDate" prefWidth="89.0" text="Retorno &#10;esperado" />
@@ -42,7 +42,7 @@
       <Label layoutX="18.0" layoutY="306.0" prefHeight="15.0" prefWidth="177.0" text="Nome do livro" textFill="WHITE" />
       <Text fill="#381e65" layoutX="20.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adicione um novo livro abaixo!" wrappingWidth="231.7294921875" />
       <Button fx:id="btnReload" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#reloadBookTable" prefHeight="25.0" prefWidth="139.0" text="Recarregar Tabela" />
-      <TextField fx:id="txtQtd" layoutX="587.0" layoutY="321.0" prefHeight="25.0" prefWidth="54.0" />
+      <TextField fx:id="txtQuantity" layoutX="587.0" layoutY="321.0" prefHeight="25.0" prefWidth="54.0" />
       <Label layoutX="587.0" layoutY="306.0" prefHeight="15.0" prefWidth="54.0" text="Qtd" textFill="WHITE" />
    </children>
 </AnchorPane>
