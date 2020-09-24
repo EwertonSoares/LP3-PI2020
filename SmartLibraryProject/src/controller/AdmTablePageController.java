@@ -160,7 +160,7 @@ public class AdmTablePageController implements Initializable {
         if (inserted) {
             utils.showAlert("Sucesso", "Livro inserido", "O livro foi inserido com sucesso",
                     Alert.AlertType.INFORMATION);
-            
+
         } else {
             utils.showAlert("Erro", "Algo inesperado ocorreu", "Erro a o inserir o livro",
                     Alert.AlertType.ERROR);
@@ -211,8 +211,6 @@ public class AdmTablePageController implements Initializable {
         tableViewBooks.setEditable(true);
         this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
         this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
-        this.clnReaDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
-        this.clnRetDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
     }
 
     public void loadGenres() {
@@ -263,19 +261,6 @@ public class AdmTablePageController implements Initializable {
     public void getNewBookName(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setBookName(editcell.getNewValue().toString());
-    }
-
-    @FXML
-    public void getNewReleaseDate(CellEditEvent editcell) {
-        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setReleaseDate((Date) editcell.getNewValue());
-    }
-
-    @FXML
-    public void getNewReturnDate(CellEditEvent editcell) {
-        bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setReturnDate((Date) editcell.getNewValue());
-
     }
 
     @FXML
