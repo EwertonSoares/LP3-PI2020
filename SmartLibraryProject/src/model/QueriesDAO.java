@@ -370,4 +370,39 @@ public class QueriesDAO {
         return publisherList;
     }
 
+    public boolean insertBook(String bookName, Long codAuthor, Long codGenre,
+            Long codPublisher, Float price) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean saved = false;
+
+        try {
+
+            stmet = conn.prepareStatement("INSERT INTO books (bookName, codAuthor, codGenre, "
+                    + "codPublisher, price) VALUES (?, ?, ?, ?, ?);");
+
+            stmet.setString(1, bookName);
+            stmet.setLong(2, codAuthor);
+            stmet.setLong(3, codGenre);
+            stmet.setLong(4, codPublisher);
+            stmet.setFloat(5, price);
+
+            saved = stmet.execute();
+
+            if (!saved) {
+                saved = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return saved;
+    }
+
 }

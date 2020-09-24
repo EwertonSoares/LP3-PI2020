@@ -95,6 +95,10 @@ public class AdmTablePageController implements Initializable {
 
     private Book bookSelected;
 
+    private Long selectedGenre;
+    private Long selectedAuthor;
+    private Long selectedPublisher;
+
     private ObservableList<Book> observableBookList;
 
     private final QueriesDAO queriesDAO = new QueriesDAO();
@@ -135,6 +139,29 @@ public class AdmTablePageController implements Initializable {
         this.loadPublishers();
     }
 
+    @FXML
+    public void InsertBook(ActionEvent actionEvent) {
+        boolean inserted = false;
+        
+        inserted = queriesDAO.insertBook(this.txtBook.getText(), this.selectedAuthor, 
+                this.selectedGenre, this.selectedPublisher, Float.parseFloat(this.txtPrice.getText()));
+    }
+
+    @FXML
+    public void removeBook() {
+        Book book = tableViewBooks.getSelectionModel().getSelectedItem();
+
+        boolean removed = queriesDAO.removeBook(book.getCodBook());
+        if (removed) {
+            tableViewBooks.getItems().remove(book);
+            utils.showAlert("Sucesso", "Livro removido", "O livro foi removido com sucesso!",
+                    Alert.AlertType.INFORMATION);
+        } else {
+            utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
+                    Alert.AlertType.ERROR);
+        }
+    }
+
     private void loadBooksTable() {
 
         //Preenchendo tabela
@@ -169,6 +196,8 @@ public class AdmTablePageController implements Initializable {
         obsGenre = FXCollections.observableArrayList(genres);
 
         cbGenre.setItems(obsGenre);
+
+        System.out.print(cbGenre.getSelectionModel().getSelectedItem());
     }
 
     public void loadAuthors() {
@@ -190,18 +219,18 @@ public class AdmTablePageController implements Initializable {
     }
 
     @FXML
-    public void removeBook() {
-        Book book = tableViewBooks.getSelectionModel().getSelectedItem();
+    public void getCodGenre(ActionEvent actionEvent) {
+        this.selectedGenre = cbGenre.getSelectionModel().getSelectedItem().getCodGenre();
+    }
 
-        boolean removed = queriesDAO.removeBook(book.getCodBook());
-        if (removed) {
-            tableViewBooks.getItems().remove(book);
-            utils.showAlert("Sucesso", "Livro removido", "O livro foi removido com sucesso!",
-                    Alert.AlertType.INFORMATION);
-        } else {
-            utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
-                    Alert.AlertType.ERROR);
-        }
+    @FXML
+    public void getCodAuthor(ActionEvent actionEvent) {
+        this.selectedAuthor = cbAlt.getSelectionModel().getSelectedItem().getCodAuthor();
+    }
+
+    @FXML
+    public void getCodPublisher(ActionEvent actionEvent) {
+        this.selectedPublisher = cbPub.getSelectionModel().getSelectedItem().getCodPublisher();
     }
 
     @FXML
