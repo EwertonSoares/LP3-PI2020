@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmTablePageController">
    <children>
-      <TableView fx:id="tableViewBooks" layoutX="3.0" layoutY="50.0" prefHeight="286.0" prefWidth="705.0">
+      <TableView fx:id="tableViewBooks" layoutX="4.0" layoutY="58.0" prefHeight="262.0" prefWidth="705.0">
         <columns>
             <TableColumn fx:id="clnCodBook" prefWidth="67.0" text="Codigo " />
           <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="98.0" text="Livro " />
@@ -25,12 +25,8 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Text fill="WHITE" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TABELA DE LIVROS" wrappingWidth="373.7294921875">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Text>
       <Button fx:id="btnRemove" layoutX="617.0" layoutY="350.0" mnemonicParsing="false" onAction="#removeBook" text="Remover" />
       <Button fx:id="btnUpdate" layoutX="534.0" layoutY="350.0" mnemonicParsing="false" onAction="#updateBook" text="Atualizar" />
+      <Button fx:id="btnBack" layoutX="656.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeAdminMainPage" text="Voltar" />
    </children>
 </AnchorPane>

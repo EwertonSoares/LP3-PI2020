@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmTablePageController">
    <children>
-      <TableView fx:id="tableViewBooks" layoutX="3.0" layoutY="4.0" prefHeight="262.0" prefWidth="705.0">
+      <TableView fx:id="tableViewBooks" layoutX="4.0" layoutY="39.0" prefHeight="229.0" prefWidth="711.0">
         <columns>
             <TableColumn fx:id="clnCodBook" prefWidth="67.0" text="Codigo " />
           <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="98.0" text="Livro " />
@@ -27,5 +27,6 @@
       </TableView>
       <Button fx:id="btnRemove" layoutX="617.0" layoutY="350.0" mnemonicParsing="false" onAction="#removeBook" text="Remover" />
       <Button fx:id="btnUpdate" layoutX="534.0" layoutY="350.0" mnemonicParsing="false" onAction="#updateBook" text="Atualizar" />
+      <Button fx:id="btnClose" layoutX="656.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeAdminMainPage" text="Fechar" />
    </children>
 </AnchorPane>

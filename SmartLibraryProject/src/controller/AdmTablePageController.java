@@ -10,21 +10,28 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import model.Book;
 import model.QueriesDAO;
 import model.Utils;
+import screens.AdmMainPage;
+import screens.AdmTablePage;
+import screens.Login;
 
 /**
  *
@@ -62,6 +69,9 @@ public class AdmTablePageController implements Initializable {
     @FXML
     private TableColumn<Book, String> clnAut;
 
+    @FXML
+    private Button btnClose;
+
     private Book bookSelected;
 
     private ObservableList<Book> observableBookList;
@@ -76,20 +86,25 @@ public class AdmTablePageController implements Initializable {
     @FXML
     private void updateBook(ActionEvent event) {
         boolean updated = false;
+
         updated = queriesDAO.updateBook(bookSelected);
+        if (updated) {
+            utils.showAlert("Sucesso", "Livro atualizado", "O Livro foi atualizado com sucesso",
+                    Alert.AlertType.INFORMATION);
+        } else {
+            utils.showAlert("Erro", "Erro ao atualizar", "Algo inesperado ocorreu!",
+                    Alert.AlertType.ERROR);
+        }
     }
 
-//    public void closeAdminPageMain() {
-//        try {
-//            Login login = new Login();
-//            login.start(new Stage());
-//
-////            Stage stage = (Stage) btnCancelar.getScene().getWindow();
-////            stage.close();
-//        } catch (Exception ex) {
-//            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    public void closeAdminMainPage() {
+        try {
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -159,7 +174,5 @@ public class AdmTablePageController implements Initializable {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setPrice((Float) editcell.getNewValue());
     }
-
-
 }
 //
