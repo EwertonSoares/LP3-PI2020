@@ -7,11 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserTableBooksController">
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserBookTableController">
    <children>
-      <TableView fx:id="tableBooksUserBooks" layoutX="4.0" layoutY="39.0" prefHeight="229.0" prefWidth="711.0">
+      <TableView fx:id="tableBooksUserBooks" layoutX="4.0" layoutY="54.0" prefHeight="354.0" prefWidth="711.0">
         <columns>
-            <TableColumn fx:id="clnCodBook" prefWidth="77.0" text="Codigo&#10;   do &#10; Livro" />
+            <TableColumn fx:id="clnCodBook" prefWidth="77.0" text="Codigo" />
           <TableColumn fx:id="clnBookName" prefWidth="129.0" style="-: ;" text="Livro " />
           <TableColumn fx:id="clnPrice" minWidth="0.0" prefWidth="66.0" text="Preço" />
             <TableColumn fx:id="clnquantity" prefWidth="50.0" style="fx-background-color: lightblue;" text="Qtd" />
@@ -23,5 +23,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Button fx:id="btnBack" layoutX="613.0" layoutY="11.0" mnemonicParsing="false" onAction="#closeActualPage" text="Voltar" />
    </children>
 </AnchorPane>

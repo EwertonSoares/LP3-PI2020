@@ -28,7 +28,7 @@
       </TableView>
       <Button fx:id="btnRemove" layoutX="622.0" layoutY="360.0" mnemonicParsing="false" onAction="#removeBook" text="Remover" />
       <Button fx:id="btnUpdate" layoutX="533.0" layoutY="361.0" mnemonicParsing="false" onAction="#updateBook" prefHeight="25.0" prefWidth="87.0" text="Atualizar" />
-      <Button fx:id="btnClose" layoutX="641.0" layoutY="7.0" mnemonicParsing="false" text="Fechar" />
+      <Button fx:id="btnClose" layoutX="641.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeAdminMainPage" text="Fechar" />
       <ComboBox fx:id="cbGenre" layoutX="147.0" layoutY="321.0" onAction="#getCodGenre" prefHeight="25.0" prefWidth="87.0" />
       <ComboBox fx:id="cbPub" layoutX="238.0" layoutY="321.0" onAction="#getCodPublisher" prefHeight="25.0" prefWidth="184.0" />
       <ComboBox fx:id="cbAlt" layoutX="426.0" layoutY="322.0" onAction="#getCodAuthor" prefHeight="25.0" prefWidth="159.0" />

@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import screens.Login;
 import screens.UserTablePage;
 
 /**
@@ -37,6 +38,9 @@ public class UserMainPageController implements Initializable {
     private RadioButton rdbAltEmailPwd;
 
     private Long codUser;
+
+    @FXML
+    private Button btnClose;
 
     @FXML
     public void selectNextAction(ActionEvent event) {
@@ -114,6 +118,20 @@ public class UserMainPageController implements Initializable {
             this.rdbBooks.setDisable(false);
         }
 
+    }
+
+    @FXML
+    public void closeActualPage(ActionEvent event) {
+        try {
+            Login login = new Login();
+            login.start(new Stage());
+
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception ex) {
+            Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -5,7 +5,7 @@
  */
 package screens;
 
-import controller.UserTableBooksController;
+import controller.UserBookTableController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,7 +35,7 @@ public class UserTablePage extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/userTablePage.fxml"));
         Parent root = (Parent) loader.load();
 
-        UserTableBooksController userTableBooksController = loader.getController();
+        UserBookTableController userTableBooksController = loader.getController();
         userTableBooksController.setid(this.id);
         
         

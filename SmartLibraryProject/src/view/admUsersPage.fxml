@@ -35,6 +35,7 @@
             <Font size="35.0" />
          </font>
       </Text>
-      <Button fx:id="btnRemove" layoutX="487.0" layoutY="328.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="25.0" prefWidth="81.0" text="Remover" />
+      <Button fx:id="btnRemove" layoutX="506.0" layoutY="325.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="25.0" prefWidth="81.0" text="Remover" />
+      <Button fx:id="btnClose" layoutX="522.0" layoutY="9.0" mnemonicParsing="false" text="Fechar" />
     </children>
 </AnchorPane>

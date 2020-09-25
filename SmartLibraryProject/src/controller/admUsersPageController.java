@@ -8,17 +8,23 @@ package controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import utils.QueriesDAO;
 import model.User;
+import screens.Login;
+import static sun.net.www.http.HttpClient.New;
 import utils.Utils;
 
 /**
@@ -45,6 +51,9 @@ public class admUsersPageController implements Initializable {
     @FXML
     private TableColumn<User, String> clnEmail;
 
+    @FXML
+    private Button btnClose;
+
     private ObservableList<User> observableUserList;
 
     QueriesDAO queriesDAO = new QueriesDAO();
@@ -57,9 +66,6 @@ public class admUsersPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.loadUsersTable();
-
-        tableViewUsers.getSelectionModel().selectedItemProperty().addListener(
-                (obervable, oldValue, newValue) -> selectedItem(newValue));
     }
 
     public void loadUsersTable() {
@@ -76,10 +82,6 @@ public class admUsersPageController implements Initializable {
         tableViewUsers.setItems(this.observableUserList);
     }
 
-    public void selectedItem(User user) {
-        System.out.println(user.getUserName());
-    }
-
     @FXML
     public void removeUser() {
         User user = tableViewUsers.getSelectionModel().getSelectedItem();
@@ -89,10 +91,21 @@ public class admUsersPageController implements Initializable {
             tableViewUsers.getItems().remove(user);
             utils.showAlert("Sucesso", "Usuario removido", "O usuario foi removido com sucesso!",
                     Alert.AlertType.INFORMATION);
-        } 
-        else {
+        } else {
             utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
                     Alert.AlertType.ERROR);
+        }
+    }
+
+    public void closeActualPage() {
+        try {
+            Login login = new Login();
+            login.start(new Stage());
+            
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

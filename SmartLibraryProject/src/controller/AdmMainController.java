@@ -43,6 +43,9 @@ public class AdmMainController implements Initializable {
     @FXML
     private RadioButton rdbBooks;
 
+    @FXML
+    private Button btnClose;
+
     QueriesDAO login = new QueriesDAO();
     Utils utils = new Utils();
 
@@ -125,6 +128,15 @@ public class AdmMainController implements Initializable {
         String welcome = "bem vindo a smart library ";
 
         this.txtStr.setText(welcome.concat(text).toUpperCase());
+    }
+
+    public void closeActualPage() {
+        try {
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
