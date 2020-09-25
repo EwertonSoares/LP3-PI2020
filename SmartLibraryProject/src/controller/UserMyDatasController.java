@@ -44,9 +44,6 @@ public class UserMyDatasController implements Initializable {
     private TextField txtEmail;
 
     @FXML
-    private PasswordField txtPassword;
-
-    @FXML
     private Button btnSalvar;
 
     @FXML
@@ -55,20 +52,30 @@ public class UserMyDatasController implements Initializable {
     private final QueriesDAO queriesDAO = new QueriesDAO();
 
     @FXML
+    public void updateUserData() {
+        Boolean updated = false;
+        User user = new User();
+
+        user.setCodUser(this.getCodUser());
+        user.setEmail(this.txtEmail.getText());
+        user.setUserName(this.txtName.getText());
+        user.setPhone(this.txtPhone.getText());
+        user.setMobilePhone(this.txtMobilePhone.getText());
+        
+        updated = queriesDAO.updateUserData(user);
+
+    }
+
+    @FXML
     public void closeActualPage(ActionEvent event) {
         try {
 
             Stage stage = (Stage) btnCancel.getScene().getWindow();
             stage.close();
-//
+
         } catch (Exception ex) {
             Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
     }
 
     public Long getCodUser() {
@@ -83,12 +90,16 @@ public class UserMyDatasController implements Initializable {
     private void loadUserDatas(Long id) {
         User user = new User();
         user = queriesDAO.getUserDatas(id);
-        
+
         this.txtInitText.setText("Perfil de " + user.getEmail());
         this.txtEmail.setText(user.getEmail());
         this.txtName.setText(user.getUserName());
         this.txtPhone.setText(user.getPhone());
         this.txtMobilePhone.setText(user.getMobilePhone());
-        this.txtPassword.setText(user.getPassword());
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

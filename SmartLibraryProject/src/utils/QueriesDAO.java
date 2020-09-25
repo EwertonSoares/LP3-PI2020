@@ -27,7 +27,6 @@ import model.UserAndBook;
  * @author ewerton
  */
 public class QueriesDAO {
-    
 
     public User getUserDatas(Long id) {
 
@@ -68,8 +67,6 @@ public class QueriesDAO {
         return user;
     }
 
-    
-    
     public boolean verifyLoginAndPassword(String email, String password, String userType) {
 
         Connection con = ConnectionFactory.getConnection();
@@ -100,8 +97,6 @@ public class QueriesDAO {
         return check;
     }
 
-    
-    
     public boolean registerUser(String userName, String password, String userType,
             String email, String phone, String mobilePhone) {
 
@@ -136,8 +131,6 @@ public class QueriesDAO {
         return saved;
     }
 
-    
-    
     public boolean setNewPassword(String email, String newPassword, String userType) {
 
         Connection con = ConnectionFactory.getConnection();
@@ -169,8 +162,6 @@ public class QueriesDAO {
         return saved;
     }
 
-    
-    
     public List<Book> getBookList() {
 
         Connection con = ConnectionFactory.getConnection();
@@ -219,8 +210,6 @@ public class QueriesDAO {
         return bookList;
     }
 
-    
-    
     public List<User> getUsersList() {
 
         Connection con = ConnectionFactory.getConnection();
@@ -257,8 +246,6 @@ public class QueriesDAO {
         return userList;
     }
 
-    
-    
     public boolean removeBook(Long codBook) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -287,8 +274,6 @@ public class QueriesDAO {
         return removed;
     }
 
-    
-    
     public boolean removeUser(Long codUser) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -317,8 +302,6 @@ public class QueriesDAO {
         return removed;
     }
 
-    
-    
     public boolean updateBook(Book book) {
 
         Utils utils = new Utils();
@@ -357,8 +340,6 @@ public class QueriesDAO {
         return updated;
     }
 
-    
-    
     public List<Genre> getGenres() {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -391,8 +372,6 @@ public class QueriesDAO {
         return genreList;
     }
 
-    
-    
     public List<Author> getAuthors() {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -425,8 +404,6 @@ public class QueriesDAO {
         return authorList;
     }
 
-    
-    
     public List<Publisher> getPublishers() {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -459,8 +436,6 @@ public class QueriesDAO {
         return publisherList;
     }
 
-    
-    
     public boolean insertBook(String bookName, Long codAuthor, Long codGenre,
             Long codPublisher, Float price, Long quantity) {
 
@@ -497,8 +472,6 @@ public class QueriesDAO {
         return saved;
     }
 
-    
-    
     public List<UserAndBook> getUsersAndBook(Long cod) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -537,8 +510,6 @@ public class QueriesDAO {
         return userAndBookList;
     }
 
-    
-    
     public Long getCodUser(String email, String password) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -569,5 +540,38 @@ public class QueriesDAO {
         }
 
         return codUser;
+    }
+
+    public Boolean updateUserData(User user) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean updated = false;
+
+        try {
+
+            stmet = conn.prepareStatement("CALL insertUserData(?,?,?,?,?);");
+
+            stmet.setLong(1, user.getCodUser());
+            stmet.setString(2, user.getUserName());
+            stmet.setString(3, user.getEmail());
+            stmet.setString(4, user.getPhone());
+            stmet.setString(5, user.getMobilePhone());
+
+            updated = stmet.execute();
+
+            if (!updated) {
+                updated = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return updated;
     }
 }
