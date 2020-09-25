@@ -47,7 +47,7 @@ public class UserTableBooksController implements Initializable {
     private TableColumn<UserAndBook, Date> clnExpectedDate;
 
     @FXML
-    private TableColumn<UserAndBook, Long> clnCodUser;
+    private TableColumn<UserAndBook, Long> clnCodBook;
 
     @FXML
     private TableColumn<UserAndBook, Long> clnquantity;
@@ -79,7 +79,7 @@ public class UserTableBooksController implements Initializable {
 
     public void loadUserAndBookTable() {
 
-        this.clnCodUser.setCellValueFactory(new PropertyValueFactory<>("codUser"));
+        this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnReaDate.setCellValueFactory(new PropertyValueFactory<>("releaseDate"));
         this.clnExpectedDate.setCellValueFactory(new PropertyValueFactory<>("expectedDate"));

@@ -448,6 +448,7 @@ public class QueriesDAO {
 
             while (result.next()) {
                 Long codUser = result.getLong("codUser");
+                Long codBook = result.getLong("codBook");
                 String bookName = result.getString("bookName");
                 Date releaseDate = result.getDate("releaseDate");
                 Date expectedDate = result.getDate("expectedDate");
@@ -455,7 +456,7 @@ public class QueriesDAO {
                 Float price = result.getFloat("price");
                 Long quantity = result.getLong("quantity");
 
-                UserAndBook userAndBooks = new UserAndBook(codUser, bookName,
+                UserAndBook userAndBooks = new UserAndBook(codUser, codBook, bookName,
                         releaseDate, expectedDate, returnDate, price, quantity);
 
                 userAndBookList.add(userAndBooks);

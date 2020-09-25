@@ -12,19 +12,22 @@ import java.util.Date;
  * @author ewerton
  */
 public class UserAndBook {
-   private Long codUser;
-   private String bookName;
-   private Date releaseDate;
-   private Date expectedDate;
-   private Date ReturnDate;
-   private Float price;
-   private Long quantity;
+
+    private Long codUser;
+    private Long codBook;
+    private String bookName;
+    private Date releaseDate;
+    private Date expectedDate;
+    private Date ReturnDate;
+    private Float price;
+    private Long quantity;
 
     public UserAndBook() {
     }
 
-    public UserAndBook(Long codUser, String bookName, Date releaseDate, Date expectedDate, Date ReturnDate, Float price, Long quantity) {
+    public UserAndBook(Long codUser, Long codBook, String bookName, Date releaseDate, Date expectedDate, Date ReturnDate, Float price, Long quantity) {
         this.codUser = codUser;
+        this.codBook = codBook;
         this.bookName = bookName;
         this.releaseDate = releaseDate;
         this.expectedDate = expectedDate;
@@ -39,6 +42,14 @@ public class UserAndBook {
 
     public void setCodUser(Long codUser) {
         this.codUser = codUser;
+    }
+
+    public Long getCodBook() {
+        return codBook;
+    }
+
+    public void setCodBook(Long codBook) {
+        this.codBook = codBook;
     }
 
     public String getBookName() {
@@ -88,6 +99,5 @@ public class UserAndBook {
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
-   
-   
+
 }
