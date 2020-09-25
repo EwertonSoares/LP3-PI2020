@@ -17,6 +17,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import screens.Login;
+import screens.UserMyDatasPage;
 import screens.UserTablePage;
 
 /**
@@ -35,7 +36,7 @@ public class UserMainPageController implements Initializable {
     private RadioButton rdbBooks;
 
     @FXML
-    private RadioButton rdbAltEmailPwd;
+    private RadioButton rdbMyDatas;
 
     private Long codUser;
 
@@ -50,19 +51,17 @@ public class UserMainPageController implements Initializable {
     public void changeScreen() {
         if (rdbBooks.isSelected()) {
             try {
-                Long cod = this.getCodUser();
 
-                this.callUserTablePage(cod);
+                this.callUserTablePage(this.getCodUser());
 
             } catch (Exception ex) {
                 Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } else if (rdbAltEmailPwd.isSelected()) {
+        } else if (rdbMyDatas.isSelected()) {
 
             try {
-//                AdmUsersPage admUsersPage = new AdmUsersPage();
-//                admUsersPage.start(new Stage());
+                this.callUserMyDatasPage(this.getCodUser());
 
             } catch (Exception ex) {
                 Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,6 +76,18 @@ public class UserMainPageController implements Initializable {
             UserTablePage userTablePage = new UserTablePage();
             userTablePage.setId(id);
             userTablePage.start(new Stage());
+
+        } catch (Exception ex) {
+            Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void callUserMyDatasPage(Long id) {
+        try {
+
+            UserMyDatasPage userMyDatasPage = new UserMyDatasPage();
+            userMyDatasPage.setId(id);
+            userMyDatasPage.start(new Stage());
 
         } catch (Exception ex) {
             Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,21 +111,21 @@ public class UserMainPageController implements Initializable {
     @FXML
     public void checkRdbBooks() {
         if (this.rdbBooks.isSelected()) {
-            this.rdbAltEmailPwd.setDisable(true);
+            this.rdbMyDatas.setDisable(true);
         }
 
         if (!this.rdbBooks.isSelected()) {
-            this.rdbAltEmailPwd.setDisable(false);
+            this.rdbMyDatas.setDisable(false);
         }
     }
 
     @FXML
     public void checkRdbEmailPwd() {
-        if (this.rdbAltEmailPwd.isSelected()) {
+        if (this.rdbMyDatas.isSelected()) {
             this.rdbBooks.setDisable(true);
         }
 
-        if (!this.rdbAltEmailPwd.isSelected()) {
+        if (!this.rdbMyDatas.isSelected()) {
             this.rdbBooks.setDisable(false);
         }
 

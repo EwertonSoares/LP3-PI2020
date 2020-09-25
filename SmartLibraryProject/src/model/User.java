@@ -17,19 +17,22 @@ public class User {
     private String phone;
     private String mobilePhone;
     private String email;
+    private String password;
 
     public User() {
     }
 
-    public User(Long codUser, String userName, String userType, String phone, String mobilePhone, String email) {
+    public User(Long codUser, String userName, String userType, String phone, String mobilePhone, String email, String password) {
         this.codUser = codUser;
         this.userName = userName;
         this.userType = userType;
         this.phone = phone;
         this.mobilePhone = mobilePhone;
         this.email = email;
+        this.password = password;
     }
 
+   
     public Long getCodUser() {
         return codUser;
     }
@@ -78,4 +81,12 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+ 
 }

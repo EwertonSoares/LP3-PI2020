@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="forgetPasswordPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserMyDatasController">
+   <children>
+      <Label fx:id="txtInitText" layoutX="15.0" layoutY="26.0" prefHeight="39.0" prefWidth="488.0" textFill="WHITE">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="79.0" text="Nome:" textFill="WHITE" />
+      <TextField fx:id="txtName" layoutX="118.0" layoutY="78.0" prefHeight="29.0" prefWidth="452.0" promptText="Nome">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="33.0" layoutY="234.0" text="Senha:" textFill="WHITE" />
+      <PasswordField fx:id="txtPassword" layoutX="116.0" layoutY="230.0" prefHeight="29.0" prefWidth="452.0" promptText="Senha">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </PasswordField>
+      <Button fx:id="btnSalvar" layoutX="459.0" layoutY="284.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="107.0" text="Enviar" />
+      <Label layoutX="34.0" layoutY="118.0" text="E-mail:" textFill="WHITE" />
+      <TextField fx:id="txtEmail" layoutX="118.0" layoutY="114.0" prefHeight="29.0" prefWidth="452.0" promptText="E-mail">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="34.0" layoutY="154.0" prefHeight="15.0" prefWidth="65.0" text="Telefone:" textFill="WHITE" />
+      <TextField fx:id="txtPhone" layoutX="118.0" layoutY="152.0" prefHeight="29.0" prefWidth="452.0" promptText="(00) 0000-0000">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnCancel" layoutX="519.0" layoutY="3.0" mnemonicParsing="false" onAction="#closeActualPage" prefHeight="25.0" prefWidth="81.0" text="Cancelar" />
+      <TextField fx:id="txtMobilePhone" layoutX="116.0" layoutY="190.0" prefHeight="29.0" prefWidth="452.0" promptText="(00) 0000-0000">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label id="registerPane" layoutX="32.0" layoutY="191.0" prefHeight="15.0" prefWidth="65.0" text="Celular:" textFill="WHITE" />
+   </children>
+</AnchorPane>

@@ -27,7 +27,49 @@ import model.UserAndBook;
  * @author ewerton
  */
 public class QueriesDAO {
+    
 
+    public User getUserDatas(Long id) {
+
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
+        ResultSet result;
+        User user = new User();
+
+        try {
+
+            stmt = con.prepareStatement("SELECT * FROM vw_users_and_phones WHERE codUser = ?");
+            stmt.setLong(1, id);
+
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                String username = result.getString("username");
+                String email = result.getString("email");
+                String phone = result.getString("phone");
+                String mobilePhone = result.getString("mobilePhone");
+                String password = result.getString("userPassword");
+
+                user.setCodUser(id);
+                user.setUserName(username);
+                user.setPhone(phone);
+                user.setMobilePhone(mobilePhone);
+                user.setEmail(email);
+                user.setPassword(password);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+
+        return user;
+    }
+
+    
+    
     public boolean verifyLoginAndPassword(String email, String password, String userType) {
 
         Connection con = ConnectionFactory.getConnection();
@@ -58,6 +100,8 @@ public class QueriesDAO {
         return check;
     }
 
+    
+    
     public boolean registerUser(String userName, String password, String userType,
             String email, String phone, String mobilePhone) {
 
@@ -92,6 +136,8 @@ public class QueriesDAO {
         return saved;
     }
 
+    
+    
     public boolean setNewPassword(String email, String newPassword, String userType) {
 
         Connection con = ConnectionFactory.getConnection();
@@ -123,6 +169,8 @@ public class QueriesDAO {
         return saved;
     }
 
+    
+    
     public List<Book> getBookList() {
 
         Connection con = ConnectionFactory.getConnection();
@@ -171,6 +219,8 @@ public class QueriesDAO {
         return bookList;
     }
 
+    
+    
     public List<User> getUsersList() {
 
         Connection con = ConnectionFactory.getConnection();
@@ -193,7 +243,7 @@ public class QueriesDAO {
                 String mobilePhone = result.getString("mobilePhone");
                 String email = result.getString("email");
 
-                User user = new User(codUser, username, userType, phone, mobilePhone, email);
+                User user = new User(codUser, username, userType, phone, mobilePhone, email, null);
 
                 userList.add(user);
             }
@@ -207,6 +257,8 @@ public class QueriesDAO {
         return userList;
     }
 
+    
+    
     public boolean removeBook(Long codBook) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -235,6 +287,8 @@ public class QueriesDAO {
         return removed;
     }
 
+    
+    
     public boolean removeUser(Long codUser) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -263,6 +317,8 @@ public class QueriesDAO {
         return removed;
     }
 
+    
+    
     public boolean updateBook(Book book) {
 
         Utils utils = new Utils();
@@ -301,6 +357,8 @@ public class QueriesDAO {
         return updated;
     }
 
+    
+    
     public List<Genre> getGenres() {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -333,6 +391,8 @@ public class QueriesDAO {
         return genreList;
     }
 
+    
+    
     public List<Author> getAuthors() {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -365,6 +425,8 @@ public class QueriesDAO {
         return authorList;
     }
 
+    
+    
     public List<Publisher> getPublishers() {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -397,6 +459,8 @@ public class QueriesDAO {
         return publisherList;
     }
 
+    
+    
     public boolean insertBook(String bookName, Long codAuthor, Long codGenre,
             Long codPublisher, Float price, Long quantity) {
 
@@ -433,6 +497,8 @@ public class QueriesDAO {
         return saved;
     }
 
+    
+    
     public List<UserAndBook> getUsersAndBook(Long cod) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -471,6 +537,8 @@ public class QueriesDAO {
         return userAndBookList;
     }
 
+    
+    
     public Long getCodUser(String email, String password) {
 
         Connection conn = ConnectionFactory.getConnection();

@@ -23,6 +23,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnBack" layoutX="613.0" layoutY="11.0" mnemonicParsing="false" onAction="#closeActualPage" text="Voltar" />
+      <Button fx:id="btnBack" layoutX="658.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeActualPage" text="Voltar" />
    </children>
 </AnchorPane>
