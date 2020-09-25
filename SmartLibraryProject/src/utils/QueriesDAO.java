@@ -20,6 +20,7 @@ import model.Book;
 import model.Genre;
 import model.Publisher;
 import model.User;
+import model.UserAndBook;
 
 /**
  *
@@ -27,10 +28,11 @@ import model.User;
  */
 public class QueriesDAO {
 
-    Connection con = ConnectionFactory.getConnection();
-    PreparedStatement stmt = null;
-
     public boolean verifyLoginAndPassword(String email, String password, String userType) {
+
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
         ResultSet result;
         boolean check = false;
 
@@ -59,6 +61,9 @@ public class QueriesDAO {
     public boolean registerUser(String userName, String password, String userType,
             String email, String phone, String mobilePhone) {
 
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
         ResultSet result;
         boolean saved = false;
 
@@ -73,8 +78,6 @@ public class QueriesDAO {
             stmt.setString(6, mobilePhone);
 
             saved = stmt.execute();
-
-            System.out.println("Bla");
 
             if (!saved) {
                 saved = true;
@@ -91,12 +94,15 @@ public class QueriesDAO {
 
     public boolean setNewPassword(String email, String newPassword, String userType) {
 
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
         ResultSet result;
         boolean saved = false;
 
         try {
 
-            stmt = con.prepareStatement("UPDATE users SET pwd = ? WHERE email = ? AND userType = ?");
+            stmt = con.prepareStatement("UPDATE users SET userPassword = ? WHERE email = ? AND userType = ?");
 
             stmt.setString(1, newPassword);
             stmt.setString(2, email);
@@ -119,6 +125,9 @@ public class QueriesDAO {
 
     public List<Book> getBookList() {
 
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
         Utils utils = new Utils();
         ResultSet result;
         List<Book> bookList = new ArrayList();
@@ -139,7 +148,7 @@ public class QueriesDAO {
                 Long quantity = result.getLong("quantity");
                 Date releaseDate = result.getDate("releaseDate");
                 String formatedReleaseDate = utils.formatDate(releaseDate);
-                
+
                 Date expectedDate = result.getDate("expectedDate");
                 String formatedEspectedDate = utils.formatDate(expectedDate);
 
@@ -163,6 +172,9 @@ public class QueriesDAO {
     }
 
     public List<User> getUsersList() {
+
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
 
         ResultSet result;
         List<User> userList = new ArrayList();
@@ -254,7 +266,7 @@ public class QueriesDAO {
     public boolean updateBook(Book book) {
 
         Utils utils = new Utils();
-   
+
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
 
@@ -273,7 +285,6 @@ public class QueriesDAO {
             stmet.setString(5, utils.formatDate(book.getReturnDate()));
             stmet.setLong(6, book.getQuantity());
             stmet.setLong(7, book.getCodBook());
-
 
             updated = stmet.execute();
 
@@ -387,7 +398,7 @@ public class QueriesDAO {
     }
 
     public boolean insertBook(String bookName, Long codAuthor, Long codGenre,
-            Long codPublisher, Float price, Long quantity ) {
+            Long codPublisher, Float price, Long quantity) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -407,7 +418,6 @@ public class QueriesDAO {
             stmet.setFloat(5, price);
             stmet.setFloat(6, quantity);
 
-
             saved = stmet.execute();
 
             if (!saved) {
@@ -423,4 +433,72 @@ public class QueriesDAO {
         return saved;
     }
 
+    public List<UserAndBook> getUsersAndBook(Long cod) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        List<UserAndBook> userAndBookList = new ArrayList();
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT * FROM vw_users_books WHERE codUser= " + cod);
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                Long codUser = result.getLong("codUser");
+                String bookName = result.getString("bookName");
+                Date releaseDate = result.getDate("releaseDate");
+                Date expectedDate = result.getDate("expectedDate");
+                Date returnDate = result.getDate("returnDate");
+                Float price = result.getFloat("price");
+                Long quantity = result.getLong("quantity");
+
+                UserAndBook userAndBooks = new UserAndBook(codUser, bookName,
+                        releaseDate, expectedDate, returnDate, price, quantity);
+
+                userAndBookList.add(userAndBooks);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return userAndBookList;
+    }
+
+    public Long getCodUser(String email, String password) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        Long codUser = null;
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT codUser FROM users WHERE email = ? "
+                    + "AND userPassword = ? AND userType = ?");
+
+            stmet.setString(1, email);
+            stmet.setString(2, password);
+            stmet.setString(3, "user");
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                codUser = result.getLong("codUser");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return codUser;
+    }
 }

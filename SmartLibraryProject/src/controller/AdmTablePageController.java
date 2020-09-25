@@ -88,7 +88,7 @@ public class AdmTablePageController implements Initializable {
 
     @FXML
     private TextField txtPrice;
-    
+
     @FXML
     private TextField txtQuantity;
 
@@ -101,16 +101,14 @@ public class AdmTablePageController implements Initializable {
     @FXML
     private Button btnReload;
 
-    private Book bookSelected;
-
     private Long selectedGenre;
     private Long selectedAuthor;
     private Long selectedPublisher;
-
-    private ObservableList<Book> observableBookList;
-
+    
+    private Book bookSelected;
     private final QueriesDAO queriesDAO = new QueriesDAO();
     private final Utils utils = new Utils();
+    private ObservableList<Book> observableBookList;
 
     /**
      *
@@ -152,8 +150,8 @@ public class AdmTablePageController implements Initializable {
         String empty = "";
         boolean inserted = false;
 
-        if (this.txtBook.getText().compareTo(empty) == 0 
-                || this.txtPrice.getText().compareTo(empty) == 0 
+        if (this.txtBook.getText().compareTo(empty) == 0
+                || this.txtPrice.getText().compareTo(empty) == 0
                 || this.txtQuantity.getText().compareTo(empty) == 0) {
             utils.showAlert("Atençao", "Campos obrigatório!",
                     "Os campos 'Nome do livro',  'preço', 'Quantidade' são obrigatórios para a inserção de um novo livro!",
@@ -250,13 +248,13 @@ public class AdmTablePageController implements Initializable {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setPrice((Float) editcell.getNewValue());
     }
-    
+
     @FXML
     public void getNewQuantity(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
         bookSelected.setQuantity((Long) editcell.getNewValue());
     }
-    
+
     @FXML
     public void getReleaseDate(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();

@@ -17,8 +17,8 @@ import javafx.stage.Stage;
  * @author ewerton
  */
 public class AdmMainPage extends Application {
-    
-    private String text; 
+
+    private String text;
 
     public String getText() {
         return text;
@@ -35,7 +35,7 @@ public class AdmMainPage extends Application {
 
         AdmMainController admMainController = loader.getController();
         admMainController.setInitialText(this.getText());
-        
+
         Scene scene = new Scene(root);
 
         stage.setScene(scene);

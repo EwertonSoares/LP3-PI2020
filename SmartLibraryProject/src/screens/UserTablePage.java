@@ -5,8 +5,7 @@
  */
 package screens;
 
-import controller.AdmMainController;
-import controller.UserMainPageController;
+import controller.UserTableBooksController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,18 +16,9 @@ import javafx.stage.Stage;
  *
  * @author ewerton
  */
-public class UserMainPage extends Application {
+public class UserTablePage extends Application {
     
-    private String text; 
     private Long id;
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 
     public Long getId() {
         return id;
@@ -37,15 +27,17 @@ public class UserMainPage extends Application {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+  
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/userMainPage.fxml"));
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/userTablePage.fxml"));
         Parent root = (Parent) loader.load();
 
-        UserMainPageController userMainPageController = loader.getController();
-        userMainPageController.setInitialText(this.getText());
-        userMainPageController.setCodUser(this.getId());
+        UserTableBooksController userTableBooksController = loader.getController();
+        userTableBooksController.setid(this.id);
+        
         
         Scene scene = new Scene(root);
 

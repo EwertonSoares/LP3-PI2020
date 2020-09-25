@@ -55,11 +55,12 @@ public class LoginController implements Initializable {
 
         if (this.rdbAdm.isSelected()) {
             this.checkLoginAndPasswordField();
-            checked = login.verifyLoginAndPassword(this.txtEmail.getText(), this.txtPassword.getText(), "adm");
+            checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
+                    this.txtPassword.getText(), "adm");
 
             if (checked) {
 
-                this.callAdmPageMain(this.txtEmail.getText().split("@")[0]);
+                this.callMainPage(this.txtEmail.getText().split("@")[0]);
 
             } else {
 
@@ -68,11 +69,14 @@ public class LoginController implements Initializable {
             }
         } else {
             this.checkLoginAndPasswordField();
-            checked = login.verifyLoginAndPassword(this.txtEmail.getText(), this.txtPassword.getText(), "user");
-
+            checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
+                    this.txtPassword.getText(), "user");
+            
+            Long id = login.getCodUser(this.txtEmail.getText(), this.txtPassword.getText());
+            
             if (checked) {
 
-                this.callUserMainPage(this.txtEmail.getText().split("@")[0]);
+                this.callMainPage(this.txtEmail.getText().split("@")[0], id);
 
             } else {
                 textError.setText("Usuario ou senha invalido!");
@@ -83,7 +87,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void callAdmPageMain(String text) {
+    private void callMainPage(String text) {
         try {
             AdmMainPage admMainPage = new AdmMainPage();
 
@@ -98,11 +102,12 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void callUserMainPage(String text) {
+    private void callMainPage(String text, Long id) {
         try {
             UserMainPage userMainPage = new UserMainPage();
 
             userMainPage.setText(text);
+            userMainPage.setId(id);
             userMainPage.start(new Stage());
 
             closeLoginScreen();

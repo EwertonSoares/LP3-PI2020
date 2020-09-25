@@ -15,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import screens.UserTablePage;
 
 /**
  *
@@ -34,16 +36,19 @@ public class UserMainPageController implements Initializable {
     @FXML
     private RadioButton rdbAltEmailPwd;
 
+    private Long codUser;
+
     @FXML
     public void selectNextAction(ActionEvent event) {
-//        this.changeScreen();
+        this.changeScreen();
     }
 
     public void changeScreen() {
         if (rdbBooks.isSelected()) {
             try {
-//                AdmTablePage admTablePage = new AdmTablePage();
-//                admTablePage.start(new Stage());
+                Long cod = this.getCodUser();
+
+                this.callUserTablePage(cod);
 
             } catch (Exception ex) {
                 Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,10 +67,30 @@ public class UserMainPageController implements Initializable {
         }
     }
 
+    public void callUserTablePage(Long id) {
+        try {
+
+            UserTablePage userTablePage = new UserTablePage();
+            userTablePage.setId(id);
+            userTablePage.start(new Stage());
+
+        } catch (Exception ex) {
+            Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void setInitialText(String text) {
         String welcome = "bem vindo a smart library ";
 
         this.txtStr.setText(welcome.concat(text).toUpperCase());
+    }
+
+    public void setCodUser(Long id) {
+        this.codUser = id;
+    }
+
+    public Long getCodUser() {
+        return this.codUser;
     }
 
     @FXML
