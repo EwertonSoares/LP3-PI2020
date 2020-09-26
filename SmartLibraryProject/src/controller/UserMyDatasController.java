@@ -12,13 +12,14 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.User;
 import utils.QueriesDAO;
+import utils.Utils;
 
 /**
  *
@@ -50,19 +51,23 @@ public class UserMyDatasController implements Initializable {
     private Button btnCancel;
 
     private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final Utils utils = new Utils();
 
     @FXML
     public void updateUserData() {
         Boolean updated = false;
         User user = new User();
 
-        user.setCodUser(this.getCodUser());
-        user.setEmail(this.txtEmail.getText());
-        user.setUserName(this.txtName.getText());
-        user.setPhone(this.txtPhone.getText());
-        user.setMobilePhone(this.txtMobilePhone.getText());
-        
+        user = this.fillUser();
         updated = queriesDAO.updateUserData(user);
+        
+        if (updated) {
+            utils.showAlert("Sucesso!", "Dados alterados", "Seus dados foram alterados com sucesso",
+                    Alert.AlertType.INFORMATION);
+        } else {
+            utils.showAlert("Erro!", "Algo deu errado", "Algo insperado ocorreu, Tente novamente!",
+                    Alert.AlertType.ERROR);
+        }
 
     }
 
@@ -96,6 +101,18 @@ public class UserMyDatasController implements Initializable {
         this.txtName.setText(user.getUserName());
         this.txtPhone.setText(user.getPhone());
         this.txtMobilePhone.setText(user.getMobilePhone());
+    }
+
+    public User fillUser() {
+        User user = new User();
+
+        user.setCodUser(this.getCodUser());
+        user.setEmail(this.txtEmail.getText());
+        user.setUserName(this.txtName.getText());
+        user.setPhone(this.txtPhone.getText());
+        user.setMobilePhone(this.txtMobilePhone.getText());
+
+        return user;
     }
 
     @Override
