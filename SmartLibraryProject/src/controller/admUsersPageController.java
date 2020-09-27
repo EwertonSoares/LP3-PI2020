@@ -24,7 +24,6 @@ import javafx.stage.Stage;
 import utils.QueriesDAO;
 import model.User;
 import screens.Login;
-import static sun.net.www.http.HttpClient.New;
 import utils.Utils;
 
 /**

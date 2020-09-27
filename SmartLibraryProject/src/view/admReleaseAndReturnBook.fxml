@@ -21,7 +21,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnReleaseBook" layoutX="624.0" layoutY="360.0" mnemonicParsing="false" onAction="#reserveBook" text="Reservar" />
+      <Button fx:id="btnReleaseBook" layoutX="624.0" layoutY="360.0" mnemonicParsing="false" text="Reservar" />
       <Button fx:id="btnClose" layoutX="641.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeActualPage" text="Fechar" />
       <Button fx:id="btnReturn" layoutX="539.0" layoutY="360.0" mnemonicParsing="false" text="Devolver" />
    </children>

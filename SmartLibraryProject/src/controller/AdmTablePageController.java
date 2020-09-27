@@ -7,6 +7,7 @@ package controller;
 
 import javafx.fxml.Initializable;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.LongStringConverter;
 import model.Author;
@@ -51,13 +53,13 @@ public class AdmTablePageController implements Initializable {
     private TableColumn<Book, Long> clnquantity;
 
     @FXML
-    private TableColumn<Book, String> clnExpectedDate;
+    private TableColumn<Book, Date> clnExpectedDate;
 
     @FXML
-    private TableColumn<Book, String> clnReaDate;
+    private TableColumn<Book, Date> clnReaDate;
 
     @FXML
-    private TableColumn<Book, String> clnRetDate;
+    private TableColumn<Book, Date> clnRetDate;
 
     @FXML
     private TableColumn<Book, Float> clnPrice;
@@ -104,7 +106,7 @@ public class AdmTablePageController implements Initializable {
     private Long selectedGenre;
     private Long selectedAuthor;
     private Long selectedPublisher;
-    
+
     private Book bookSelected;
     private final QueriesDAO queriesDAO = new QueriesDAO();
     private final Utils utils = new Utils();
@@ -258,13 +260,13 @@ public class AdmTablePageController implements Initializable {
     @FXML
     public void getReleaseDate(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setReleaseDate(editcell.getNewValue().toString());
+        bookSelected.setReleaseDate((Date) editcell.getNewValue());
     }
 
     @FXML
     public void getNewReturnDate(CellEditEvent editcell) {
         bookSelected = tableViewBooks.getSelectionModel().getSelectedItem();
-        bookSelected.setReturnDate(editcell.getNewValue().toString());
+        bookSelected.setReturnDate((Date) editcell.getNewValue());
     }
 
     public void reloadBookTable() {
@@ -303,9 +305,9 @@ public class AdmTablePageController implements Initializable {
         //Tornando colunas editavel
         tableViewBooks.setEditable(true);
         this.clnBookName.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.clnRetDate.setCellFactory(TextFieldTableCell.forTableColumn());
-        this.clnReaDate.setCellFactory(TextFieldTableCell.forTableColumn());
         this.clnPrice.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
         this.clnquantity.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
+        this.clnRetDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+        this.clnReaDate.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
     }
 }

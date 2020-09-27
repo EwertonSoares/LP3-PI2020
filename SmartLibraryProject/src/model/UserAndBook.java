@@ -6,38 +6,35 @@
 package model;
 
 import java.util.Date;
+import javafx.scene.control.Button;
 
 /**
  *
  * @author ewerton
  */
-public class UserAndBook {
+public class UserAndBook extends Book {
 
     private Long codUser;
-    private Long codBook;
-    private String bookName;
-    private Date releaseDate;
-    private Date expectedDate;
-    private Date ReturnDate;
-    private Float price;
-    private Long quantity;
     private String email;
+    private Long qttBookkRent;
 
     public UserAndBook() {
     }
 
-    public UserAndBook(Long codUser, Long codBook, String bookName, Date releaseDate, 
-            Date expectedDate, Date ReturnDate, Float price, Long quantity, String email) {
+    public UserAndBook(Long codBook, String bookName, String author, 
+            String genre, String publisher, Float price, Date releaseDate, 
+            Date returnDate, Date expectedDate, Long quantity, Button btnGet) {
         
-        this.codUser = codUser;
-        this.codBook = codBook;
-        this.bookName = bookName;
-        this.releaseDate = releaseDate;
-        this.expectedDate = expectedDate;
-        this.ReturnDate = ReturnDate;
-        this.price = price;
-        this.quantity = quantity;
-        this.email = email;
+        super(codBook, bookName, author, genre, publisher, price, releaseDate, 
+                returnDate, expectedDate, quantity, btnGet);
+    }
+
+    public Long getQttBookkRent() {
+        return qttBookkRent;
+    }
+
+    public void setQttBookkRent(Long qttBookkRent) {
+        this.qttBookkRent = qttBookkRent;
     }
 
     public Long getCodUser() {
@@ -46,62 +43,6 @@ public class UserAndBook {
 
     public void setCodUser(Long codUser) {
         this.codUser = codUser;
-    }
-
-    public Long getCodBook() {
-        return codBook;
-    }
-
-    public void setCodBook(Long codBook) {
-        this.codBook = codBook;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public Date getExpectedDate() {
-        return expectedDate;
-    }
-
-    public void setExpectedDate(Date expectedDate) {
-        this.expectedDate = expectedDate;
-    }
-
-    public Date getReturnDate() {
-        return ReturnDate;
-    }
-
-    public void setReturnDate(Date ReturnDate) {
-        this.ReturnDate = ReturnDate;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
     }
 
     public String getEmail() {

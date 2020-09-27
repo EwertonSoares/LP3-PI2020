@@ -26,6 +26,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.LongStringConverter;
 import model.Book;
+import model.UserAndBook;
 import screens.AdmReleaseAndReturnBook;
 import utils.QueriesDAO;
 import utils.Utils;
@@ -60,35 +61,31 @@ public class AdmReleaseAndReturnBookController implements Initializable {
     @FXML
     private Button btnClose;
 
-    private QueriesDAO queriesDAO = new QueriesDAO();
-    private Utils utils = new Utils();
-    private List<Book> bookList = new ArrayList<>();
+    private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final Utils utils = new Utils();
     private ObservableList<Book> observableUserAndBookList;
-    private Book book = new Book();
-    private String userEmail;
+    private final UserAndBook userAndBook = new UserAndBook();
+    private List<Book> bookList = new ArrayList<>();
     private Long qttBooksToRent;
-    private Long codBook;
-    private Long qttBooksDb;
-    private String bookName;
-    private Float price;
 
     /**
      *
      * @param event
      */
-
     private void reserveBook() {
         boolean reserved = false;
-        Long codUser = queriesDAO.getCodUser(this.getUserEmail());
+        userAndBook.setCodUser(queriesDAO.getCodUser(this.userAndBook.getEmail()));
 
         this.checkQuantityBooks();
-        this.checkQttOfBooks(this.getQttBooksToRent());
-        reserved = queriesDAO.reserveBook(codUser, this.getCodBook(), this.getQttBooksToRent());
+        this.checkQttOfBooks(this.userAndBook.getQttBookkRent());
+        
+        reserved = queriesDAO.reserveBook(userAndBook.getCodUser(),
+                this.userAndBook.getCodBook(), this.userAndBook.getQttBookkRent());
 
         if (reserved) {
             utils.showAlert("Sucesso", "Livro reservado!",
-                    this.getBookName() + " foi reservado para " + this.getUserEmail() + "VALOR TOTAL: "
-                    + this.getPrice() * this.getQttBooksToRent(),
+                    this.userAndBook.getBookName() + " foi reservado para " + this.userAndBook.getEmail() + "VALOR TOTAL: "
+                    + this.userAndBook.getPrice() * this.userAndBook.getQttBookkRent(),
                     Alert.AlertType.INFORMATION);
 
         } else {
@@ -97,7 +94,6 @@ public class AdmReleaseAndReturnBookController implements Initializable {
 //        }
         }
     }
-
 
     private void loadBooksTable() {
 
@@ -123,10 +119,10 @@ public class AdmReleaseAndReturnBookController implements Initializable {
     }
 
     public void checkQuantityBooks() {
-        if (this.getQttBooksDb().equals(0)) {
+        if (this.userAndBook.getQttBookkRent().equals(0)) {
 
-            utils.showAlert("ERRO", "Não foi possivel reservar esse livro",
-                    this.getBookName() + " não esta disponivel!", Alert.AlertType.ERROR);
+            utils.showAlert("ERRO", "Não foi possivel reservar esse livro", " Não ha" +
+                    this.userAndBook.getBookName() + " em nosso estoque", Alert.AlertType.ERROR);
 
             this.closeActualPage();
             this.openActualPage();
@@ -148,6 +144,7 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         }
     }
 
+    
     @FXML
     private void addButtonAction() {
         this.bookList.forEach((b) -> {
@@ -158,6 +155,7 @@ public class AdmReleaseAndReturnBookController implements Initializable {
             });
         });
     }
+
 
     private void emailDialog() {
         String empty = "";
@@ -173,7 +171,8 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         if (dialogName.getResult().compareTo(empty) == 0) {
             this.emailDialog();
         } else {
-            this.setUserEmail(dialogName.getResult());
+            this.userAndBook.setEmail(dialogName.getResult());
+            System.out.println(this.userAndBook.getEmail());
             this.quantityDialog();
         }
 
@@ -186,78 +185,26 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         dialogQtt.setTitle("Para reservar este livro");
         dialogQtt.setHeaderText("Digite quantidade!:");
         dialogQtt.setContentText("QTD: ");
-
-        // se o usuário fornecer um valor, assignamos ao nome
         dialogQtt.showAndWait();
 
         if (dialogQtt.getResult().compareTo(empty) == 0) {
             this.quantityDialog();
         } else {
-            this.setQttBooksToRent(Long.parseLong(dialogQtt.getResult()));
-            System.out.println(this.getQttBooksToRent());
+            this.userAndBook.setQttBookkRent(Long.parseLong(dialogQtt.getResult()));
+            System.out.println(this.userAndBook.getQttBookkRent());
         }
 
     }
-    
+
     private void checkQttOfBooks(Long qttBooksToRent) {
-        if(this.getQttBooksToRent() > 2) {
+        if (this.userAndBook.getQttBookkRent() > 2) {
             utils.showAlert("Aviso", "Valor invalido", "Usuario não pode "
                     + "reservar mais de dois livros", Alert.AlertType.WARNING);
-            
+
             this.closeActualPage();
             this.openActualPage();
         }
     }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public Long getCodBook() {
-        return codBook;
-    }
-
-    public void setCodBook(Long codBook) {
-        this.codBook = codBook;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public Long getQttBooksDb() {
-        return qttBooksDb;
-    }
-
-    public void setQttBooksDb(Long qttBooksDb) {
-        this.qttBooksDb = qttBooksDb;
-    }
-
-    public Long getQttBooksToRent() {
-        return qttBooksToRent;
-    }
-
-    public void setQttBooksToRent(Long qttBooksToRent) {
-        this.qttBooksToRent = qttBooksToRent;
-    }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

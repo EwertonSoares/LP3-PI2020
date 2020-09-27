@@ -5,8 +5,7 @@
  */
 package model;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import java.util.Date;
 import javafx.scene.control.Button;
 
 /**
@@ -21,18 +20,16 @@ public class Book {
     private String genre;
     private String publisher;
     private Float price;
-    private String releaseDate;
-    private String returnDate;
-    private String expectedDate;
+    private Date releaseDate;
+    private Date returnDate;
+    private Date expectedDate;
     private Long quantity;
     private Button btnGet;
 
     public Book() {
     }
 
-    public Book(Long codBook, String bookName, String author, String genre, String publisher, 
-            Float price, String releaseDate, String returnDate, String expectedDate, Long quantity, Button btnGet) {
-        
+    public Book(Long codBook, String bookName, String author, String genre, String publisher, Float price, Date releaseDate, Date returnDate, Date expectedDate, Long quantity, Button btnGet) {
         this.codBook = codBook;
         this.bookName = bookName;
         this.author = author;
@@ -44,8 +41,8 @@ public class Book {
         this.expectedDate = expectedDate;
         this.quantity = quantity;
         this.btnGet = btnGet;
-        this.btnGet.setText("Alugar");
     }
+   
 
     public Long getCodBook() {
         return codBook;
@@ -95,30 +92,6 @@ public class Book {
         this.price = price;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public String getExpectedDate() {
-        return expectedDate;
-    }
-
-    public void setExpectedDate(String expectedDate) {
-        this.expectedDate = expectedDate;
-    }
-
     public Long getQuantity() {
         return quantity;
     }
@@ -129,11 +102,34 @@ public class Book {
 
     public Button getBtnGet() {
         return btnGet;
-  
+
     }
 
     public void setBtnGet(Button btnGet) {
         this.btnGet = btnGet;
     }
-         
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public Date getExpectedDate() {
+        return expectedDate;
+    }
+
+    public void setExpectedDate(Date expectedDate) {
+        this.expectedDate = expectedDate;
+    }
 }
