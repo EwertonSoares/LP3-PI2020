@@ -67,7 +67,7 @@ public class QueriesDAO {
         return user;
     }
 
-    public boolean verifyLoginAndPassword(String email, String password, String userType) {
+    public boolean verifyLoginAndPassword(String email, String password) {
 
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -77,10 +77,9 @@ public class QueriesDAO {
 
         try {
 
-            stmt = con.prepareStatement("SELECT * FROM users WHERE email = ? AND userPassword = ? AND userType = ?");
+            stmt = con.prepareStatement("SELECT * FROM users WHERE email = ? AND userPassword = ?");
             stmt.setString(1, email);
             stmt.setString(2, password);
-            stmt.setString(3, userType);
 
             result = stmt.executeQuery();
 
@@ -472,6 +471,44 @@ public class QueriesDAO {
         return saved;
     }
 
+//    public List<UserAndBook> getUsersAndBook() {
+//
+//        Connection conn = ConnectionFactory.getConnection();
+//        PreparedStatement stmet = null;
+//
+//        ResultSet result;
+//        List<UserAndBook> userAndBookList = new ArrayList();
+//
+//        try {
+//
+//            stmet = conn.prepareStatement("SELECT * FROM vw_users_books;" );
+//            result = stmet.executeQuery();
+//
+//            while (result.next()) {
+//                Long codUser = result.getLong("codUser");
+//                Long codBook = result.getLong("codBook");
+//                String bookName = result.getString("bookName");
+//                Date releaseDate = result.getDate("releaseDate");
+//                Date expectedDate = result.getDate("expectedDate");
+//                Date returnDate = result.getDate("returnDate");
+//                Float price = result.getFloat("price");
+//                Long quantity = result.getLong("quantity");
+//                String email = result.getString("email");
+//
+//                UserAndBook userAndBooks = new UserAndBook(codUser, codBook, bookName,
+//                        releaseDate, expectedDate, returnDate, price, quantity, email);
+//
+//                userAndBookList.add(userAndBooks);
+//            }
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            ConnectionFactory.closeConnection(conn, stmet);
+//        }
+//
+//        return userAndBookList;
+//    }
     public List<UserAndBook> getUsersAndBook(Long cod) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -494,9 +531,10 @@ public class QueriesDAO {
                 Date returnDate = result.getDate("returnDate");
                 Float price = result.getFloat("price");
                 Long quantity = result.getLong("quantity");
+                String email = result.getString("email");
 
                 UserAndBook userAndBooks = new UserAndBook(codUser, codBook, bookName,
-                        releaseDate, expectedDate, returnDate, price, quantity);
+                        releaseDate, expectedDate, returnDate, price, quantity, email);
 
                 userAndBookList.add(userAndBooks);
             }
@@ -510,7 +548,7 @@ public class QueriesDAO {
         return userAndBookList;
     }
 
-    public Long getCodUser(String email, String password) {
+    public Long getCodUser(String email) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -520,12 +558,38 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("SELECT codUser FROM users WHERE email = ? "
-                    + "AND userPassword = ? AND userType = ?");
+            stmet = conn.prepareStatement("SELECT codUser FROM users WHERE email = ? ");
 
             stmet.setString(1, email);
-            stmet.setString(2, password);
-            stmet.setString(3, "user");
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                codUser = result.getLong("codUser");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return codUser;
+    }
+
+    public Long getCodBook(String email) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        Long codUser = null;
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT codBook FROM books WHERE email = ? ");
+
+            stmet.setString(1, email);
 
             result = stmet.executeQuery();
 
@@ -574,4 +638,37 @@ public class QueriesDAO {
 
         return updated;
     }
+
+    public boolean reserveBook(Long codUser, Long codBook, Long qtd) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean reserved = false;
+
+        try {
+
+            stmet = conn.prepareStatement("CALL reserveBookProcedure(?,?,?);");
+
+            stmet.setLong(1, codUser);
+            stmet.setLong(2, codBook);
+            stmet.setLong(3, qtd);
+
+
+            reserved = stmet.execute();
+
+            if (!reserved) {
+                reserved = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return reserved;
+    }
+
 }

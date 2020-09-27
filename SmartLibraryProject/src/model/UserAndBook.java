@@ -21,11 +21,14 @@ public class UserAndBook {
     private Date ReturnDate;
     private Float price;
     private Long quantity;
+    private String email;
 
     public UserAndBook() {
     }
 
-    public UserAndBook(Long codUser, Long codBook, String bookName, Date releaseDate, Date expectedDate, Date ReturnDate, Float price, Long quantity) {
+    public UserAndBook(Long codUser, Long codBook, String bookName, Date releaseDate, 
+            Date expectedDate, Date ReturnDate, Float price, Long quantity, String email) {
+        
         this.codUser = codUser;
         this.codBook = codBook;
         this.bookName = bookName;
@@ -34,6 +37,7 @@ public class UserAndBook {
         this.ReturnDate = ReturnDate;
         this.price = price;
         this.quantity = quantity;
+        this.email = email;
     }
 
     public Long getCodUser() {
@@ -100,4 +104,11 @@ public class UserAndBook {
         this.quantity = quantity;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

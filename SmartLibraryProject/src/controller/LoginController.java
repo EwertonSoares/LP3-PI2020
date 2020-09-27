@@ -54,9 +54,10 @@ public class LoginController implements Initializable {
         boolean checked = false;
 
         if (this.rdbAdm.isSelected()) {
+
             this.checkLoginAndPasswordField();
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
-                    this.txtPassword.getText(), "adm");
+                    this.txtPassword.getText());
 
             if (checked) {
 
@@ -70,10 +71,10 @@ public class LoginController implements Initializable {
         } else {
             this.checkLoginAndPasswordField();
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
-                    this.txtPassword.getText(), "user");
-            
-            Long id = login.getCodUser(this.txtEmail.getText(), this.txtPassword.getText());
-            
+                    this.txtPassword.getText());
+
+            Long id = login.getCodUser(this.txtEmail.getText());
+
             if (checked) {
 
                 this.callMainPage(this.txtEmail.getText().split("@")[0], id);

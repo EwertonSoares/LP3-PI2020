@@ -121,5 +121,13 @@ public class Book {
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return  "Nome: " + bookName + ", Preço: " + price 
+                + ", Data do aluguel: " + releaseDate + ", Data de retorn: " + expectedDate 
+                + ", Quantidate: " + quantity;
+    }
+    
     
 }

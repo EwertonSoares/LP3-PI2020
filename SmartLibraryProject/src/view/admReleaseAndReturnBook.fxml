@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmReleaseAndReturnBookController">
+   <children>
+      <TableView fx:id="tableViewUsersAndBooks" layoutX="4.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="711.0">
+        <columns>
+            <TableColumn fx:id="clnUserEmail" minWidth="0.0" onEditCommit="#setEmail" prefWidth="150.0" resizable="false" text="Para :&#10;email do usuario" />
+            <TableColumn fx:id="clnQtt" minWidth="0.0" onEditCommit="#getRowValue" prefWidth="71.0" resizable="false" text="Qtd" />
+            <TableColumn fx:id="clnCodBook" prefWidth="115.0" text="Cod do livro" />
+            <TableColumn fx:id="clnPrice" minWidth="0.0" prefWidth="70.0" resizable="false" style="-: ;" text="Preço" />
+          <TableColumn fx:id="clnBookName" prefWidth="150.0" resizable="false" style="-: ;" text="Livro " />
+            <TableColumn fx:id="clnBookQuantity" minWidth="0.0" prefWidth="150.0" resizable="false" style="fx-background-color: lightblue;" text="Qtd em estoque" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button fx:id="btnReleaseBook" layoutX="624.0" layoutY="360.0" mnemonicParsing="false" onAction="#reserveBook" text="Reservar" />
+      <Button fx:id="btnClose" layoutX="641.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeActualPage" text="Fechar" />
+      <Button fx:id="btnReturn" layoutX="539.0" layoutY="360.0" mnemonicParsing="false" text="Devolver" />
+   </children>
+</AnchorPane>

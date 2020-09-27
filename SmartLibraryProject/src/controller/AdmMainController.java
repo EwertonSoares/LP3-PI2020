@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import screens.AdmReleaseAndReturnBook;
 import utils.QueriesDAO;
 import utils.Utils;
 import screens.AdmTablePage;
@@ -42,6 +43,9 @@ public class AdmMainController implements Initializable {
 
     @FXML
     private RadioButton rdbBooks;
+
+    @FXML
+    private RadioButton rdbRelAndRet;
 
     @FXML
     private Button btnClose;
@@ -74,7 +78,17 @@ public class AdmMainController implements Initializable {
                 Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } else if (rdbConfigAdm.isSelected()) {
+        } else if (rdbRelAndRet.isSelected()) {
+        
+            try {
+                
+                AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
+                admReleaseAndReturnBook.start(new Stage());
+                
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
 
         } else {
             utils.showAlert("ERRO", "Topico não selecionada",
@@ -88,11 +102,14 @@ public class AdmMainController implements Initializable {
         if (this.rdbConfigAdm.isSelected()) {
             this.rdbUsers.setDisable(true);
             this.rdbBooks.setDisable(true);
+            this.rdbRelAndRet.setDisable(true);
         }
 
         if (!this.rdbConfigAdm.isSelected()) {
             this.rdbUsers.setDisable(false);
             this.rdbBooks.setDisable(false);
+            this.rdbRelAndRet.setDisable(false);
+
         }
 
     }
@@ -102,11 +119,15 @@ public class AdmMainController implements Initializable {
         if (this.rdbUsers.isSelected()) {
             this.rdbConfigAdm.setDisable(true);
             this.rdbBooks.setDisable(true);
+            this.rdbRelAndRet.setDisable(true);
+
         }
 
         if (!this.rdbUsers.isSelected()) {
             this.rdbConfigAdm.setDisable(false);
             this.rdbBooks.setDisable(false);
+            this.rdbRelAndRet.setDisable(false);
+
         }
 
     }
@@ -116,11 +137,32 @@ public class AdmMainController implements Initializable {
         if (this.rdbBooks.isSelected()) {
             this.rdbUsers.setDisable(true);
             this.rdbConfigAdm.setDisable(true);
+            this.rdbRelAndRet.setDisable(true);
+
         }
 
         if (!this.rdbBooks.isSelected()) {
             this.rdbUsers.setDisable(false);
             this.rdbConfigAdm.setDisable(false);
+            this.rdbRelAndRet.setDisable(false);
+
+        }
+    }
+    
+    @FXML
+    public void checkRdbRelAndRet() {
+        if (this.rdbRelAndRet.isSelected()) {
+            this.rdbUsers.setDisable(true);
+            this.rdbConfigAdm.setDisable(true);
+            this.rdbBooks.setDisable(true);
+
+        }
+
+        if (!this.rdbRelAndRet.isSelected()) {
+            this.rdbUsers.setDisable(false);
+            this.rdbConfigAdm.setDisable(false);
+            this.rdbBooks.setDisable(false);
+
         }
     }
 
