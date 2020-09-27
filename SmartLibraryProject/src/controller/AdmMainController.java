@@ -22,6 +22,7 @@ import utils.QueriesDAO;
 import utils.Utils;
 import screens.AdmTablePage;
 import screens.AdmUsersPage;
+import screens.Login;
 
 /**
  *
@@ -79,16 +80,15 @@ public class AdmMainController implements Initializable {
             }
 
         } else if (rdbRelAndRet.isSelected()) {
-        
+
             try {
-                
+
                 AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
                 admReleaseAndReturnBook.start(new Stage());
-                
+
             } catch (Exception ex) {
                 Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
 
         } else {
             utils.showAlert("ERRO", "Topico não selecionada",
@@ -148,7 +148,7 @@ public class AdmMainController implements Initializable {
 
         }
     }
-    
+
     @FXML
     public void checkRdbRelAndRet() {
         if (this.rdbRelAndRet.isSelected()) {
@@ -176,6 +176,9 @@ public class AdmMainController implements Initializable {
         try {
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();
+
+            Login login = new Login();
+            login.start(new Stage());
         } catch (Exception ex) {
             Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }

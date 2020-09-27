@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Button;
 import model.Author;
 import model.Book;
 import model.Genre;
@@ -177,6 +178,8 @@ public class QueriesDAO {
             result = stmt.executeQuery();
 
             while (result.next()) {
+                Button button = new Button();
+
                 Long codBook = result.getLong("codBook");
                 String bookName = result.getString("bookName");
                 String genre = result.getString("genre");
@@ -194,10 +197,9 @@ public class QueriesDAO {
                 String formatedReurnDate = utils.formatDate(returnDate);
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
-                        formatedReleaseDate, formatedReurnDate, formatedEspectedDate, quantity);
+                        formatedReleaseDate, formatedReurnDate, formatedEspectedDate, quantity, button);
 
                 bookList.add(book);
-
             }
 
         } catch (SQLException ex) {
@@ -654,7 +656,6 @@ public class QueriesDAO {
             stmet.setLong(1, codUser);
             stmet.setLong(2, codBook);
             stmet.setLong(3, qtd);
-
 
             reserved = stmet.execute();
 

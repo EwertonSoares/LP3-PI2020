@@ -5,7 +5,9 @@
  */
 package model;
 
-import java.util.Date;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 
 /**
  *
@@ -23,12 +25,13 @@ public class Book {
     private String returnDate;
     private String expectedDate;
     private Long quantity;
+    private Button btnGet;
 
     public Book() {
     }
 
     public Book(Long codBook, String bookName, String author, String genre, String publisher, 
-            Float price, String releaseDate, String returnDate, String expectedDate, Long quantity) {
+            Float price, String releaseDate, String returnDate, String expectedDate, Long quantity, Button btnGet) {
         
         this.codBook = codBook;
         this.bookName = bookName;
@@ -40,6 +43,8 @@ public class Book {
         this.returnDate = returnDate;
         this.expectedDate = expectedDate;
         this.quantity = quantity;
+        this.btnGet = btnGet;
+        this.btnGet.setText("Alugar");
     }
 
     public Long getCodBook() {
@@ -122,12 +127,13 @@ public class Book {
         this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return  "Nome: " + bookName + ", Preço: " + price 
-                + ", Data do aluguel: " + releaseDate + ", Data de retorn: " + expectedDate 
-                + ", Quantidate: " + quantity;
+    public Button getBtnGet() {
+        return btnGet;
+  
     }
-    
-    
+
+    public void setBtnGet(Button btnGet) {
+        this.btnGet = btnGet;
+    }
+         
 }

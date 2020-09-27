@@ -20,12 +20,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.LongStringConverter;
 import model.Book;
-import model.UserAndBook;
 import screens.AdmReleaseAndReturnBook;
 import utils.QueriesDAO;
 import utils.Utils;
@@ -44,9 +44,6 @@ public class AdmReleaseAndReturnBookController implements Initializable {
 
     @FXML
     private TableColumn<Book, Float> clnPrice;
-
-    @FXML
-    private TableColumn<Book, String> clnUserEmail;
 
     @FXML
     private TableColumn<Book, Long> clnBookQuantity;
@@ -69,9 +66,9 @@ public class AdmReleaseAndReturnBookController implements Initializable {
     private ObservableList<Book> observableUserAndBookList;
     private Book book = new Book();
     private String userEmail;
-    private Long qtt;
+    private Long qttBooksToRent;
     private Long codBook;
-    private Long quantity;
+    private Long qttBooksDb;
     private String bookName;
     private Float price;
 
@@ -79,20 +76,21 @@ public class AdmReleaseAndReturnBookController implements Initializable {
      *
      * @param event
      */
-    @FXML
-    private void reserveBook(ActionEvent event) {
+
+    private void reserveBook() {
         boolean reserved = false;
         Long codUser = queriesDAO.getCodUser(this.getUserEmail());
 
         this.checkQuantityBooks();
-        reserved = queriesDAO.reserveBook(codUser, this.codBook, this.qtt);
+        this.checkQttOfBooks(this.getQttBooksToRent());
+        reserved = queriesDAO.reserveBook(codUser, this.getCodBook(), this.getQttBooksToRent());
 
         if (reserved) {
             utils.showAlert("Sucesso", "Livro reservado!",
-                    this.bookName + " foi reservado para " + this.getUserEmail() + "VALOR TOTAL: "
-                    + this.price * this.qtt,
+                    this.getBookName() + " foi reservado para " + this.getUserEmail() + "VALOR TOTAL: "
+                    + this.getPrice() * this.getQttBooksToRent(),
                     Alert.AlertType.INFORMATION);
-            
+
         } else {
             utils.showAlert("ERRO", "Algo inesperado ocorreu", ""
                     + "Não foi possivel reservar o livro, tente novamente!", Alert.AlertType.ERROR);
@@ -100,49 +98,35 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         }
     }
 
-    @FXML
-    public void getRowValue(TableColumn.CellEditEvent editcell) {
-        book = tableViewUsersAndBooks.getSelectionModel().getSelectedItem();
-        this.qtt = (Long) editcell.getNewValue();
-
-        this.codBook = tableViewUsersAndBooks.getSelectionModel().getSelectedItem().getCodBook();
-        this.price = tableViewUsersAndBooks.getSelectionModel().getSelectedItem().getPrice();
-        this.bookName = tableViewUsersAndBooks.getSelectionModel().getSelectedItem().getBookName();
-        this.quantity = tableViewUsersAndBooks.getSelectionModel().getSelectedItem().getQuantity();
-    }
-
-    @FXML
-    public void setEmail(TableColumn.CellEditEvent editcell) {
-        book = tableViewUsersAndBooks.getSelectionModel().getSelectedItem();
-        this.setUserEmail(editcell.getNewValue().toString());
-
-    }
 
     private void loadBooksTable() {
 
+        TableColumn clActionButon = new TableColumn("Reserva");
+        this.tableViewUsersAndBooks.getColumns().add(0, clActionButon);
+
         //Preenchendo tabela
+        clActionButon.setCellValueFactory(new PropertyValueFactory<>("btnGet"));
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.clnBookQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         this.bookList = queriesDAO.getBookList();
-
+        this.addButtonAction();
         this.observableUserAndBookList = FXCollections.observableArrayList(bookList);
 
         this.tableViewUsersAndBooks.setItems(observableUserAndBookList);
 
         //Tornando colunas editavel
         tableViewUsersAndBooks.setEditable(true);
-        this.clnUserEmail.setCellFactory(TextFieldTableCell.forTableColumn());
         this.clnQtt.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
     }
 
     public void checkQuantityBooks() {
-        if (this.quantity.equals(0)) {
+        if (this.getQttBooksDb().equals(0)) {
 
             utils.showAlert("ERRO", "Não foi possivel reservar esse livro",
-                    this.bookName + " não esta disponivel!", Alert.AlertType.ERROR);
+                    this.getBookName() + " não esta disponivel!", Alert.AlertType.ERROR);
 
             this.closeActualPage();
             this.openActualPage();
@@ -151,7 +135,7 @@ public class AdmReleaseAndReturnBookController implements Initializable {
     }
 
     public void closeActualPage() {
-        Stage stage = (Stage) btnClose.getScene().getWindow();
+        Stage stage = (Stage) this.btnClose.getScene().getWindow();
         stage.close();
     }
 
@@ -164,6 +148,67 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         }
     }
 
+    @FXML
+    private void addButtonAction() {
+        this.bookList.forEach((b) -> {
+            b.getBtnGet().setOnAction((ActionEvent event) -> {
+
+                this.emailDialog();
+                this.reserveBook();
+            });
+        });
+    }
+
+    private void emailDialog() {
+        String empty = "";
+        TextInputDialog dialogName = new TextInputDialog();
+
+        dialogName.setTitle("Para reservar este livro");
+        dialogName.setHeaderText("Digite email do usuario:");
+        dialogName.setContentText("Email: ");
+
+        // se o usuário fornecer um valor, assignamos ao nome
+        dialogName.showAndWait();
+
+        if (dialogName.getResult().compareTo(empty) == 0) {
+            this.emailDialog();
+        } else {
+            this.setUserEmail(dialogName.getResult());
+            this.quantityDialog();
+        }
+
+    }
+
+    private void quantityDialog() {
+        String empty = "";
+        TextInputDialog dialogQtt = new TextInputDialog();
+
+        dialogQtt.setTitle("Para reservar este livro");
+        dialogQtt.setHeaderText("Digite quantidade!:");
+        dialogQtt.setContentText("QTD: ");
+
+        // se o usuário fornecer um valor, assignamos ao nome
+        dialogQtt.showAndWait();
+
+        if (dialogQtt.getResult().compareTo(empty) == 0) {
+            this.quantityDialog();
+        } else {
+            this.setQttBooksToRent(Long.parseLong(dialogQtt.getResult()));
+            System.out.println(this.getQttBooksToRent());
+        }
+
+    }
+    
+    private void checkQttOfBooks(Long qttBooksToRent) {
+        if(this.getQttBooksToRent() > 2) {
+            utils.showAlert("Aviso", "Valor invalido", "Usuario não pode "
+                    + "reservar mais de dois livros", Alert.AlertType.WARNING);
+            
+            this.closeActualPage();
+            this.openActualPage();
+        }
+    }
+
     public String getUserEmail() {
         return userEmail;
     }
@@ -171,6 +216,48 @@ public class AdmReleaseAndReturnBookController implements Initializable {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    public Long getCodBook() {
+        return codBook;
+    }
+
+    public void setCodBook(Long codBook) {
+        this.codBook = codBook;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public Long getQttBooksDb() {
+        return qttBooksDb;
+    }
+
+    public void setQttBooksDb(Long qttBooksDb) {
+        this.qttBooksDb = qttBooksDb;
+    }
+
+    public Long getQttBooksToRent() {
+        return qttBooksToRent;
+    }
+
+    public void setQttBooksToRent(Long qttBooksToRent) {
+        this.qttBooksToRent = qttBooksToRent;
+    }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

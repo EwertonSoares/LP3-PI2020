@@ -11,8 +11,7 @@
    <children>
       <TableView fx:id="tableViewUsersAndBooks" layoutX="4.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="711.0">
         <columns>
-            <TableColumn fx:id="clnUserEmail" minWidth="0.0" onEditCommit="#setEmail" prefWidth="150.0" resizable="false" text="Para :&#10;email do usuario" />
-            <TableColumn fx:id="clnQtt" minWidth="0.0" onEditCommit="#getRowValue" prefWidth="71.0" resizable="false" text="Qtd" />
+            <TableColumn fx:id="clnQtt" minWidth="0.0" prefWidth="71.0" resizable="false" text="Qtd" />
             <TableColumn fx:id="clnCodBook" prefWidth="115.0" text="Cod do livro" />
             <TableColumn fx:id="clnPrice" minWidth="0.0" prefWidth="70.0" resizable="false" style="-: ;" text="Preço" />
           <TableColumn fx:id="clnBookName" prefWidth="150.0" resizable="false" style="-: ;" text="Livro " />
