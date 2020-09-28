@@ -94,13 +94,14 @@ public class UserBookTableController implements Initializable {
         }
     }
 
-    public void setid(Long id) {
-        this.codUser = id;
-        this.setDataTable(this.gettid());
+    public Long getCodUser() {
+        return codUser;
     }
 
-    public Long gettid() {
-        return this.codUser;
+    public void setCodUser(Long codUser) {
+        this.codUser = codUser;
+        this.setDataTable(this.getCodUser());
+
     }
 
     @Override

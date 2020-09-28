@@ -68,7 +68,7 @@ public class QueriesDAO {
         return user;
     }
 
-    public boolean verifyLoginAndPassword(String email, String password) {
+    public boolean verifyLoginAndPassword(String email, String password, String userType) {
 
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -78,9 +78,12 @@ public class QueriesDAO {
 
         try {
 
-            stmt = con.prepareStatement("SELECT * FROM users WHERE email = ? AND userPassword = ?");
+            stmt = con.prepareStatement("SELECT * FROM users WHERE email = ? AND userPassword = ? "
+                    + "AND userType = ?");
+
             stmt.setString(1, email);
             stmt.setString(2, password);
+            stmt.setString(3, userType);
 
             result = stmt.executeQuery();
 
@@ -178,8 +181,6 @@ public class QueriesDAO {
             result = stmt.executeQuery();
 
             while (result.next()) {
-                Button button = new Button();
-
                 Long codBook = result.getLong("codBook");
                 String bookName = result.getString("bookName");
                 String genre = result.getString("genre");
@@ -192,7 +193,7 @@ public class QueriesDAO {
                 Date returnDate = result.getDate("returnDate");
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
-                        releaseDate, returnDate, expectedDate, quantity, button);
+                        releaseDate, returnDate, expectedDate, quantity, new Button(), new Button());
 
                 bookList.add(book);
             }
@@ -490,10 +491,10 @@ public class QueriesDAO {
                 Date returnDate = result.getDate("returnDate");
                 Float price = result.getFloat("price");
                 Long quantity = result.getLong("quantity");
-                String email = result.getString("email");
+//                String email = result.getString("email");
 
                 UserAndBook userAndBooks = new UserAndBook(codBook, bookName, null, null, null,
-                        price, releaseDate, returnDate, expectedDate, quantity, null);
+                        price, releaseDate, returnDate, expectedDate, quantity, new Button(), new Button());
 
                 userAndBookList.add(userAndBooks);
             }
@@ -525,10 +526,6 @@ public class QueriesDAO {
 
             while (result.next()) {
                 codUser = result.getLong("codUser");
-            }
-
-            if (!result.next()) {
-                return codUser;
             }
 
         } catch (SQLException ex) {

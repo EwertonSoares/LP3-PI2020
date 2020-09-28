@@ -5,7 +5,7 @@
  */
 package screens;
 
-import controller.AdmReleaseAndReturnBookController;
+import controller.AdmRentBackBookController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,10 +20,10 @@ public class AdmReleaseAndReturnBook extends Application {
  
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admReleaseAndReturnBook.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admRentBackBookController.fxml"));
         Parent root = (Parent) loader.load();
 
-        AdmReleaseAndReturnBookController admRelAndRetBookController = loader.getController();
+        AdmRentBackBookController admRelAndRetBookController = loader.getController();
 
         Scene scene = new Scene(root);
 

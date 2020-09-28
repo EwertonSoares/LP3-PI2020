@@ -36,7 +36,7 @@ public class UserTablePage extends Application {
         Parent root = (Parent) loader.load();
 
         UserBookTableController userTableBooksController = loader.getController();
-        userTableBooksController.setid(this.id);
+        userTableBooksController.setCodUser(this.getId());
         
         
         Scene scene = new Scene(root);

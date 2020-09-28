@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmReleaseAndReturnBookController">
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmRentBackBookController">
    <children>
       <TableView fx:id="tableViewUsersAndBooks" layoutX="4.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="711.0">
         <columns>

@@ -21,12 +21,12 @@ public class UserAndBook extends Book {
     public UserAndBook() {
     }
 
-    public UserAndBook(Long codBook, String bookName, String author, 
-            String genre, String publisher, Float price, Date releaseDate, 
-            Date returnDate, Date expectedDate, Long quantity, Button btnGet) {
+    public UserAndBook(Long codBook, String bookName, String author, String genre, 
+            String publisher, Float price, Date releaseDate, Date returnDate, 
+            Date expectedDate, Long quantity, Button btnGet, Button btnRet) {
         
-        super(codBook, bookName, author, genre, publisher, price, releaseDate, 
-                returnDate, expectedDate, quantity, btnGet);
+        super(codBook, bookName, author, genre, publisher, price, 
+                releaseDate, returnDate, expectedDate, quantity, btnGet, btnRet);
     }
 
     public Long getQttBookkRent() {

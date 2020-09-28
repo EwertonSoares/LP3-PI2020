@@ -25,11 +25,15 @@ public class Book {
     private Date expectedDate;
     private Long quantity;
     private Button btnGet;
+    private Button btnRet;
 
     public Book() {
     }
 
-    public Book(Long codBook, String bookName, String author, String genre, String publisher, Float price, Date releaseDate, Date returnDate, Date expectedDate, Long quantity, Button btnGet) {
+    public Book(Long codBook, String bookName, String author, String genre,
+            String publisher, Float price, Date releaseDate, Date returnDate,
+            Date expectedDate, Long quantity, Button btnGet, Button btnRet) {
+
         this.codBook = codBook;
         this.bookName = bookName;
         this.author = author;
@@ -42,8 +46,10 @@ public class Book {
         this.quantity = quantity;
         this.btnGet = btnGet;
         this.btnGet.setText("Alugar");
+        this.btnRet = btnRet;
+        this.btnGet.setText("Devolver");
+
     }
-   
 
     public Long getCodBook() {
         return codBook;
@@ -93,23 +99,6 @@ public class Book {
         this.price = price;
     }
 
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
-
-    public Button getBtnGet() {
-        return btnGet;
-
-    }
-
-    public void setBtnGet(Button btnGet) {
-        this.btnGet = btnGet;
-    }
-
     public Date getReleaseDate() {
         return releaseDate;
     }
@@ -132,5 +121,29 @@ public class Book {
 
     public void setExpectedDate(Date expectedDate) {
         this.expectedDate = expectedDate;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
+    public Button getBtnGet() {
+        return btnGet;
+    }
+
+    public void setBtnGet(Button btnGet) {
+        this.btnGet = btnGet;
+    }
+
+    public Button getBtnRet() {
+        return btnRet;
+    }
+
+    public void setBtnRet(Button btnRet) {
+        this.btnRet = btnRet;
     }
 }

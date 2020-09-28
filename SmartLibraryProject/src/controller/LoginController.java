@@ -53,12 +53,14 @@ public class LoginController implements Initializable {
     @FXML
     private void verifyLoginAndPassword(ActionEvent event) {
         boolean checked = false;
+        String userType = "user";
 
         if (this.rdbAdm.isSelected()) {
-
+            userType = "adm";
             this.checkLoginAndPasswordField();
+            
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
-                    this.txtPassword.getText());
+                    this.txtPassword.getText(), userType);
 
             if (checked) {
                 this.callMainPage(this.txtEmail.getText().split("@")[0]);
@@ -70,7 +72,7 @@ public class LoginController implements Initializable {
         } else {
             this.checkLoginAndPasswordField();
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
-                    this.txtPassword.getText());
+                    this.txtPassword.getText(), userType);
 
             Long id = login.getCodUser(this.txtEmail.getText());
 
@@ -86,7 +88,6 @@ public class LoginController implements Initializable {
 
     }
 
- 
     private void callMainPage(String text) {
         try {
             AdmMainPage admMainPage = new AdmMainPage();
@@ -101,7 +102,6 @@ public class LoginController implements Initializable {
 
     }
 
- 
     private void callMainPage(String text, Long id) {
         try {
             UserMainPage userMainPage = new UserMainPage();

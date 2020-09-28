@@ -35,7 +35,7 @@ import utils.Utils;
  *
  * @author ewerton
  */
-public class AdmReleaseAndReturnBookController implements Initializable {
+public class AdmRentBackBookController implements Initializable {
 
     @FXML
     private TableView<Book> tableViewUsersAndBooks;
@@ -62,9 +62,9 @@ public class AdmReleaseAndReturnBookController implements Initializable {
     private Button btnClose;
 
     private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final UserAndBook userAndBook = new UserAndBook();
     private final Utils utils = new Utils();
     private ObservableList<Book> observableUserAndBookList;
-    private final UserAndBook userAndBook = new UserAndBook();
     private List<Book> bookList = new ArrayList<>();
     private Long qttBooksToRent;
 
@@ -79,7 +79,7 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         if (userCod == 0) {
             utils.showAlert("Atenção", "Usuario invalido!", "Este usuario não esta cadastrado",
                     Alert.AlertType.ERROR);
-            
+
             this.reloadActualPage();
         }
 
@@ -143,7 +143,6 @@ public class AdmReleaseAndReturnBookController implements Initializable {
             this.emailDialog();
         } else {
             this.userAndBook.setEmail(dialogName.getResult());
-            System.out.println(this.userAndBook.getEmail());
             this.quantityDialog();
         }
 
@@ -162,7 +161,7 @@ public class AdmReleaseAndReturnBookController implements Initializable {
             this.quantityDialog();
         } else {
             this.userAndBook.setQttBookkRent(Long.parseLong(dialogQtt.getResult()));
-            System.out.println(this.userAndBook.getQttBookkRent());
+            System.out.println("QUANTIDADE: " + this.userAndBook.getQttBookkRent());
         }
 
     }
@@ -182,10 +181,14 @@ public class AdmReleaseAndReturnBookController implements Initializable {
                     this.userAndBook.getBookName() + " foi reservado para " + this.userAndBook.getEmail() + "VALOR TOTAL: "
                     + this.userAndBook.getPrice() * this.userAndBook.getQttBookkRent(),
                     Alert.AlertType.INFORMATION);
+            
+            this.reloadActualPage();
 
         } else {
             utils.showAlert("ERRO", "Algo inesperado ocorreu", ""
                     + "Não foi possivel reservar o livro, tente novamente!", Alert.AlertType.ERROR);
+            
+            this.reloadActualPage();
         }
     }
 
@@ -213,7 +216,7 @@ public class AdmReleaseAndReturnBookController implements Initializable {
             AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
             admReleaseAndReturnBook.start(new Stage());
         } catch (Exception ex) {
-            Logger.getLogger(AdmReleaseAndReturnBookController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdmRentBackBookController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

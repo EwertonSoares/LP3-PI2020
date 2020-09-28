@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import utils.QueriesDAO;
 import utils.Utils;
 import screens.Login;
+import screens.RegisterUser;
 
 /**
  *
@@ -57,11 +58,7 @@ public class RegisterUserController {
             boolean registered = false;
             String empty = "";
 
-            if (this.txtPassword.getText().compareTo(this.txtConfirmPassword.getText()) != 0) {
-                utils.showAlert("Erro", "Dados incorretos", "As senhas são diferentes!", Alert.AlertType.ERROR);
-
-                return;
-            }
+            this.checkPassword();
 
             if (this.txtName.getText().compareTo(empty) == 0
                     || this.txtPassword.getText().compareTo(empty) == 0
@@ -75,7 +72,8 @@ public class RegisterUserController {
             registered = loginDAO.registerUser(txtName.getText(), txtPassword.getText(), "user",
                     txtEmail.getText(), txtPhone.getText(), txtMobilePhone.getText());
 
-            utils.showAlert("Sucesso", "Dados salvos", "Seu cadastro foi realizado com sucesso!", Alert.AlertType.INFORMATION);
+            utils.showAlert("Sucesso", "Dados salvos",
+                    "Seu cadastro foi realizado com sucesso!", Alert.AlertType.INFORMATION);
 
             Login login = new Login();
             login.start(new Stage());
@@ -88,9 +86,37 @@ public class RegisterUserController {
 
     }
 
+    private void checkPassword() {
+        if (this.txtPassword.getText().length() < 8) {
+            utils.showAlert("Atenção", "Dados incorretos", "Senha deve ter no minimo 8 caracteries!",
+                    Alert.AlertType.WARNING);
+
+            this.reloadActualPage();
+        }
+
+        if (this.txtPassword.getText().compareTo(this.txtConfirmPassword.getText()) != 0) {
+            utils.showAlert("Atenção", "Dados incorretos", "As senhas são diferentes!", Alert.AlertType.WARNING);
+
+            this.reloadActualPage();
+
+        }
+    }
+
     private void closeRegisterUserScreen() {
         Stage stage = (Stage) btnEnviar.getScene().getWindow();
         stage.close();
+    }
+
+    private void reloadActualPage() {
+        try {
+            Stage stage = (Stage) btnEnviar.getScene().getWindow();
+            stage.close();
+
+            RegisterUser registerUser = new RegisterUser();
+            registerUser.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(RegisterUserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void backToLoginPage() {
