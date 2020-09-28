@@ -22,6 +22,7 @@ import utils.QueriesDAO;
 import utils.Utils;
 import screens.AdmMainPage;
 import screens.ForgetPassword;
+import screens.Login;
 import screens.RegisterUser;
 import screens.UserMainPage;
 
@@ -60,14 +61,12 @@ public class LoginController implements Initializable {
                     this.txtPassword.getText());
 
             if (checked) {
-
                 this.callMainPage(this.txtEmail.getText().split("@")[0]);
-
             } else {
-
                 textError.setText("Usuario ou senha invalido!");
-                this.setTextEmpty();
+                this.reloadLoginScreen();
             }
+
         } else {
             this.checkLoginAndPasswordField();
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
@@ -81,13 +80,13 @@ public class LoginController implements Initializable {
 
             } else {
                 textError.setText("Usuario ou senha invalido!");
-                this.setTextEmpty();
+                this.reloadLoginScreen();
             }
         }
 
     }
 
-    @FXML
+ 
     private void callMainPage(String text) {
         try {
             AdmMainPage admMainPage = new AdmMainPage();
@@ -102,7 +101,7 @@ public class LoginController implements Initializable {
 
     }
 
-    @FXML
+ 
     private void callMainPage(String text, Long id) {
         try {
             UserMainPage userMainPage = new UserMainPage();
@@ -155,14 +154,21 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void closeLoginScreen() {
+    private void closeLoginScreen() {
         Stage stage = (Stage) btnLogin.getScene().getWindow();
         stage.close();
     }
 
-    public void setTextEmpty() {
-        this.txtEmail.setText("");
-        this.txtPassword.setText("");
+    private void reloadLoginScreen() {
+        try {
+            Stage stage = (Stage) btnLogin.getScene().getWindow();
+            stage.close();
+
+            Login newLsogin = new Login();
+            newLsogin.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

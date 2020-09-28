@@ -481,7 +481,6 @@ public class QueriesDAO {
             stmet = conn.prepareStatement("SELECT * FROM vw_users_books WHERE codUser= " + cod);
             result = stmet.executeQuery();
 
-            Button button = new Button();
             while (result.next()) {
                 Long codUser = result.getLong("codUser");
                 Long codBook = result.getLong("codBook");
@@ -493,7 +492,7 @@ public class QueriesDAO {
                 Long quantity = result.getLong("quantity");
                 String email = result.getString("email");
 
-                UserAndBook userAndBooks = new UserAndBook(codBook, bookName, null, null, null, 
+                UserAndBook userAndBooks = new UserAndBook(codBook, bookName, null, null, null,
                         price, releaseDate, returnDate, expectedDate, quantity, null);
 
                 userAndBookList.add(userAndBooks);
@@ -514,7 +513,7 @@ public class QueriesDAO {
         PreparedStatement stmet = null;
 
         ResultSet result;
-        Long codUser = null;
+        Long codUser = 0L;
 
         try {
 
@@ -526,6 +525,10 @@ public class QueriesDAO {
 
             while (result.next()) {
                 codUser = result.getLong("codUser");
+            }
+
+            if (!result.next()) {
+                return codUser;
             }
 
         } catch (SQLException ex) {

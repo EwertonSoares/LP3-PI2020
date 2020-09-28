@@ -25,128 +25,124 @@ import screens.UserTablePage;
  * @author ewerton
  */
 public class UserMainPageController implements Initializable {
-    
+
     @FXML
     private Text txtStr;
-    
+
     @FXML
     private Button btnEnter;
-    
+
     @FXML
     private RadioButton rdbBooks;
-    
+
     @FXML
     private RadioButton rdbMyDatas;
-    
+
     private Long codUser;
-    
+
     @FXML
     private Button btnClose;
-    
+
     @FXML
-    public void selectNextAction(ActionEvent event) {
-        this.changeScreen();
-    }
-    
-    public void changeScreen() {
+    public void changeScreen(ActionEvent event) {
         if (rdbBooks.isSelected()) {
             try {
-                
+
                 this.callUserTablePage(this.getCodUser());
-                
+
             } catch (Exception ex) {
                 Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         } else if (rdbMyDatas.isSelected()) {
-            
+
             try {
                 this.callUserMyDatasPage(this.getCodUser());
-                
+
             } catch (Exception ex) {
                 Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
-    
+
     public void callUserTablePage(Long id) {
         try {
-            
+
             UserTablePage userTablePage = new UserTablePage();
             userTablePage.setId(id);
             userTablePage.start(new Stage());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void callUserMyDatasPage(Long id) {
         try {
-            
+
             UserMyDatasPage userMyDatasPage = new UserMyDatasPage();
             userMyDatasPage.setId(id);
             userMyDatasPage.start(new Stage());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void setInitialText(String text) {
         String welcome = "bem vindo a smart library ";
-        
+
         this.txtStr.setText(welcome.concat(text).toUpperCase());
     }
-    
-    public void setCodUser(Long id) {
-        this.codUser = id;
-    }
-    
-    public Long getCodUser() {
-        return this.codUser;
-    }
-    
+
     @FXML
-    public void checkRdbBooks() {
+    private void checkRdbBooks() {
         if (this.rdbBooks.isSelected()) {
             this.rdbMyDatas.setDisable(true);
         }
-        
+
         if (!this.rdbBooks.isSelected()) {
             this.rdbMyDatas.setDisable(false);
         }
     }
-    
+
     @FXML
-    public void checkRdbEmailPwd() {
+    private void checkRdbEmailPwd() {
         if (this.rdbMyDatas.isSelected()) {
             this.rdbBooks.setDisable(true);
         }
-        
+
         if (!this.rdbMyDatas.isSelected()) {
             this.rdbBooks.setDisable(false);
         }
-        
+
     }
-    
+
     @FXML
     public void closeActualPage(ActionEvent event) {
         try {
             Login login = new Login();
             login.start(new Stage());
-            
+
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public void setCodUser(Long id) {
+        this.codUser = id;
+    }
+
+    public Long getCodUser() {
+        return this.codUser;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
     }
 }

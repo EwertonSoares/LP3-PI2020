@@ -130,15 +130,6 @@ public class AdmTablePageController implements Initializable {
         }
     }
 
-    public void closeAdminMainPage() {
-        try {
-            Stage stage = (Stage) btnClose.getScene().getWindow();
-            stage.close();
-        } catch (Exception ex) {
-            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.loadBooksTable();
@@ -148,7 +139,7 @@ public class AdmTablePageController implements Initializable {
     }
 
     @FXML
-    public void InsertBook(ActionEvent actionEvent) {
+    private void InsertBook(ActionEvent actionEvent) {
         String empty = "";
         boolean inserted = false;
 
@@ -181,7 +172,7 @@ public class AdmTablePageController implements Initializable {
     }
 
     @FXML
-    public void removeBook() {
+    private void removeBook() {
         Book book = tableViewBooks.getSelectionModel().getSelectedItem();
 
         boolean removed = queriesDAO.removeBook(book.getCodBook());
@@ -277,6 +268,15 @@ public class AdmTablePageController implements Initializable {
             AdmTablePage admTablePage = new AdmTablePage();
             admTablePage.start(new Stage());
 
+        } catch (Exception ex) {
+            Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void closeActualPage() {
+        try {
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
         } catch (Exception ex) {
             Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }

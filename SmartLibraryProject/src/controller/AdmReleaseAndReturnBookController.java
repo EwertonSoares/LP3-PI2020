@@ -74,25 +74,24 @@ public class AdmReleaseAndReturnBookController implements Initializable {
      */
     private void reserveBook() {
         boolean reserved = false;
-        userAndBook.setCodUser(queriesDAO.getCodUser(this.userAndBook.getEmail()));
+        Long userCod = queriesDAO.getCodUser(this.userAndBook.getEmail());
+
+        if (userCod == 0) {
+            utils.showAlert("Atenção", "Usuario invalido!", "Este usuario não esta cadastrado",
+                    Alert.AlertType.ERROR);
+            
+            this.reloadActualPage();
+        }
+
+        userAndBook.setCodUser(userCod);
 
         this.checkQuantityBooks();
         this.checkQttOfBooks(this.userAndBook.getQttBookkRent());
-        
+
         reserved = queriesDAO.reserveBook(userAndBook.getCodUser(),
                 this.userAndBook.getCodBook(), this.userAndBook.getQttBookkRent());
 
-        if (reserved) {
-            utils.showAlert("Sucesso", "Livro reservado!",
-                    this.userAndBook.getBookName() + " foi reservado para " + this.userAndBook.getEmail() + "VALOR TOTAL: "
-                    + this.userAndBook.getPrice() * this.userAndBook.getQttBookkRent(),
-                    Alert.AlertType.INFORMATION);
-
-        } else {
-            utils.showAlert("ERRO", "Algo inesperado ocorreu", ""
-                    + "Não foi possivel reservar o livro, tente novamente!", Alert.AlertType.ERROR);
-//        }
-        }
+        this.checkReserva(reserved);
     }
 
     private void loadBooksTable() {
@@ -118,33 +117,6 @@ public class AdmReleaseAndReturnBookController implements Initializable {
         this.clnQtt.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
     }
 
-    public void checkQuantityBooks() {
-        if (this.userAndBook.getQttBookkRent().equals(0)) {
-
-            utils.showAlert("ERRO", "Não foi possivel reservar esse livro", " Não ha" +
-                    this.userAndBook.getBookName() + " em nosso estoque", Alert.AlertType.ERROR);
-
-            this.closeActualPage();
-            this.openActualPage();
-
-        }
-    }
-
-    public void closeActualPage() {
-        Stage stage = (Stage) this.btnClose.getScene().getWindow();
-        stage.close();
-    }
-
-    public void openActualPage() {
-        try {
-            AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
-            admReleaseAndReturnBook.start(new Stage());
-        } catch (Exception ex) {
-            Logger.getLogger(AdmReleaseAndReturnBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    
     @FXML
     private void addButtonAction() {
         this.bookList.forEach((b) -> {
@@ -155,7 +127,6 @@ public class AdmReleaseAndReturnBookController implements Initializable {
             });
         });
     }
-
 
     private void emailDialog() {
         String empty = "";
@@ -201,8 +172,48 @@ public class AdmReleaseAndReturnBookController implements Initializable {
             utils.showAlert("Aviso", "Valor invalido", "Usuario não pode "
                     + "reservar mais de dois livros", Alert.AlertType.WARNING);
 
-            this.closeActualPage();
-            this.openActualPage();
+            this.reloadActualPage();
+        }
+    }
+
+    private void checkReserva(boolean reserved) {
+        if (reserved) {
+            utils.showAlert("Sucesso", "Livro reservado!",
+                    this.userAndBook.getBookName() + " foi reservado para " + this.userAndBook.getEmail() + "VALOR TOTAL: "
+                    + this.userAndBook.getPrice() * this.userAndBook.getQttBookkRent(),
+                    Alert.AlertType.INFORMATION);
+
+        } else {
+            utils.showAlert("ERRO", "Algo inesperado ocorreu", ""
+                    + "Não foi possivel reservar o livro, tente novamente!", Alert.AlertType.ERROR);
+        }
+    }
+
+    public void checkQuantityBooks() {
+        if (this.userAndBook.getQttBookkRent().equals(0)) {
+
+            utils.showAlert("ERRO", "Não foi possivel reservar esse livro", " Não ha"
+                    + this.userAndBook.getBookName() + " em nosso estoque", Alert.AlertType.ERROR);
+
+            this.reloadActualPage();
+        }
+    }
+
+    @FXML
+    private void closeActualPage() {
+        Stage stage = (Stage) this.btnClose.getScene().getWindow();
+        stage.close();
+    }
+
+    private void reloadActualPage() {
+        try {
+            Stage stage = (Stage) this.btnClose.getScene().getWindow();
+            stage.close();
+
+            AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
+            admReleaseAndReturnBook.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(AdmReleaseAndReturnBookController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

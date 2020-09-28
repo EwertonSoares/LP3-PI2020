@@ -52,7 +52,7 @@ public class RegisterUserController {
     Utils utils = new Utils();
 
     @FXML
-    public void registerNewUser(ActionEvent event) {
+    private void registerNewUser(ActionEvent event) {
         try {
             boolean registered = false;
             String empty = "";
@@ -88,12 +88,12 @@ public class RegisterUserController {
 
     }
 
-    public void closeRegisterUserScreen() {
+    private void closeRegisterUserScreen() {
         Stage stage = (Stage) btnEnviar.getScene().getWindow();
         stage.close();
     }
 
-    public void backToLoginPage() {
+    private void backToLoginPage() {
         try {
             Login login = new Login();
             login.start(new Stage());

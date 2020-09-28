@@ -23,7 +23,7 @@ public class AdmReleaseAndReturnBook extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admReleaseAndReturnBook.fxml"));
         Parent root = (Parent) loader.load();
 
-        AdmReleaseAndReturnBookController admReleaseAndReturnBookController = loader.getController();
+        AdmReleaseAndReturnBookController admRelAndRetBookController = loader.getController();
 
         Scene scene = new Scene(root);
 

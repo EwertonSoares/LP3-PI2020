@@ -64,33 +64,7 @@ public class UserBookTableController implements Initializable {
     private final Utils utils = new Utils();
     private ObservableList<UserAndBook> observableUserAndBookList;
 
-    @FXML
-    public void closeActualPage(ActionEvent event) {
-        try {
-            
-            Stage stage = (Stage) btnBack.getScene().getWindow();
-            stage.close();
-            
-        } catch (Exception ex) {
-            Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.loadUserAndBookTable();
-    }
-
-    public void setid(Long id) {
-        this.codUser = id;
-        this.setDataTable(this.gettid());
-    }
-
-    public Long gettid() {
-        return this.codUser;
-    }
-
-    public void loadUserAndBookTable() {
+    private void loadUserAndBookTable() {
 
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
@@ -106,6 +80,32 @@ public class UserBookTableController implements Initializable {
 
         this.observableUserAndBookList = FXCollections.observableArrayList(userAndBookList);
         this.tableBooksUserBooks.setItems(this.observableUserAndBookList);
+    }
+
+    @FXML
+    public void closeActualPage(ActionEvent event) {
+        try {
+
+            Stage stage = (Stage) btnBack.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception ex) {
+            Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setid(Long id) {
+        this.codUser = id;
+        this.setDataTable(this.gettid());
+    }
+
+    public Long gettid() {
+        return this.codUser;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.loadUserAndBookTable();
     }
 
 }

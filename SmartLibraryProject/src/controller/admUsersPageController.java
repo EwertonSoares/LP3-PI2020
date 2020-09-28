@@ -58,16 +58,7 @@ public class admUsersPageController implements Initializable {
     QueriesDAO queriesDAO = new QueriesDAO();
     Utils utils = new Utils();
 
-    @FXML
-    public void selectNextAction(ActionEvent event) {
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.loadUsersTable();
-    }
-
-    public void loadUsersTable() {
+    private void loadUsersTable() {
         this.clnUserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
         this.clnUserType.setCellValueFactory(new PropertyValueFactory<>("userType"));
         this.clnphone.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -82,7 +73,7 @@ public class admUsersPageController implements Initializable {
     }
 
     @FXML
-    public void removeUser() {
+    private void removeUser() {
         User user = tableViewUsers.getSelectionModel().getSelectedItem();
 
         boolean removed = queriesDAO.removeUser(user.getCodUser());
@@ -100,11 +91,16 @@ public class admUsersPageController implements Initializable {
         try {
             Login login = new Login();
             login.start(new Stage());
-            
+
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();
         } catch (Exception ex) {
             Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.loadUsersTable();
     }
 }

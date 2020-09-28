@@ -55,11 +55,7 @@ public class AdmMainController implements Initializable {
     Utils utils = new Utils();
 
     @FXML
-    public void selectNextAction(ActionEvent event) {
-        this.changeScreen();
-    }
-
-    public void changeScreen() {
+    private void changeScreen() {
         if (rdbBooks.isSelected()) {
             try {
                 AdmTablePage admTablePage = new AdmTablePage();
@@ -97,7 +93,7 @@ public class AdmMainController implements Initializable {
     }
 
     @FXML
-    public void checkRdbConfigAdm() {
+    private void checkRdbConfigAdm() {
 
         if (this.rdbConfigAdm.isSelected()) {
             this.rdbUsers.setDisable(true);
@@ -115,7 +111,7 @@ public class AdmMainController implements Initializable {
     }
 
     @FXML
-    public void checkRdbUsers() {
+    private void checkRdbUsers() {
         if (this.rdbUsers.isSelected()) {
             this.rdbConfigAdm.setDisable(true);
             this.rdbBooks.setDisable(true);
@@ -133,7 +129,7 @@ public class AdmMainController implements Initializable {
     }
 
     @FXML
-    public void checkRdbBooks() {
+    private void checkRdbBooks() {
         if (this.rdbBooks.isSelected()) {
             this.rdbUsers.setDisable(true);
             this.rdbConfigAdm.setDisable(true);
@@ -150,7 +146,7 @@ public class AdmMainController implements Initializable {
     }
 
     @FXML
-    public void checkRdbRelAndRet() {
+    private void checkRdbRelAndRet() {
         if (this.rdbRelAndRet.isSelected()) {
             this.rdbUsers.setDisable(true);
             this.rdbConfigAdm.setDisable(true);
@@ -172,13 +168,14 @@ public class AdmMainController implements Initializable {
         this.txtStr.setText(welcome.concat(text).toUpperCase());
     }
 
-    public void closeActualPage() {
+    @FXML
+    private void closeActualPage() {
         try {
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();
 
-            Login login = new Login();
-            login.start(new Stage());
+            Login newLogin = new Login();
+            newLogin.start(new Stage());
         } catch (Exception ex) {
             Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }

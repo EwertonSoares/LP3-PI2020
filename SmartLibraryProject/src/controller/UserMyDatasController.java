@@ -60,7 +60,7 @@ public class UserMyDatasController implements Initializable {
 
         user = this.fillUser();
         updated = queriesDAO.updateUserData(user);
-        
+
         if (updated) {
             utils.showAlert("Sucesso!", "Dados alterados", "Seus dados foram alterados com sucesso",
                     Alert.AlertType.INFORMATION);
@@ -68,7 +68,7 @@ public class UserMyDatasController implements Initializable {
             utils.showAlert("Erro!", "Algo deu errado", "Algo insperado ocorreu, Tente novamente!",
                     Alert.AlertType.ERROR);
         }
-
+        
     }
 
     @FXML
@@ -81,15 +81,6 @@ public class UserMyDatasController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public Long getCodUser() {
-        return codUser;
-    }
-
-    public void setCodUser(Long codUser) {
-        this.codUser = codUser;
-        this.loadUserDatas(codUser);
     }
 
     private void loadUserDatas(Long id) {
@@ -113,6 +104,15 @@ public class UserMyDatasController implements Initializable {
         user.setMobilePhone(this.txtMobilePhone.getText());
 
         return user;
+    }
+
+    public Long getCodUser() {
+        return codUser;
+    }
+
+    public void setCodUser(Long codUser) {
+        this.codUser = codUser;
+        this.loadUserDatas(codUser);
     }
 
     @Override

@@ -41,6 +41,7 @@ public class Book {
         this.expectedDate = expectedDate;
         this.quantity = quantity;
         this.btnGet = btnGet;
+        this.btnGet.setText("Alugar");
     }
    
 
