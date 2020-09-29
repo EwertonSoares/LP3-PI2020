@@ -47,7 +47,7 @@ public class Book {
         this.btnGet = btnGet;
         this.btnGet.setText("Alugar");
         this.btnRet = btnRet;
-        this.btnGet.setText("Devolver");
+        this.btnRet.setText("Devolver");
 
     }
 

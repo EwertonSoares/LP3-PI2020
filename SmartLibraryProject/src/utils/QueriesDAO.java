@@ -629,4 +629,94 @@ public class QueriesDAO {
 
         return reserved;
     }
+
+    public boolean returnBook(Long codUser, Long codBook, Long qtd) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean returned = false;
+
+        try {
+
+            stmet = conn.prepareStatement("CALL returnBooksProcedure(?,?,?);");
+
+            stmet.setLong(1, codUser);
+            stmet.setLong(2, codBook);
+            stmet.setLong(3, qtd);
+
+            returned = stmet.execute();
+
+            if (!returned) {
+                returned = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return returned;
+    }
+
+    public Long getNumberBooksRented(Long codUser) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        Long numBooks = 0L;
+
+        try {
+
+            stmet = conn.prepareStatement("    SELECT SUM(quantity) FROM users_and_books WHERE codUser = ?;");
+
+            stmet.setLong(1, codUser);
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                numBooks = result.getLong("SUM(quantity)");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return numBooks;
+    }
+
+    public Float getDayleValu(Long codUser, Long codBook) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        Float value = 0F;
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT calculatesDelayValue(?, ?) AS value");
+
+            stmet.setLong(1, codUser);
+            stmet.setLong(2, codBook);
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                value = result.getFloat("value");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return value;
+    }
 }

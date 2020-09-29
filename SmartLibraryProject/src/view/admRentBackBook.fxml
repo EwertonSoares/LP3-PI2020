@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmRentBackBookController">
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmRentBackBookController">
    <children>
-      <TableView fx:id="tableViewUsersAndBooks" layoutX="4.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="711.0">
+      <TableView fx:id="tableViewUsersAndBooks" layoutX="4.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="711.0">
         <columns>
             <TableColumn fx:id="clnQtt" minWidth="0.0" prefWidth="71.0" resizable="false" text="Qtd" />
             <TableColumn fx:id="clnCodBook" prefWidth="115.0" text="Cod do livro" />
@@ -21,8 +21,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnReleaseBook" layoutX="624.0" layoutY="360.0" mnemonicParsing="false" text="Reservar" />
       <Button fx:id="btnClose" layoutX="641.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeActualPage" text="Fechar" />
-      <Button fx:id="btnReturn" layoutX="539.0" layoutY="360.0" mnemonicParsing="false" text="Devolver" />
+      <Button fx:id="btnReload" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#reloadActualPage" prefHeight="25.0" prefWidth="144.0" text="Recarregar pagina" />
    </children>
 </AnchorPane>

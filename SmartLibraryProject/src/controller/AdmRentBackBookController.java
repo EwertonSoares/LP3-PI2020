@@ -7,6 +7,7 @@ package controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -61,53 +62,80 @@ public class AdmRentBackBookController implements Initializable {
     @FXML
     private Button btnClose;
 
+    @FXML
+    private Button btnReload;
+
     private final QueriesDAO queriesDAO = new QueriesDAO();
     private final UserAndBook userAndBook = new UserAndBook();
     private final Utils utils = new Utils();
     private ObservableList<Book> observableUserAndBookList;
     private List<Book> bookList = new ArrayList<>();
     private Long qttBooksToRent;
+    private boolean query;
 
     /**
      *
      * @param event
      */
-    private void reserveBook() {
-        boolean reserved = false;
-        Long userCod = queriesDAO.getCodUser(this.userAndBook.getEmail());
+    private void rentBook() {
 
-        if (userCod == 0) {
-            utils.showAlert("Atenção", "Usuario invalido!", "Este usuario não esta cadastrado",
-                    Alert.AlertType.ERROR);
-
-            this.reloadActualPage();
+        if (this.userAndBook.getQtt() > 5) {
+            utils.showAlert("Aviso", "Valor invalido", "Usuario não pode "
+                    + "reservar mais de cinco livros por vez!", Alert.AlertType.WARNING);
+            return;
         }
 
-        userAndBook.setCodUser(userCod);
+        Long total = this.queriesDAO.getNumberBooksRented(this.userAndBook.getCodUser());
+        if (total.compareTo(5L) >= 0) {
+            this.utils.showAlert("Atenção", "Não é posivel reservar mais livros!",
+                    "O usuario ja excedeu a quantidade de livros!", Alert.AlertType.WARNING);
+            return;
+        }
 
-        this.checkQuantityBooks();
-        this.checkQttOfBooks(this.userAndBook.getQttBookkRent());
+        if (this.userAndBook.getQtt() + total > 5) {
+            this.utils.showAlert("Atenção", "Não é posivel fazer a reserva!",
+                    "Numero de livros excedido para este usuario", Alert.AlertType.WARNING);
+            return;
+        }
 
-        reserved = queriesDAO.reserveBook(userAndBook.getCodUser(),
-                this.userAndBook.getCodBook(), this.userAndBook.getQttBookkRent());
+        this.query = this.queriesDAO.reserveBook(this.userAndBook.getCodUser(),
+                this.userAndBook.getCodBook(), this.userAndBook.getQtt());
 
-        this.checkReserva(reserved);
+        this.successRented(this.query);
+    }
+
+    private void returnBook() {
+        if (this.userAndBook.getQtt() > 5) {
+            utils.showAlert("Aviso", "Valor invalido", "Numero digitado maior que 5!",
+                    Alert.AlertType.WARNING);
+            return;
+        }
+
+        this.query = this.queriesDAO.returnBook(this.userAndBook.getCodUser(),
+                this.userAndBook.getCodBook(), this.userAndBook.getQtt());
+
+        this.successReturned(this.query);
     }
 
     private void loadBooksTable() {
 
-        TableColumn clActionButon = new TableColumn("Reserva");
-        this.tableViewUsersAndBooks.getColumns().add(0, clActionButon);
+        TableColumn clBtnGetAction = new TableColumn("Reservar");
+        this.tableViewUsersAndBooks.getColumns().add(0, clBtnGetAction);
+
+        TableColumn clBtnRetAction = new TableColumn("Devolver");
+        this.tableViewUsersAndBooks.getColumns().add(1, clBtnRetAction);
 
         //Preenchendo tabela
-        clActionButon.setCellValueFactory(new PropertyValueFactory<>("btnGet"));
+        clBtnGetAction.setCellValueFactory(new PropertyValueFactory<>("btnGet"));
+        clBtnRetAction.setCellValueFactory(new PropertyValueFactory<>("btnRet"));
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.clnBookQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         this.bookList = queriesDAO.getBookList();
-        this.addButtonAction();
+        this.addBtnGetAction();
+        this.addBtnRetAction();
         this.observableUserAndBookList = FXCollections.observableArrayList(bookList);
 
         this.tableViewUsersAndBooks.setItems(observableUserAndBookList);
@@ -118,31 +146,57 @@ public class AdmRentBackBookController implements Initializable {
     }
 
     @FXML
-    private void addButtonAction() {
+    private void addBtnGetAction() {
         this.bookList.forEach((b) -> {
             b.getBtnGet().setOnAction((ActionEvent event) -> {
 
+                this.setValues(b);
+
+                if (this.userAndBook.getQuantity() == 0) {
+                    utils.showAlert("Atenção", "Não foi possivel reservar esse livro", " Não ha"
+                            + this.userAndBook.getBookName() + " em nosso estoque", Alert.AlertType.WARNING);
+                    return;
+                }
+
                 this.emailDialog();
-                this.reserveBook();
+                this.rentBook();
+            });
+        });
+    }
+
+    @FXML
+    private void addBtnRetAction() {
+        this.bookList.forEach((b) -> {
+            b.getBtnRet().setOnAction((ActionEvent event) -> {
+
+                this.setValues(b);
+                this.emailDialog();
+                this.returnBook();
             });
         });
     }
 
     private void emailDialog() {
         String empty = "";
-        TextInputDialog dialogName = new TextInputDialog();
+        TextInputDialog dialogEmail = new TextInputDialog();
 
-        dialogName.setTitle("Para reservar este livro");
-        dialogName.setHeaderText("Digite email do usuario:");
-        dialogName.setContentText("Email: ");
+        dialogEmail.setTitle("Para reservar/Devolver este livro:");
+        dialogEmail.setHeaderText("Digite email do usuario:");
+        dialogEmail.setContentText("Email: ");
 
-        // se o usuário fornecer um valor, assignamos ao nome
-        dialogName.showAndWait();
+        dialogEmail.showAndWait();
 
-        if (dialogName.getResult().compareTo(empty) == 0) {
+        if (dialogEmail.getResult().compareTo(empty) == 0) {
             this.emailDialog();
         } else {
-            this.userAndBook.setEmail(dialogName.getResult());
+            this.userAndBook.setEmail(dialogEmail.getResult());
+
+            this.userAndBook.setCodUser(queriesDAO.getCodUser(this.userAndBook.getEmail()));
+            if (this.userAndBook.getCodUser().compareTo(0L) == 0) {
+                this.utils.showAlert("Atenção", "Usuario invalido!",
+                        "Este usuario não esta cadastrado", Alert.AlertType.ERROR);
+                return;
+            }
             this.quantityDialog();
         }
 
@@ -152,53 +206,41 @@ public class AdmRentBackBookController implements Initializable {
         String empty = "";
         TextInputDialog dialogQtt = new TextInputDialog();
 
-        dialogQtt.setTitle("Para reservar este livro");
-        dialogQtt.setHeaderText("Digite quantidade!:");
+        dialogQtt.setTitle("Para reservar/devolver este livro");
+        dialogQtt.setHeaderText("Digite a quantidade!:");
         dialogQtt.setContentText("QTD: ");
         dialogQtt.showAndWait();
 
         if (dialogQtt.getResult().compareTo(empty) == 0) {
             this.quantityDialog();
         } else {
-            this.userAndBook.setQttBookkRent(Long.parseLong(dialogQtt.getResult()));
-            System.out.println("QUANTIDADE: " + this.userAndBook.getQttBookkRent());
+            this.userAndBook.setQtt(Long.parseLong(dialogQtt.getResult()));
         }
 
     }
 
-    private void checkQttOfBooks(Long qttBooksToRent) {
-        if (this.userAndBook.getQttBookkRent() > 2) {
-            utils.showAlert("Aviso", "Valor invalido", "Usuario não pode "
-                    + "reservar mais de dois livros", Alert.AlertType.WARNING);
-
-            this.reloadActualPage();
-        }
-    }
-
-    private void checkReserva(boolean reserved) {
+    private void successRented(boolean reserved) {
         if (reserved) {
-            utils.showAlert("Sucesso", "Livro reservado!",
-                    this.userAndBook.getBookName() + " foi reservado para " + this.userAndBook.getEmail() + "VALOR TOTAL: "
-                    + this.userAndBook.getPrice() * this.userAndBook.getQttBookkRent(),
+            utils.showAlert("Sucesso", "Livro reservado!", "Quandade de "
+                    + this.userAndBook.getQtt() + " livros: " + this.userAndBook.getBookName()
+                    + " foi reservado por " + this.userAndBook.getEmail() + " VALOR TOTAL: "
+                    + this.userAndBook.getPrice() * this.userAndBook.getQtt(),
                     Alert.AlertType.INFORMATION);
-            
-            this.reloadActualPage();
-
         } else {
             utils.showAlert("ERRO", "Algo inesperado ocorreu", ""
                     + "Não foi possivel reservar o livro, tente novamente!", Alert.AlertType.ERROR);
-            
-            this.reloadActualPage();
         }
     }
 
-    public void checkQuantityBooks() {
-        if (this.userAndBook.getQttBookkRent().equals(0)) {
-
-            utils.showAlert("ERRO", "Não foi possivel reservar esse livro", " Não ha"
-                    + this.userAndBook.getBookName() + " em nosso estoque", Alert.AlertType.ERROR);
-
-            this.reloadActualPage();
+    private void successReturned(boolean reserved) {
+        if (reserved) {
+            utils.showAlert("Sucesso", "Livro devolvido!", "Quandade de "
+                    + this.userAndBook.getQtt() + " livros " + this.userAndBook.getBookName()
+                    + "foi devolvidos por: " + this.userAndBook.getEmail(),
+                    Alert.AlertType.INFORMATION);
+        } else {
+            utils.showAlert("ERRO", "Algo inesperado ocorreu", ""
+                    + "Não foi possivel devolver o livro, tente novamente!", Alert.AlertType.ERROR);
         }
     }
 
@@ -208,9 +250,10 @@ public class AdmRentBackBookController implements Initializable {
         stage.close();
     }
 
+    @FXML
     private void reloadActualPage() {
         try {
-            Stage stage = (Stage) this.btnClose.getScene().getWindow();
+            Stage stage = (Stage) this.btnReload.getScene().getWindow();
             stage.close();
 
             AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
@@ -219,6 +262,26 @@ public class AdmRentBackBookController implements Initializable {
             Logger.getLogger(AdmRentBackBookController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void setValues(Book b) {
+        this.userAndBook.setCodBook(b.getCodBook());
+        this.userAndBook.setPrice(b.getPrice());
+        this.userAndBook.setBookName(b.getBookName());
+        this.userAndBook.setQuantity(b.getQuantity());
+        this.userAndBook.setReleaseDate(b.getReleaseDate());
+    }
+
+//    public void changeDate() {
+//        String rel = this.userAndBook.getReleaseDate().toString();
+//        String[] result = rel.split("-");
+//        String retDate = result[2].concat("-").concat(result[1]).concat("-").concat(result[0]);
+//
+//        String curDate = this.userAndBook.getReleaseDate().toString();
+//        String[] resultCurDate = rel.split("-");
+//        String newCurDate = resultCurDate[2].concat("-")
+//                .concat(resultCurDate[1]).concat("-")
+//                .concat(resultCurDate[0]);
+//     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

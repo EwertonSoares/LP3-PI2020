@@ -16,7 +16,7 @@ public class UserAndBook extends Book {
 
     private Long codUser;
     private String email;
-    private Long qttBookkRent;
+    private Long qtt;
 
     public UserAndBook() {
     }
@@ -29,12 +29,12 @@ public class UserAndBook extends Book {
                 releaseDate, returnDate, expectedDate, quantity, btnGet, btnRet);
     }
 
-    public Long getQttBookkRent() {
-        return qttBookkRent;
+    public Long getQtt () {
+        return qtt;
     }
 
-    public void setQttBookkRent(Long qttBookkRent) {
-        this.qttBookkRent = qttBookkRent;
+    public void setQtt(Long qtt) {
+        this.qtt = qtt;
     }
 
     public Long getCodUser() {

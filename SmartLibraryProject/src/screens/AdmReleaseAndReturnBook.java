@@ -20,7 +20,7 @@ public class AdmReleaseAndReturnBook extends Application {
  
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admRentBackBookController.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admRentBackBook.fxml"));
         Parent root = (Parent) loader.load();
 
         AdmRentBackBookController admRelAndRetBookController = loader.getController();

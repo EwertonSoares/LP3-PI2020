@@ -6,7 +6,6 @@
 package utils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +23,7 @@ public class Utils {
     public void showAlert(String title, String header, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
+        alert.setResizable(true);
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();

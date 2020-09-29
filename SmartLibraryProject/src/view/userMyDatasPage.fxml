@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="forgetPasswordPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserMyDatasController">
+<AnchorPane id="forgetPasswordPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserMyDatasController">
    <children>
       <Label fx:id="txtInitText" layoutX="15.0" layoutY="26.0" prefHeight="39.0" prefWidth="488.0" textFill="WHITE">
          <font>
