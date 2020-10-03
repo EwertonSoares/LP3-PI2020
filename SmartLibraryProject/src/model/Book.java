@@ -7,6 +7,7 @@ package model;
 
 import java.util.Date;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 
 /**
  *
@@ -24,15 +25,13 @@ public class Book {
     private Date returnDate;
     private Date expectedDate;
     private Long quantity;
-    private Button btnGet;
-    private Button btnRet;
 
     public Book() {
     }
 
     public Book(Long codBook, String bookName, String author, String genre,
             String publisher, Float price, Date releaseDate, Date returnDate,
-            Date expectedDate, Long quantity, Button btnGet, Button btnRet) {
+            Date expectedDate, Long quantity) {
 
         this.codBook = codBook;
         this.bookName = bookName;
@@ -44,11 +43,6 @@ public class Book {
         this.returnDate = returnDate;
         this.expectedDate = expectedDate;
         this.quantity = quantity;
-        this.btnGet = btnGet;
-        this.btnGet.setText("Alugar");
-        this.btnRet = btnRet;
-        this.btnRet.setText("Devolver");
-
     }
 
     public Long getCodBook() {
@@ -129,21 +123,5 @@ public class Book {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
-    }
-
-    public Button getBtnGet() {
-        return btnGet;
-    }
-
-    public void setBtnGet(Button btnGet) {
-        this.btnGet = btnGet;
-    }
-
-    public Button getBtnRet() {
-        return btnRet;
-    }
-
-    public void setBtnRet(Button btnRet) {
-        this.btnRet = btnRet;
     }
 }

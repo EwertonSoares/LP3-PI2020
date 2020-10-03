@@ -39,22 +39,22 @@ import utils.Utils;
 public class AdmRentBackBookController implements Initializable {
 
     @FXML
-    private TableView<Book> tableViewUsersAndBooks;
+    private TableView<UserAndBook> tableViewUsersAndBooks;
 
     @FXML
-    private TableColumn<Book, String> clnBookName;
+    private TableColumn<UserAndBook, String> clnBookName;
 
     @FXML
-    private TableColumn<Book, Float> clnPrice;
+    private TableColumn<UserAndBook, Float> clnPrice;
 
     @FXML
-    private TableColumn<Book, Long> clnBookQuantity;
+    private TableColumn<UserAndBook, Long> clnBookQuantity;
 
     @FXML
-    private TableColumn<Book, Long> clnQtt;
+    private TableColumn<UserAndBook, Long> clnQtt;
 
     @FXML
-    private TableColumn<Book, Long> clnCodBook;
+    private TableColumn<UserAndBook, Long> clnCodBook;
 
     @FXML
     private Button btnReleaseBook;
@@ -65,11 +65,19 @@ public class AdmRentBackBookController implements Initializable {
     @FXML
     private Button btnReload;
 
+    @FXML
+    private Button btnReturn;
+
+    @FXML
+    private Button btnRent;
+
     private final QueriesDAO queriesDAO = new QueriesDAO();
     private final UserAndBook userAndBook = new UserAndBook();
     private final Utils utils = new Utils();
-    private ObservableList<Book> observableUserAndBookList;
-    private List<Book> bookList = new ArrayList<>();
+    private static int count = 0;
+
+    private ObservableList<UserAndBook> observableUserAndBookList;
+    private List<UserAndBook> bookList = new ArrayList<>();
     private Long qttBooksToRent;
     private boolean query;
 
@@ -77,7 +85,9 @@ public class AdmRentBackBookController implements Initializable {
      *
      * @param event
      */
+    @FXML
     private void rentBook() {
+        this.emailDialog();
 
         if (this.userAndBook.getQtt() > 5) {
             utils.showAlert("Aviso", "Valor invalido", "Usuario não pode "
@@ -104,7 +114,10 @@ public class AdmRentBackBookController implements Initializable {
         this.successRented(this.query);
     }
 
+    @FXML
     private void returnBook() {
+        this.emailDialog();
+
         if (this.userAndBook.getQtt() > 5) {
             utils.showAlert("Aviso", "Valor invalido", "Numero digitado maior que 5!",
                     Alert.AlertType.WARNING);
@@ -119,23 +132,18 @@ public class AdmRentBackBookController implements Initializable {
 
     private void loadBooksTable() {
 
-        TableColumn clBtnGetAction = new TableColumn("Reservar");
-        this.tableViewUsersAndBooks.getColumns().add(0, clBtnGetAction);
-
-        TableColumn clBtnRetAction = new TableColumn("Devolver");
-        this.tableViewUsersAndBooks.getColumns().add(1, clBtnRetAction);
+        TableColumn clChkGetAction = new TableColumn();
+        this.tableViewUsersAndBooks.getColumns().add(0, clChkGetAction);
 
         //Preenchendo tabela
-        clBtnGetAction.setCellValueFactory(new PropertyValueFactory<>("btnGet"));
-        clBtnRetAction.setCellValueFactory(new PropertyValueFactory<>("btnRet"));
+        clChkGetAction.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.clnBookQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        this.bookList = queriesDAO.getBookList();
-        this.addBtnGetAction();
-        this.addBtnRetAction();
+        this.bookList = queriesDAO.getBooksToUserAndBook();
+        this.addCheckBoxAction();
         this.observableUserAndBookList = FXCollections.observableArrayList(bookList);
 
         this.tableViewUsersAndBooks.setItems(observableUserAndBookList);
@@ -146,32 +154,23 @@ public class AdmRentBackBookController implements Initializable {
     }
 
     @FXML
-    private void addBtnGetAction() {
-        this.bookList.forEach((b) -> {
-            b.getBtnGet().setOnAction((ActionEvent event) -> {
+    private void addCheckBoxAction() {
+        this.bookList.forEach((c) -> {
+            c.getCheckBox().setOnAction((ActionEvent event) -> {
 
-                this.setValues(b);
+                this.qttCheckBoxSelecteds(c);
+
+                this.setValues(c);
 
                 if (this.userAndBook.getQuantity() == 0) {
-                    utils.showAlert("Atenção", "Não foi possivel reservar esse livro", " Não ha"
-                            + this.userAndBook.getBookName() + " em nosso estoque", Alert.AlertType.WARNING);
-                    return;
+                    utils.showAlert("Atenção", "Não é possivel reservar esse livro",
+                            " Não ha o livro " + this.userAndBook.getBookName()
+                            + " em nosso estoque",
+                            Alert.AlertType.WARNING);
+
+                    c.getCheckBox().setSelected(false);
                 }
 
-                this.emailDialog();
-                this.rentBook();
-            });
-        });
-    }
-
-    @FXML
-    private void addBtnRetAction() {
-        this.bookList.forEach((b) -> {
-            b.getBtnRet().setOnAction((ActionEvent event) -> {
-
-                this.setValues(b);
-                this.emailDialog();
-                this.returnBook();
             });
         });
     }
@@ -216,7 +215,6 @@ public class AdmRentBackBookController implements Initializable {
         } else {
             this.userAndBook.setQtt(Long.parseLong(dialogQtt.getResult()));
         }
-
     }
 
     private void successRented(boolean reserved) {
@@ -263,7 +261,7 @@ public class AdmRentBackBookController implements Initializable {
         }
     }
 
-    private void setValues(Book b) {
+    private void setValues(UserAndBook b) {
         this.userAndBook.setCodBook(b.getCodBook());
         this.userAndBook.setPrice(b.getPrice());
         this.userAndBook.setBookName(b.getBookName());
@@ -282,6 +280,19 @@ public class AdmRentBackBookController implements Initializable {
 //                .concat(resultCurDate[1]).concat("-")
 //                .concat(resultCurDate[0]);
 //     }
+    private void qttCheckBoxSelecteds(UserAndBook c) {
+        if (c.getCheckBox().selectedProperty().getValue()) {
+            this.count = this.count + 1;
+
+            if (this.count > 1) {
+                utils.showAlert("Atenção", "Valor excedido!",
+                        " Selecione um livro por vez!",
+                        Alert.AlertType.WARNING);
+
+                c.getCheckBox().setSelected(false);
+            }
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

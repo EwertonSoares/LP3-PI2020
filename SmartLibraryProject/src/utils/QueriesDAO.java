@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import model.Author;
 import model.Book;
 import model.Genre;
@@ -193,7 +194,7 @@ public class QueriesDAO {
                 Date returnDate = result.getDate("returnDate");
 
                 Book book = new Book(codBook, bookName, genre, publiser, author, price,
-                        releaseDate, returnDate, expectedDate, quantity, new Button(), new Button());
+                        releaseDate, returnDate, expectedDate, quantity);
 
                 bookList.add(book);
             }
@@ -493,8 +494,8 @@ public class QueriesDAO {
                 Long quantity = result.getLong("quantity");
 //                String email = result.getString("email");
 
-                UserAndBook userAndBooks = new UserAndBook(codBook, bookName, null, null, null,
-                        price, releaseDate, returnDate, expectedDate, quantity, new Button(), new Button());
+                UserAndBook userAndBooks = new UserAndBook(null, null, null, codBook, bookName,
+                        price, releaseDate, returnDate, expectedDate, quantity, null);
 
                 userAndBookList.add(userAndBooks);
             }
@@ -503,6 +504,44 @@ public class QueriesDAO {
             Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return userAndBookList;
+    }
+
+    public List<UserAndBook> getBooksToUserAndBook() {
+
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
+        ResultSet result;
+        List<UserAndBook> userAndBookList = new ArrayList();
+        
+        try {
+
+            stmt = con.prepareStatement("SELECT * FROM books");
+
+            result = stmt.executeQuery();
+
+            while (result.next()) {
+                Long codBook = result.getLong("codBook");
+                String bookName = result.getString("bookName");
+                Float price = result.getFloat("price");
+                Long quantity = result.getLong("quantity");
+                Date releaseDate = result.getDate("releaseDate");
+                Date expectedDate = result.getDate("expectedDate");
+                Date returnDate = result.getDate("returnDate");
+
+                UserAndBook userAndBooks = new UserAndBook(null, null, null, codBook, bookName,
+                        price, releaseDate, returnDate, expectedDate, quantity, new CheckBox());
+
+                userAndBookList.add(userAndBooks);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
         }
 
         return userAndBookList;
