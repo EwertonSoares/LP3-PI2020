@@ -516,7 +516,7 @@ public class QueriesDAO {
 
         ResultSet result;
         List<UserAndBook> userAndBookList = new ArrayList();
-        
+
         try {
 
             stmt = con.prepareStatement("SELECT * FROM books");
@@ -674,7 +674,6 @@ public class QueriesDAO {
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
 
-        ResultSet result;
         boolean returned = false;
 
         try {
@@ -710,7 +709,7 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("    SELECT SUM(quantity) FROM users_and_books WHERE codUser = ?;");
+            stmet = conn.prepareStatement("SELECT SUM(quantity) FROM users_and_books WHERE codUser = ?;");
 
             stmet.setLong(1, codUser);
 
@@ -729,7 +728,7 @@ public class QueriesDAO {
         return numBooks;
     }
 
-    public Float getDayleValu(Long codUser, Long codBook) {
+    public Float getDelayValue(Long codUser, Long codBook, Long qtt) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -739,10 +738,11 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("SELECT calculatesDelayValue(?, ?) AS value");
+            stmet = conn.prepareStatement("SELECT calculatesDelayValue(?, ?, ?) AS 'value'");
 
             stmet.setLong(1, codUser);
             stmet.setLong(2, codBook);
+            stmet.setLong(3, qtt);
 
             result = stmet.executeQuery();
 
@@ -757,5 +757,98 @@ public class QueriesDAO {
         }
 
         return value;
+    }
+
+    public boolean checkBookRented(Long codUser, Long codBook) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean check = false;
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT codBook, codUser  FROM users_and_books"
+                    + " WHERE codUser = ? AND codBook =?;");
+
+            stmet.setLong(1, codUser);
+            stmet.setLong(2, codBook);
+
+            result = stmet.executeQuery();
+
+            if (result.next()) {
+                check = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return check;
+    }
+
+    public Long getCodUserBook(Long codUser, Long codBook) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        Long cod = 0L;
+
+        try {
+
+            stmet = conn.prepareStatement("SELECT codUserBook FROM users_and_books"
+                    + " WHERE codUser = ? AND codBook =?;");
+
+            stmet.setLong(1, codUser);
+            stmet.setLong(2, codBook);
+
+            result = stmet.executeQuery();
+
+            while (result.next()) {
+                cod = result.getLong("codUserBook");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return cod;
+    }
+
+    public boolean updateReserveBook(Long codUserBook, Long codBook, Long qtt) {
+
+        Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement stmet = null;
+
+        ResultSet result;
+        boolean check = false;
+
+        try {
+
+            stmet = conn.prepareStatement("CALL updateReserveBooksProcedure(?,?,?);");
+
+            stmet.setLong(1, codUserBook);
+            stmet.setLong(2, codBook);
+            stmet.setLong(3, qtt);
+
+            check = stmet.execute();
+
+            if (!check) {
+                check = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QueriesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmet);
+        }
+
+        return check;
     }
 }

@@ -6,6 +6,9 @@
 package controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,10 +92,10 @@ public class AdmRentBackBookController implements Initializable {
                     " Não ha o livro " + this.userAndBook.getBookName()
                     + " em nosso estoque",
                     Alert.AlertType.WARNING);
-            
+
             return;
         }
-        
+
         this.emailDialog();
 
         if (this.userAndBook.getQtt() > 5) {
@@ -102,7 +105,7 @@ public class AdmRentBackBookController implements Initializable {
         }
 
         Long total = this.queriesDAO.getNumberBooksRented(this.userAndBook.getCodUser());
-        if (total.compareTo(5L) >= 0) {
+        if (total.compareTo(5L) == 0) {
             this.utils.showAlert("Atenção", "Não é posivel reservar mais livros!",
                     "O usuario ja excedeu a quantidade de livros!", Alert.AlertType.WARNING);
             return;
@@ -112,6 +115,22 @@ public class AdmRentBackBookController implements Initializable {
             this.utils.showAlert("Atenção", "Não é posivel fazer a reserva!",
                     "Numero de livros excedido para este usuario", Alert.AlertType.WARNING);
             return;
+        }
+
+        boolean checkUserRentedBook = this.queriesDAO.checkBookRented(
+                this.userAndBook.getCodUser(), this.userAndBook.getCodBook());
+        if (checkUserRentedBook) {
+            if ((total + this.userAndBook.getQtt()) <= 5) {
+                Long codUserBook = this.queriesDAO.getCodUserBook(this.userAndBook.getCodUser(),
+                        this.userAndBook.getCodBook());
+
+                this.query = this.queriesDAO.updateReserveBook(codUserBook,
+                        this.userAndBook.getCodBook(), this.userAndBook.getQtt());
+
+                this.successRented(this.query);
+
+                return;
+            }
         }
 
         this.query = this.queriesDAO.reserveBook(this.userAndBook.getCodUser(),
@@ -128,6 +147,15 @@ public class AdmRentBackBookController implements Initializable {
             utils.showAlert("Aviso", "Valor invalido", "Numero digitado maior que 5!",
                     Alert.AlertType.WARNING);
             return;
+        }
+
+        if (this.delayTime() > 10) {
+            Float value = this.queriesDAO.getDelayValue(this.userAndBook.getCodBook(),
+                    this.userAndBook.getCodUser(), this.userAndBook.getQtt());
+
+            utils.showAlert("Atenção", this.delayTime() + " dias de atraso!",
+                    "Será cobrado uma multa de 10% por dia atrasado. Valor total: " + value + "0R$",
+                    Alert.AlertType.INFORMATION);
         }
 
         this.query = this.queriesDAO.returnBook(this.userAndBook.getCodUser(),
@@ -229,8 +257,8 @@ public class AdmRentBackBookController implements Initializable {
         }
     }
 
-    private void successReturned(boolean reserved) {
-        if (reserved) {
+    private void successReturned(boolean rented) {
+        if (rented) {
             utils.showAlert("Sucesso", "Livro devolvido!", "Quandade de "
                     + this.userAndBook.getQtt() + " livros " + this.userAndBook.getBookName()
                     + "foi devolvidos por: " + this.userAndBook.getEmail(),
@@ -268,17 +296,6 @@ public class AdmRentBackBookController implements Initializable {
         this.userAndBook.setReleaseDate(b.getReleaseDate());
     }
 
-//    public void changeDate() {
-//        String rel = this.userAndBook.getReleaseDate().toString();
-//        String[] result = rel.split("-");
-//        String retDate = result[2].concat("-").concat(result[1]).concat("-").concat(result[0]);
-//
-//        String curDate = this.userAndBook.getReleaseDate().toString();
-//        String[] resultCurDate = rel.split("-");
-//        String newCurDate = resultCurDate[2].concat("-")
-//                .concat(resultCurDate[1]).concat("-")
-//                .concat(resultCurDate[0]);
-//     }
     private void qttCheckBoxSelected(UserAndBook c) {
         if (c.getCheckBox().selectedProperty().getValue()) {
             this.count = this.count + 1;
@@ -294,6 +311,29 @@ public class AdmRentBackBookController implements Initializable {
         } else {
             this.count = 0;
         }
+    }
+
+    private int delayTime() {
+        Date curDate = new Date(System.currentTimeMillis());
+        String strCurrentData = utils.formatDate(curDate);
+        String[] resCurDate = strCurrentData.split("-");
+        LocalDate currentDate = LocalDate.of(
+                Integer.parseInt(resCurDate[2]),
+                Integer.parseInt(resCurDate[1]),
+                Integer.parseInt(resCurDate[0]));
+
+        Date relDate = this.userAndBook.getReleaseDate();
+        String strReleaseDate = utils.formatDate(relDate);
+        String[] resRelesDate = strReleaseDate.split("-");
+        LocalDate releaseDate = LocalDate.of(
+                Integer.parseInt(resRelesDate[2]),
+                Integer.parseInt(resRelesDate[1]),
+                Integer.parseInt(resRelesDate[0]));
+
+        Period period = Period.between(releaseDate, currentDate);
+        int time = period.getDays() + period.getMonths() + period.getYears();
+
+        return time;
     }
 
     @Override
