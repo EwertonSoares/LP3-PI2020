@@ -1,0 +1,23 @@
+.tableView {
+    -fx-background-color: activeborder;   
+}
+
+.table-column {
+    -fx-alignment: center;
+}
+
+.button {
+    -fx-font-family: "Times new roma", serif, Arial; 
+}
+
+.button.return, .button.cancel {
+    -fx-background-color: #fe0d30;
+}
+
+.button.rent, .button.reload {
+    -fx-background-color: #22ee8b;
+}
+
+.button.update {
+    -fx-background-color: #5d8cd6;
+}

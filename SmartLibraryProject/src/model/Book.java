@@ -17,9 +17,9 @@ public class Book {
 
     private Long codBook;
     private String bookName;
-    private String author;
     private String genre;
     private String publisher;
+    private String author;
     private Float price;
     private Date releaseDate;
     private Date returnDate;
@@ -29,15 +29,15 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long codBook, String bookName, String author, String genre,
-            String publisher, Float price, Date releaseDate, Date returnDate,
+    public Book(Long codBook, String bookName, String genre,
+            String publisher, String author, Float price, Date releaseDate, Date returnDate,
             Date expectedDate, Long quantity) {
 
         this.codBook = codBook;
         this.bookName = bookName;
-        this.author = author;
         this.genre = genre;
         this.publisher = publisher;
+        this.author = author;
         this.price = price;
         this.releaseDate = releaseDate;
         this.returnDate = returnDate;

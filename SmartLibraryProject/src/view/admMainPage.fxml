@@ -7,19 +7,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmMainController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmMainController">
    <children>
       <Text fx:id="txtStr" fill="WHITE" layoutX="7.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="586.0">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <TextArea layoutX="7.0" layoutY="71.0" prefHeight="316.0" prefWidth="586.0" style="-fx-background-color: blue;" />
-      <RadioButton fx:id="rdbBooks" layoutX="103.0" layoutY="191.0" mnemonicParsing="false" onAction="#checkRdbBooks" text="Livros" />
-      <RadioButton fx:id="rdbConfigAdm" layoutX="387.0" layoutY="115.0" mnemonicParsing="false" onAction="#checkRdbConfigAdm" text="Configurações de &#10;administrador" />
-      <RadioButton fx:id="rdbUsers" layoutX="387.0" layoutY="200.0" mnemonicParsing="false" onAction="#checkRdbUsers" text="Usuarios" />
-      <Button fx:id="btnEnter" layoutX="495.0" layoutY="307.0" mnemonicParsing="false" onAction="#changeScreen" prefHeight="35.0" prefWidth="81.0" text="Entrar" />
-      <Button fx:id="btnClose" layoutX="543.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeActualPage" prefHeight="25.0" prefWidth="55.0" text="Sair" />
-      <RadioButton fx:id="rdbRelAndRet" layoutX="103.0" layoutY="121.0" mnemonicParsing="false" onAction="#checkRdbRelAndRet" text="Reservar / Devolver livro" />
+      <TextArea layoutX="7.0" layoutY="65.0" prefHeight="316.0" prefWidth="586.0" style="-fx-background-color: blue;" />
+      <RadioButton fx:id="rdbBooks" layoutX="104.0" layoutY="109.0" mnemonicParsing="false" onAction="#checkRdbBooks" text="Livros" />
+      <RadioButton fx:id="rdbConfigAdm" layoutX="102.0" layoutY="172.0" mnemonicParsing="false" onAction="#checkRdbConfigAdm" text="Inserir categoria" />
+      <RadioButton fx:id="rdbUsers" layoutX="358.0" layoutY="109.0" mnemonicParsing="false" onAction="#checkRdbUsers" text="Usuarios" />
+      <Button fx:id="btnEnter" layoutX="496.0" layoutY="313.0" mnemonicParsing="false" onAction="#changeScreen" prefHeight="35.0" prefWidth="81.0" styleClass="rent" text="Entrar" />
+      <Button fx:id="btnClose" layoutX="517.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeActualPage" prefHeight="29.0" prefWidth="81.0" styleClass="cancel" text="Sair" />
+      <RadioButton fx:id="rdbRelAndRet" layoutX="358.0" layoutY="233.0" mnemonicParsing="false" onAction="#checkRdbRelAndRet" text="Reservar / Devolver&#10;um livro" />
+      <RadioButton fx:id="rdbConfigAdm1" layoutX="358.0" layoutY="172.0" mnemonicParsing="false" onAction="#checkRdbConfigAdm" text="Inserir editora" />
+      <RadioButton fx:id="rdbConfigAdm2" layoutX="102.0" layoutY="239.0" mnemonicParsing="false" onAction="#checkRdbConfigAdm" text="Inserir Autor" />
    </children>
 </AnchorPane>

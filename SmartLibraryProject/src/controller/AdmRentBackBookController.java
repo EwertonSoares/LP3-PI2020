@@ -166,11 +166,12 @@ public class AdmRentBackBookController implements Initializable {
 
     private void loadBooksTable() {
 
-        TableColumn clChkGetAction = new TableColumn("Selecione um livro");
-        this.tableViewUsersAndBooks.getColumns().add(0, clChkGetAction);
+        TableColumn clnCheck = new TableColumn("Selecione um livro");
+        this.tableViewUsersAndBooks.getColumns().add(0, clnCheck);
 
         //Preenchendo tabela
-        clChkGetAction.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+        clnCheck.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+        clnCheck.setStyle("-fx-alignment: CENTER;");
 
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));

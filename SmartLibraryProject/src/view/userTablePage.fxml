@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserBookTableController">
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserBookTableController">
    <children>
-      <TableView fx:id="tableBooksUserBooks" layoutX="4.0" layoutY="54.0" prefHeight="354.0" prefWidth="711.0">
+      <TableView fx:id="tableBooksUserBooks" layoutX="4.0" layoutY="54.0" prefHeight="280.0" prefWidth="711.0">
         <columns>
             <TableColumn fx:id="clnCodBook" prefWidth="77.0" text="Codigo" />
           <TableColumn fx:id="clnBookName" prefWidth="129.0" style="-: ;" text="Livro " />
@@ -23,6 +23,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnBack" layoutX="658.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeActualPage" text="Voltar" />
+      <Button fx:id="btnBack" layoutX="658.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeActualPage" styleClass="cancel" text="Voltar" />
    </children>
 </AnchorPane>

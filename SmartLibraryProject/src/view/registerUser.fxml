@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="forgetPasswordPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterUserController">
+<AnchorPane id="forgetPasswordPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterUserController">
    <children>
       <Label layoutX="27.0" layoutY="3.0" prefHeight="58.0" prefWidth="365.0" text="FAÇA SEU CADASTRO" textFill="WHITE">
          <font>
@@ -32,7 +32,7 @@
          </font>
       </PasswordField>
       <Label layoutX="34.0" layoutY="268.0" prefHeight="42.0" prefWidth="116.0" text="Confirmar&#10;senha:" textFill="WHITE" />
-      <Button fx:id="btnEnviar" layoutX="193.0" layoutY="327.0" mnemonicParsing="false" onAction="#registerNewUser" prefHeight="42.0" prefWidth="214.0" text="Enviar" />
+      <Button fx:id="btnEnviar" layoutX="193.0" layoutY="327.0" mnemonicParsing="false" onAction="#registerNewUser" prefHeight="42.0" prefWidth="214.0" styleClass="rent" text="Enviar" />
       <Label layoutX="34.0" layoutY="121.0" text="E-mail:" textFill="WHITE" />
       <TextField fx:id="txtEmail" layoutX="118.0" layoutY="114.0" prefHeight="29.0" prefWidth="452.0" promptText="E-mail">
          <font>
@@ -51,6 +51,6 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="btnBack" layoutX="535.0" layoutY="3.0" mnemonicParsing="false" onAction="#backToLoginPage" prefHeight="25.0" prefWidth="65.0" text="Voltar" />
+      <Button fx:id="btnBack" layoutX="509.0" layoutY="3.0" mnemonicParsing="false" onAction="#backToLoginPage" prefHeight="25.0" prefWidth="88.0" styleClass="cancel" text="Cancelar" />
    </children>
 </AnchorPane>
