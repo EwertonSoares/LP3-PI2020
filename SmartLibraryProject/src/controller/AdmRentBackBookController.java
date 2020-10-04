@@ -51,9 +51,6 @@ public class AdmRentBackBookController implements Initializable {
     private TableColumn<UserAndBook, Long> clnBookQuantity;
 
     @FXML
-    private TableColumn<UserAndBook, Long> clnQtt;
-
-    @FXML
     private TableColumn<UserAndBook, Long> clnCodBook;
 
     @FXML
@@ -74,12 +71,11 @@ public class AdmRentBackBookController implements Initializable {
     private final QueriesDAO queriesDAO = new QueriesDAO();
     private final UserAndBook userAndBook = new UserAndBook();
     private final Utils utils = new Utils();
-    private static int count = 0;
-
     private ObservableList<UserAndBook> observableUserAndBookList;
     private List<UserAndBook> bookList = new ArrayList<>();
     private Long qttBooksToRent;
     private boolean query;
+    private int count = 0;
 
     /**
      *
@@ -87,6 +83,16 @@ public class AdmRentBackBookController implements Initializable {
      */
     @FXML
     private void rentBook() {
+
+        if (this.userAndBook.getQuantity() == 0) {
+            utils.showAlert("Atenção", "Não é possivel reservar esse livro",
+                    " Não ha o livro " + this.userAndBook.getBookName()
+                    + " em nosso estoque",
+                    Alert.AlertType.WARNING);
+            
+            return;
+        }
+        
         this.emailDialog();
 
         if (this.userAndBook.getQtt() > 5) {
@@ -132,11 +138,12 @@ public class AdmRentBackBookController implements Initializable {
 
     private void loadBooksTable() {
 
-        TableColumn clChkGetAction = new TableColumn();
+        TableColumn clChkGetAction = new TableColumn("Selecione um livro");
         this.tableViewUsersAndBooks.getColumns().add(0, clChkGetAction);
 
         //Preenchendo tabela
         clChkGetAction.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+
         this.clnCodBook.setCellValueFactory(new PropertyValueFactory<>("codBook"));
         this.clnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -147,10 +154,6 @@ public class AdmRentBackBookController implements Initializable {
         this.observableUserAndBookList = FXCollections.observableArrayList(bookList);
 
         this.tableViewUsersAndBooks.setItems(observableUserAndBookList);
-
-        //Tornando colunas editavel
-        tableViewUsersAndBooks.setEditable(true);
-        this.clnQtt.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
     }
 
     @FXML
@@ -158,18 +161,9 @@ public class AdmRentBackBookController implements Initializable {
         this.bookList.forEach((c) -> {
             c.getCheckBox().setOnAction((ActionEvent event) -> {
 
-                this.qttCheckBoxSelecteds(c);
+                this.qttCheckBoxSelected(c);
 
                 this.setValues(c);
-
-                if (this.userAndBook.getQuantity() == 0) {
-                    utils.showAlert("Atenção", "Não é possivel reservar esse livro",
-                            " Não ha o livro " + this.userAndBook.getBookName()
-                            + " em nosso estoque",
-                            Alert.AlertType.WARNING);
-
-                    c.getCheckBox().setSelected(false);
-                }
 
             });
         });
@@ -199,6 +193,10 @@ public class AdmRentBackBookController implements Initializable {
             this.quantityDialog();
         }
 
+        if (!dialogEmail.isShowing()) {
+            System.out.println("Bla, bla, bla");
+        }
+
     }
 
     private void quantityDialog() {
@@ -215,6 +213,7 @@ public class AdmRentBackBookController implements Initializable {
         } else {
             this.userAndBook.setQtt(Long.parseLong(dialogQtt.getResult()));
         }
+
     }
 
     private void successRented(boolean reserved) {
@@ -280,7 +279,7 @@ public class AdmRentBackBookController implements Initializable {
 //                .concat(resultCurDate[1]).concat("-")
 //                .concat(resultCurDate[0]);
 //     }
-    private void qttCheckBoxSelecteds(UserAndBook c) {
+    private void qttCheckBoxSelected(UserAndBook c) {
         if (c.getCheckBox().selectedProperty().getValue()) {
             this.count = this.count + 1;
 
@@ -291,6 +290,9 @@ public class AdmRentBackBookController implements Initializable {
 
                 c.getCheckBox().setSelected(false);
             }
+
+        } else {
+            this.count = 0;
         }
     }
 
