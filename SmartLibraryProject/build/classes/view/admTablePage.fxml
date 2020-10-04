@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -40,7 +41,7 @@
       <Label layoutX="427.0" layoutY="306.0" prefHeight="15.0" prefWidth="139.0" text="Autor" textFill="WHITE" />
       <Label layoutX="643.0" layoutY="306.0" prefHeight="15.0" prefWidth="54.0" text="Preço" textFill="WHITE" />
       <Label layoutX="18.0" layoutY="306.0" prefHeight="15.0" prefWidth="177.0" text="Nome do livro" textFill="WHITE" />
-      <Text fill="#381e65" layoutX="20.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adicione um novo livro abaixo!" wrappingWidth="231.7294921875" />
+      <Text fill="WHITE" layoutX="20.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adicione um novo livro abaixo!" wrappingWidth="231.7294921875" />
       <Button fx:id="btnReload" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#reloadBookTable" prefHeight="25.0" prefWidth="139.0" styleClass="reload" text="Recarregar Tabela" />
       <TextField fx:id="txtQuantity" layoutX="587.0" layoutY="321.0" prefHeight="25.0" prefWidth="54.0" />
       <Label layoutX="587.0" layoutY="306.0" prefHeight="15.0" prefWidth="54.0" text="Qtd" textFill="WHITE" />

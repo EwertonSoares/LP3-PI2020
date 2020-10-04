@@ -615,7 +615,7 @@ public class QueriesDAO {
 
         try {
 
-            stmet = conn.prepareStatement("CALL insertUserData(?,?,?,?,?);");
+            stmet = conn.prepareStatement("CALL updateUserProcidure(?,?,?,?,?);");
 
             stmet.setLong(1, user.getCodUser());
             stmet.setString(2, user.getUserName());
@@ -637,6 +637,7 @@ public class QueriesDAO {
 
         return updated;
     }
+    
 
     public boolean reserveBook(Long codUser, Long codBook, Long qtd) {
 

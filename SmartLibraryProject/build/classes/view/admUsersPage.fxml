@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="LoginPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.admUsersPageController">
+<AnchorPane id="LoginPane" prefHeight="418.0" prefWidth="713.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.admUsersPageController">
     <children>
       <Text fx:id="textError" fill="#b22312" fontSmoothingType="LCD" layoutX="208.0" layoutY="275.0" opacity="0.91" smooth="false" stroke="#0a0707" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="276.0">
          <font>
@@ -18,24 +18,39 @@
             <Cursor fx:constant="CROSSHAIR" />
          </cursor>
       </Text>
-      <TableView fx:id="tableViewUsers" layoutX="10.0" layoutY="53.0" prefHeight="259.0" prefWidth="580.0">
+      <TableView fx:id="tableViewUsers" layoutX="10.0" layoutY="53.0" prefHeight="228.0" prefWidth="699.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
          <columns>
-            <TableColumn fx:id="clnUserName" prefWidth="111.0" text="Nome" />
-            <TableColumn fx:id="clnUserType" minWidth="0.0" prefWidth="95.0" text="Tipo de &#10;usuario" />
-            <TableColumn fx:id="clnphone" minWidth="0.0" prefWidth="111.0" text="Telefone" />
-            <TableColumn fx:id="clnMobPhone" minWidth="0.0" prefWidth="55.0" text="Celular" />
-            <TableColumn fx:id="clnEmail" minWidth="0.0" prefWidth="111.0" text="E-mail" />
+            <TableColumn fx:id="clnUserName" onEditCommit="#getNewUserName" prefWidth="111.0" text="Nome" />
+            <TableColumn fx:id="clnUserType" minWidth="0.0" onEditCommit="#getNewUserType" prefWidth="95.0" text="Tipo de &#10;usuario" />
+            <TableColumn fx:id="clnphone" minWidth="0.0" onEditCommit="#getNewPhone" prefWidth="111.0" text="Telefone" />
+            <TableColumn fx:id="clnMobPhone" minWidth="0.0" onEditCommit="#getNewMobilePhone" prefWidth="55.0" text="Celular" />
+            <TableColumn fx:id="clnEmail" minWidth="0.0" onEditCommit="#getNewEmail" prefWidth="111.0" text="E-mail" />
          </columns>
       </TableView>
-      <Text fill="WHITE" layoutX="13.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TABELA DE USUARIOS" wrappingWidth="414.7294921875">
+      <Text fill="WHITE" layoutX="13.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mainText" text="TABELA DE USUARIOS" wrappingWidth="414.7294921875">
          <font>
-            <Font size="35.0" />
+            <Font size="26.0" />
          </font>
       </Text>
-      <Button fx:id="btnRemove" layoutX="506.0" layoutY="325.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="25.0" prefWidth="81.0" text="Remover" />
-      <Button fx:id="btnClose" layoutX="522.0" layoutY="9.0" mnemonicParsing="false" text="Fechar" />
+      <Button fx:id="btnRemove" layoutX="624.0" layoutY="371.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="25.0" prefWidth="81.0" styleClass="cancel" text="Remover" />
+      <Button fx:id="btnClose" layoutX="643.0" layoutY="2.0" mnemonicParsing="false" styleClass="cancel" text="Fechar" />
+      <Button layoutX="459.0" layoutY="371.0" mnemonicParsing="false" onAction="#InsertUser" prefHeight="25.0" prefWidth="81.0" styleClass="rent" text="Inserir" />
+      <Button layoutX="544.0" layoutY="371.0" mnemonicParsing="false" onAction="#updateUser" styleClass="update" text="Atualizar" />
+      <Text fill="WHITE" layoutX="26.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adicione um novo usuario abaixo!" wrappingWidth="231.7294921875" />
+      <Label layoutX="8.0" layoutY="316.0" prefHeight="15.0" prefWidth="125.0" text="Nome" textFill="WHITE" />
+      <TextField fx:id="txtUser" layoutX="6.0" layoutY="331.0" prefHeight="25.0" prefWidth="125.0" />
+      <Label layoutX="135.0" layoutY="316.0" prefHeight="15.0" prefWidth="81.0" text="Senha" textFill="WHITE" />
+      <TextField fx:id="txtPwd" layoutX="134.0" layoutY="331.0" prefHeight="25.0" prefWidth="89.0" />
+      <Label layoutX="334.0" layoutY="316.0" prefHeight="15.0" prefWidth="125.0" text="Celular" textFill="WHITE" />
+      <TextField fx:id="txtUserType" layoutX="226.0" layoutY="331.0" prefHeight="25.0" prefWidth="104.0" />
+      <TextField fx:id="txtMobPhone" layoutX="333.0" layoutY="331.0" prefHeight="25.0" prefWidth="125.0" />
+      <TextField fx:id="txtPhone" layoutX="461.0" layoutY="331.0" prefHeight="25.0" prefWidth="125.0" />
+      <Label layoutX="223.0" layoutY="316.0" prefHeight="15.0" prefWidth="104.0" text="Tipo de usuario" textFill="WHITE" />
+      <Label layoutX="459.0" layoutY="311.0" prefHeight="15.0" prefWidth="117.0" text="Telefone" textFill="WHITE" />
+      <TextField fx:id="txtEmail" layoutX="589.0" layoutY="331.0" prefHeight="25.0" prefWidth="117.0" />
+      <Label layoutX="594.0" layoutY="311.0" prefHeight="15.0" prefWidth="117.0" text="E-mail" textFill="WHITE" />
     </children>
 </AnchorPane>

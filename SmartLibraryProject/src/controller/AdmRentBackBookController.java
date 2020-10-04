@@ -86,7 +86,6 @@ public class AdmRentBackBookController implements Initializable {
      */
     @FXML
     private void rentBook() {
-
         if (this.userAndBook.getQuantity() == 0) {
             utils.showAlert("Atenção", "Não é possivel reservar esse livro",
                     " Não ha o livro " + this.userAndBook.getBookName()
@@ -270,25 +269,6 @@ public class AdmRentBackBookController implements Initializable {
         }
     }
 
-    @FXML
-    private void closeActualPage() {
-        Stage stage = (Stage) this.btnClose.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    private void reloadActualPage() {
-        try {
-            Stage stage = (Stage) this.btnReload.getScene().getWindow();
-            stage.close();
-
-            AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
-            admReleaseAndReturnBook.start(new Stage());
-        } catch (Exception ex) {
-            Logger.getLogger(AdmRentBackBookController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     private void setValues(UserAndBook b) {
         this.userAndBook.setCodBook(b.getCodBook());
         this.userAndBook.setPrice(b.getPrice());
@@ -308,7 +288,6 @@ public class AdmRentBackBookController implements Initializable {
 
                 c.getCheckBox().setSelected(false);
             }
-
         } else {
             this.count = 0;
         }
@@ -335,6 +314,25 @@ public class AdmRentBackBookController implements Initializable {
         int time = period.getDays() + period.getMonths() + period.getYears();
 
         return time;
+    }
+
+    @FXML
+    private void closeActualPage() {
+        Stage stage = (Stage) this.btnClose.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void reloadActualPage() {
+        try {
+            Stage stage = (Stage) this.btnReload.getScene().getWindow();
+            stage.close();
+
+            AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
+            admReleaseAndReturnBook.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(AdmRentBackBookController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
