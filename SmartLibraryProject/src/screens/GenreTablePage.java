@@ -5,7 +5,6 @@
  */
 package screens;
 
-import controller.RegisterUserController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,21 +15,18 @@ import javafx.stage.Stage;
  *
  * @author ewerton
  */
-public class RegisterUser extends Application {
+public class GenreTablePage extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registerUser.fxml"));
-        Parent root = (Parent) loader.load();
-
-        RegisterUserController registerUserController = loader.getController();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/genreTablePage.fxml"));
         
         Scene scene = new Scene(root);
-
+        
         stage.setScene(scene);
         stage.show();
     }
-
+    
     /**
      * @param args the command line arguments
      */

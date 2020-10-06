@@ -133,11 +133,12 @@ public class LoginController implements Initializable {
 
     @FXML
     private void callRegisterScreen(ActionEvent event) {
-        try {
-            RegisterUser register = new RegisterUser();
+        RegisterUser register = new RegisterUser();
 
+        try {
             register.start(new Stage());
             closeLoginScreen();
+            
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

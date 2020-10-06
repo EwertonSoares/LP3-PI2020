@@ -21,6 +21,7 @@ import screens.AdmReleaseAndReturnBook;
 import utils.Utils;
 import screens.AdmTablePage;
 import screens.AdmUsersPage;
+import screens.GenreTablePage;
 import screens.Login;
 
 /**
@@ -49,7 +50,7 @@ public class AdmMainController implements Initializable {
 
     @FXML
     private RadioButton rdbGen;
-            
+
     @FXML
     private RadioButton rdbAut;
 
@@ -70,27 +71,29 @@ public class AdmMainController implements Initializable {
             }
 
         } else if (rdbUsers.isSelected()) {
-
             try {
                 AdmUsersPage admUsersPage = new AdmUsersPage();
                 admUsersPage.start(new Stage());
-
             } catch (Exception ex) {
                 Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else if (rdbRelAndRet.isSelected()) {
-
             try {
 
                 AdmReleaseAndReturnBook admReleaseAndReturnBook = new AdmReleaseAndReturnBook();
                 admReleaseAndReturnBook.start(new Stage());
-
             } catch (Exception ex) {
                 Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else if (this.rdbGen.isSelected()) {
+            try {
+                GenreTablePage genreTablePage = new GenreTablePage();
+                genreTablePage.start(new Stage());
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else if (this.rdbPub.isSelected()) {
 
@@ -142,7 +145,7 @@ public class AdmMainController implements Initializable {
             this.rdbGen.setDisable(false);
         }
     }
-    
+
     @FXML
     private void checkRdbAut() {
 

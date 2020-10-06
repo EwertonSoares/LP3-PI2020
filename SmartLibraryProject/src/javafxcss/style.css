@@ -1,7 +1,3 @@
-.tableView {
-    -fx-background-color: activeborder;   
-}
-
 .table-column {
     -fx-alignment: center;
 }

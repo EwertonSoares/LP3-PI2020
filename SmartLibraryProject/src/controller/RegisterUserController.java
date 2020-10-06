@@ -58,7 +58,18 @@ public class RegisterUserController {
             boolean registered = false;
             String empty = "";
 
-            this.checkPassword();
+            if (this.txtPassword.getText().length() < 8) {
+                utils.showAlert("Atenção", "Dados incorretos", "Senha deve ter no minimo 8 caracteries!",
+                        Alert.AlertType.WARNING);
+
+                return;
+            }
+
+            if (this.txtPassword.getText().compareTo(this.txtConfirmPassword.getText()) != 0) {
+                utils.showAlert("Atenção", "Dados incorretos", "As senhas são diferentes!", Alert.AlertType.WARNING);
+
+                return;
+            }
 
             if (this.txtName.getText().compareTo(empty) == 0
                     || this.txtPassword.getText().compareTo(empty) == 0
@@ -86,22 +97,6 @@ public class RegisterUserController {
 
     }
 
-    private void checkPassword() {
-        if (this.txtPassword.getText().length() < 8) {
-            utils.showAlert("Atenção", "Dados incorretos", "Senha deve ter no minimo 8 caracteries!",
-                    Alert.AlertType.WARNING);
-
-            this.reloadActualPage();
-        }
-
-        if (this.txtPassword.getText().compareTo(this.txtConfirmPassword.getText()) != 0) {
-            utils.showAlert("Atenção", "Dados incorretos", "As senhas são diferentes!", Alert.AlertType.WARNING);
-
-            this.reloadActualPage();
-
-        }
-    }
-
     private void closeRegisterUserScreen() {
         Stage stage = (Stage) btnEnviar.getScene().getWindow();
         stage.close();
@@ -119,6 +114,7 @@ public class RegisterUserController {
         }
     }
 
+    @FXML
     private void backToLoginPage() {
         try {
             Login login = new Login();
