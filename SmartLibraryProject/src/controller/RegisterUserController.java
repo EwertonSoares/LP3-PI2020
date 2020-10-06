@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import utils.QueriesDAO;
+import query.GeneralQuery;
 import utils.Utils;
 import screens.Login;
 import screens.RegisterUser;
@@ -49,7 +49,7 @@ public class RegisterUserController {
     @FXML
     private PasswordField txtPassword;
 
-    QueriesDAO loginDAO = new QueriesDAO();
+    GeneralQuery generalQuery = new GeneralQuery();
     Utils utils = new Utils();
 
     @FXML
@@ -69,7 +69,7 @@ public class RegisterUserController {
                 return;
             }
 
-            registered = loginDAO.registerUser(txtName.getText(), txtPassword.getText(), "user",
+            registered = this.generalQuery.registerUser(txtName.getText(), txtPassword.getText(), "user",
                     txtEmail.getText(), txtPhone.getText(), txtMobilePhone.getText());
 
             utils.showAlert("Sucesso", "Dados salvos",

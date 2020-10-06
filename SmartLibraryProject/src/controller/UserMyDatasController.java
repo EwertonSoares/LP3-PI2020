@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.User;
-import utils.QueriesDAO;
+import query.UpdateUserDataQuery;
 import utils.Utils;
 
 /**
@@ -50,7 +50,7 @@ public class UserMyDatasController implements Initializable {
     @FXML
     private Button btnCancel;
 
-    private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final UpdateUserDataQuery updateUserDataQuery = new UpdateUserDataQuery();
     private final Utils utils = new Utils();
 
     @FXML
@@ -59,7 +59,7 @@ public class UserMyDatasController implements Initializable {
         User user = new User();
 
         user = this.fillUser();
-        updated = queriesDAO.updateUserData(user);
+        updated = this.updateUserDataQuery.updateUserData(user);
 
         if (updated) {
             utils.showAlert("Sucesso!", "Dados alterados", "Seus dados foram alterados com sucesso",
@@ -68,7 +68,7 @@ public class UserMyDatasController implements Initializable {
             utils.showAlert("Erro!", "Algo deu errado", "Algo insperado ocorreu, Tente novamente!",
                     Alert.AlertType.ERROR);
         }
-        
+
     }
 
     @FXML
@@ -85,7 +85,7 @@ public class UserMyDatasController implements Initializable {
 
     private void loadUserDatas(Long id) {
         User user = new User();
-        user = queriesDAO.getUserDatas(id);
+        user = this.updateUserDataQuery.getUserDatas(id);
 
         this.txtInitText.setText("Perfil de " + user.getEmail());
         this.txtEmail.setText(user.getEmail());

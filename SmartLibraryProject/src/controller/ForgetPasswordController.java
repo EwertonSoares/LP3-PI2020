@@ -15,7 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import utils.QueriesDAO;
+import query.GeneralQuery;
 import utils.Utils;
 import screens.Login;
 
@@ -24,27 +24,28 @@ import screens.Login;
  * @author ewerton
  */
 public class ForgetPasswordController {
-    
+
     @FXML
     private Button btnEnviar;
-    
+
     @FXML
     private PasswordField txtConfirmPassword;
-    
+
     @FXML
     private PasswordField txtPassword;
-    
+
     @FXML
     private TextField txtEmail;
-    
+
     @FXML
     private Button btnCancelar;
-    
+
     @FXML
     private RadioButton rdbAdm;
-    
-    QueriesDAO setPassword = new QueriesDAO();
+
+    GeneralQuery generalQuery = new GeneralQuery();
     Utils utils = new Utils();
+
     /**
      *
      * @param event
@@ -53,33 +54,55 @@ public class ForgetPasswordController {
     public void updatePassword(ActionEvent event) {
         boolean done = false;
         String empty = "";
-        
-        if (txtEmail.getText().compareTo(empty) == 0 || txtPassword.getText().compareTo(empty) == 0) {
-            
-           utils.showAlert("ATENÇÃO!", "Erro ao tentar logar!", "Campos não devem estar em branco!", Alert.AlertType.ERROR);
+
+        if (txtEmail.getText().compareTo(empty) == 0
+                || txtPassword.getText().compareTo(empty) == 0) {
+
+            utils.showAlert("ATENÇÃO!", "Erro ao tentar ao redefinir senha!",
+                    "Campos não devem estar em branco!", Alert.AlertType.ERROR);
 
             return;
         }
-        
+
         if (rdbAdm.isSelected()) {
-            done = setPassword.setNewPassword(txtEmail.getText(), txtPassword.getText(), "adm");
-            
+            done = this.generalQuery.setNewPassword(txtEmail.getText(),
+                    txtPassword.getText(), "adm");
+
+            if (done) {
+                utils.showAlert("Suceeso!", "Nova senha gerada com sucesso! ",
+                        "Nova senha : " + txtPassword.getText(), Alert.AlertType.INFORMATION);
+            } else {
+                utils.showAlert("Erro!", "Nova senha não gerada gerada! ",
+                        "Algo deu errado!", Alert.AlertType.ERROR);
+            }
+
         } else {
-            done = setPassword.setNewPassword(txtEmail.getText(), txtPassword.getText(), "user");
+            done = this.generalQuery.setNewPassword(txtEmail.getText(),
+                    txtPassword.getText(), "user");
+
+            if (done) {
+                utils.showAlert("Suceeso!", "Nova senha gerada com sucesso! ",
+                        "Nova senha : " + txtPassword.getText(), Alert.AlertType.INFORMATION);
+            } else {
+                utils.showAlert("Erro!", "Nova senha não gerada gerada! ",
+                        "Algo deu errado!", Alert.AlertType.ERROR);
+            }
         }
-        
+
     }
-    
+
     public void closeForgetPasswordScreen() {
         try {
             Login login = new Login();
             login.start(new Stage());
-            
+
             Stage stage = (Stage) btnCancelar.getScene().getWindow();
             stage.close();
+
         } catch (Exception ex) {
-            Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForgetPasswordController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

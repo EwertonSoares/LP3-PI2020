@@ -18,7 +18,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import screens.AdmReleaseAndReturnBook;
-import utils.QueriesDAO;
 import utils.Utils;
 import screens.AdmTablePage;
 import screens.AdmUsersPage;
@@ -57,7 +56,6 @@ public class AdmMainController implements Initializable {
     @FXML
     private Button btnClose;
 
-    QueriesDAO login = new QueriesDAO();
     Utils utils = new Utils();
 
     @FXML

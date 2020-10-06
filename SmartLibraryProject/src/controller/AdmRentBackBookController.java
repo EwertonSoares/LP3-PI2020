@@ -31,8 +31,8 @@ import javafx.stage.Stage;
 import javafx.util.converter.LongStringConverter;
 import model.Book;
 import model.UserAndBook;
+import query.AdmRentBackQuery;
 import screens.AdmReleaseAndReturnBook;
-import utils.QueriesDAO;
 import utils.Utils;
 
 /**
@@ -71,7 +71,7 @@ public class AdmRentBackBookController implements Initializable {
     @FXML
     private Button btnRent;
 
-    private final QueriesDAO queriesDAO = new QueriesDAO();
+    AdmRentBackQuery admRentBackQuery = new AdmRentBackQuery();
     private final UserAndBook userAndBook = new UserAndBook();
     private final Utils utils = new Utils();
     private ObservableList<UserAndBook> observableUserAndBookList;
@@ -86,6 +86,7 @@ public class AdmRentBackBookController implements Initializable {
      */
     @FXML
     private void rentBook() {
+        
         if (this.userAndBook.getQuantity() == 0) {
             utils.showAlert("Atenção", "Não é possivel reservar esse livro",
                     " Não ha o livro " + this.userAndBook.getBookName()
@@ -103,7 +104,18 @@ public class AdmRentBackBookController implements Initializable {
             return;
         }
 
-        Long total = this.queriesDAO.getNumberBooksRented(this.userAndBook.getCodUser());
+        Long quantity = this.admRentBackQuery.checkIsBookReserved(this.userAndBook.getCodUser(),
+                this.userAndBook.getCodBook());
+
+        if (quantity > 0) {
+            utils.showAlert("Atenção", "Não é possivel reservas o livro", this.userAndBook.getEmail()
+                    + " ja possui esse livro reservado!",
+                    Alert.AlertType.INFORMATION);
+
+            return;
+        }
+
+        Long total = this.admRentBackQuery.getNumberBooksRented(this.userAndBook.getCodUser());
         if (total.compareTo(5L) == 0) {
             this.utils.showAlert("Atenção", "Não é posivel reservar mais livros!",
                     "O usuario ja excedeu a quantidade de livros!", Alert.AlertType.WARNING);
@@ -116,14 +128,14 @@ public class AdmRentBackBookController implements Initializable {
             return;
         }
 
-        boolean checkUserRentedBook = this.queriesDAO.checkBookRented(
+        boolean checkUserRentedBook = this.admRentBackQuery.checkBookRented(
                 this.userAndBook.getCodUser(), this.userAndBook.getCodBook());
         if (checkUserRentedBook) {
             if ((total + this.userAndBook.getQtt()) <= 5) {
-                Long codUserBook = this.queriesDAO.getCodUserBook(this.userAndBook.getCodUser(),
+                Long codUserBook = this.admRentBackQuery.getCodUserBook(this.userAndBook.getCodUser(),
                         this.userAndBook.getCodBook());
 
-                this.query = this.queriesDAO.updateReserveBook(codUserBook,
+                this.query = this.admRentBackQuery.updateReserveBook(codUserBook,
                         this.userAndBook.getCodBook(), this.userAndBook.getQtt());
 
                 this.successRented(this.query);
@@ -132,7 +144,7 @@ public class AdmRentBackBookController implements Initializable {
             }
         }
 
-        this.query = this.queriesDAO.reserveBook(this.userAndBook.getCodUser(),
+        this.query = this.admRentBackQuery.reserveBook(this.userAndBook.getCodUser(),
                 this.userAndBook.getCodBook(), this.userAndBook.getQtt());
 
         this.successRented(this.query);
@@ -149,7 +161,7 @@ public class AdmRentBackBookController implements Initializable {
         }
 
         if (this.delayTime() > 10) {
-            Float value = this.queriesDAO.getDelayValue(this.userAndBook.getCodBook(),
+            Float value = this.admRentBackQuery.getDelayValue(this.userAndBook.getCodBook(),
                     this.userAndBook.getCodUser(), this.userAndBook.getQtt());
 
             utils.showAlert("Atenção", this.delayTime() + " dias de atraso!",
@@ -157,7 +169,7 @@ public class AdmRentBackBookController implements Initializable {
                     Alert.AlertType.INFORMATION);
         }
 
-        this.query = this.queriesDAO.returnBook(this.userAndBook.getCodUser(),
+        this.query = this.admRentBackQuery.returnBook(this.userAndBook.getCodUser(),
                 this.userAndBook.getCodBook(), this.userAndBook.getQtt());
 
         this.successReturned(this.query);
@@ -177,11 +189,11 @@ public class AdmRentBackBookController implements Initializable {
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         this.clnBookQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        this.bookList = queriesDAO.getBooksToUserAndBook();
+        this.bookList = this.admRentBackQuery.getBooksToUserAndBook();
         this.addCheckBoxAction();
         this.observableUserAndBookList = FXCollections.observableArrayList(bookList);
 
-        this.tableViewUsersAndBooks.setItems(observableUserAndBookList);
+        this.tableViewUsersAndBooks.setItems(this.observableUserAndBookList);
     }
 
     @FXML
@@ -192,7 +204,6 @@ public class AdmRentBackBookController implements Initializable {
                 this.qttCheckBoxSelected(c);
 
                 this.setValues(c);
-
             });
         });
     }
@@ -208,21 +219,19 @@ public class AdmRentBackBookController implements Initializable {
         dialogEmail.showAndWait();
 
         if (dialogEmail.getResult().compareTo(empty) == 0) {
+            
             this.emailDialog();
+            
         } else {
             this.userAndBook.setEmail(dialogEmail.getResult());
 
-            this.userAndBook.setCodUser(queriesDAO.getCodUser(this.userAndBook.getEmail()));
+            this.userAndBook.setCodUser(this.admRentBackQuery.getCodUser(this.userAndBook.getEmail()));
             if (this.userAndBook.getCodUser().compareTo(0L) == 0) {
                 this.utils.showAlert("Atenção", "Usuario invalido!",
                         "Este usuario não esta cadastrado", Alert.AlertType.ERROR);
                 return;
             }
             this.quantityDialog();
-        }
-
-        if (!dialogEmail.isShowing()) {
-            System.out.println("Bla, bla, bla");
         }
 
     }

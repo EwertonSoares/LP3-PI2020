@@ -33,7 +33,7 @@ import model.Author;
 import model.Book;
 import model.Genre;
 import model.Publisher;
-import utils.QueriesDAO;
+import query.AdmTablePageQuery;
 import utils.Utils;
 import screens.AdmTablePage;
 
@@ -108,7 +108,7 @@ public class AdmTablePageController implements Initializable {
     private Long selectedPublisher;
 
     private Book bookSelected;
-    private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final AdmTablePageQuery admTablePageQuery = new AdmTablePageQuery();
     private final Utils utils = new Utils();
     private ObservableList<Book> observableBookList;
 
@@ -120,7 +120,7 @@ public class AdmTablePageController implements Initializable {
     private void updateBook(ActionEvent event) {
         boolean updated = false;
 
-        updated = queriesDAO.updateBook(bookSelected);
+        updated = this.admTablePageQuery.updateBook(bookSelected);
         if (updated) {
             utils.showAlert("Sucesso", "Livro atualizado", "O Livro foi atualizado com sucesso",
                     Alert.AlertType.INFORMATION);
@@ -151,7 +151,7 @@ public class AdmTablePageController implements Initializable {
                     Alert.AlertType.INFORMATION);
         }
 
-        inserted = queriesDAO.insertBook(this.txtBook.getText(), this.selectedAuthor,
+        inserted = this.admTablePageQuery.insertBook(this.txtBook.getText(), this.selectedAuthor,
                 this.selectedGenre, this.selectedPublisher, Float.parseFloat(this.txtPrice.getText()),
                 Long.parseLong(this.txtQuantity.getText()));
 
@@ -175,7 +175,7 @@ public class AdmTablePageController implements Initializable {
     private void removeBook() {
         Book book = tableViewBooks.getSelectionModel().getSelectedItem();
 
-        boolean removed = queriesDAO.removeBook(book.getCodBook());
+        boolean removed = this.admTablePageQuery.removeBook(book.getCodBook());
         if (removed) {
             tableViewBooks.getItems().remove(book);
             utils.showAlert("Sucesso", "Livro removido", "O livro foi removido com sucesso!",
@@ -187,7 +187,7 @@ public class AdmTablePageController implements Initializable {
     }
 
     public void loadGenres() {
-        List<Genre> genres = this.queriesDAO.getGenres();
+        List<Genre> genres = this.admTablePageQuery.getGenres();
         ObservableList<Genre> obsGenre;
 
         obsGenre = FXCollections.observableArrayList(genres);
@@ -198,7 +198,7 @@ public class AdmTablePageController implements Initializable {
     }
 
     public void loadAuthors() {
-        List<Author> authors = this.queriesDAO.getAuthors();
+        List<Author> authors = this.admTablePageQuery.getAuthors();
         ObservableList<Author> obsAuthor;
 
         obsAuthor = FXCollections.observableArrayList(authors);
@@ -207,7 +207,7 @@ public class AdmTablePageController implements Initializable {
     }
 
     public void loadPublishers() {
-        List<Publisher> publisher = this.queriesDAO.getPublishers();
+        List<Publisher> publisher = this.admTablePageQuery.getPublishers();
         ObservableList<Publisher> obsPublisher;
 
         obsPublisher = FXCollections.observableArrayList(publisher);
@@ -296,7 +296,7 @@ public class AdmTablePageController implements Initializable {
         this.clnRetDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         this.clnquantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        List<Book> bookList = queriesDAO.getBookList();
+        List<Book> bookList = this.admTablePageQuery.getBookList();
 
         this.observableBookList = FXCollections.observableArrayList(bookList);
 

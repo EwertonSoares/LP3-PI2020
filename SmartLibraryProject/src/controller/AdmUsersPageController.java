@@ -26,8 +26,9 @@ import javafx.stage.Stage;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.LongStringConverter;
-import utils.QueriesDAO;
 import model.User;
+import query.AdmUsersPageQuery;
+import query.GeneralQuery;
 import screens.AdmTablePage;
 import screens.AdmUsersPage;
 import screens.Login;
@@ -37,7 +38,7 @@ import utils.Utils;
  *
  * @author ewerton
  */
-public class admUsersPageController implements Initializable {
+public class AdmUsersPageController implements Initializable {
 
     @FXML
     private TableView<User> tableViewUsers;
@@ -56,6 +57,9 @@ public class admUsersPageController implements Initializable {
 
     @FXML
     private TableColumn<User, String> clnEmail;
+
+    @FXML
+    private TableColumn<User, Long> clnCodUser;
 
     @FXML
     private TextField txtUser;
@@ -84,7 +88,7 @@ public class admUsersPageController implements Initializable {
     private User userSelected;
     private ObservableList<User> observableUserList;
 
-    QueriesDAO queriesDAO = new QueriesDAO();
+    AdmUsersPageQuery admUsersPageQuery = new AdmUsersPageQuery();
     Utils utils = new Utils();
 
     private void loadUsersTable() {
@@ -93,8 +97,9 @@ public class admUsersPageController implements Initializable {
         this.clnphone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         this.clnMobPhone.setCellValueFactory(new PropertyValueFactory<>("mobilePhone"));
         this.clnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        this.clnCodUser.setCellValueFactory(new PropertyValueFactory<>("codUser"));
 
-        List<User> userList = queriesDAO.getUsersList();
+        List<User> userList = this.admUsersPageQuery.getUsersList();
 
         this.observableUserList = FXCollections.observableArrayList(userList);
 
@@ -124,7 +129,7 @@ public class admUsersPageController implements Initializable {
                     Alert.AlertType.INFORMATION);
         }
 
-        inserted = queriesDAO.registerUser(this.txtUser.getText(), this.txtPwd.getText(),
+        inserted = this.admUsersPageQuery.registerUser(this.txtUser.getText(), this.txtPwd.getText(),
                 this.txtUserType.getText(), this.txtEmail.getText(), this.txtPhone.getText(),
                 this.txtMobPhone.getText());
 
@@ -148,7 +153,7 @@ public class admUsersPageController implements Initializable {
     private void updateUser(ActionEvent event) {
         boolean updated = false;
 
-        updated = queriesDAO.updateUserData(userSelected);
+        updated = this.admUsersPageQuery.updateUserData(userSelected);
         if (updated) {
             utils.showAlert("Sucesso", "Usuario atualizado", "O usuario foi atualizado com sucesso",
                     Alert.AlertType.INFORMATION);
@@ -162,7 +167,7 @@ public class admUsersPageController implements Initializable {
     private void removeUser() {
         User user = tableViewUsers.getSelectionModel().getSelectedItem();
 
-        boolean removed = queriesDAO.removeUser(user.getCodUser());
+        boolean removed = this.admUsersPageQuery.removeUser(user.getCodUser());
         if (removed) {
             tableViewUsers.getItems().remove(user);
             utils.showAlert("Sucesso", "Usuario removido", "O usuario foi removido com sucesso!",
@@ -175,8 +180,6 @@ public class admUsersPageController implements Initializable {
 
     public void closeActualPage() {
         try {
-            Login login = new Login();
-            login.start(new Stage());
 
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();

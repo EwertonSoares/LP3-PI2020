@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.UserAndBook;
-import utils.QueriesDAO;
+import query.GeneralQuery;
 import utils.Utils;
 
 /**
@@ -60,7 +60,7 @@ public class UserBookTableController implements Initializable {
 
     private Long codUser;
 
-    private final QueriesDAO queriesDAO = new QueriesDAO();
+    private final GeneralQuery generalQuery = new GeneralQuery();
     private final Utils utils = new Utils();
     private ObservableList<UserAndBook> observableUserAndBookList;
 
@@ -76,7 +76,7 @@ public class UserBookTableController implements Initializable {
     }
 
     public void setDataTable(Long id) {
-        List<UserAndBook> userAndBookList = queriesDAO.getUsersAndBook(id);
+        List<UserAndBook> userAndBookList = this.generalQuery.getUsersAndBook(id);
 
         this.observableUserAndBookList = FXCollections.observableArrayList(userAndBookList);
         this.tableBooksUserBooks.setItems(this.observableUserAndBookList);

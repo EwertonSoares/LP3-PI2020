@@ -18,7 +18,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import utils.QueriesDAO;
+import query.LoginQuery;
 import utils.Utils;
 import screens.AdmMainPage;
 import screens.ForgetPassword;
@@ -47,34 +47,48 @@ public class LoginController implements Initializable {
     @FXML
     private TextField txtPassword;
 
-    QueriesDAO login = new QueriesDAO();
+    LoginQuery login = new LoginQuery();
     Utils utils = new Utils();
 
     @FXML
     private void verifyLoginAndPassword(ActionEvent event) {
         boolean checked = false;
         String userType = "user";
+        String empty = "";
 
         if (this.rdbAdm.isSelected()) {
             userType = "adm";
-            this.checkLoginAndPasswordField();
-            
+
+            if (this.txtEmail.getText().compareTo(empty) == 0
+                    || this.txtPassword.getText().compareTo(empty) == 0) {
+
+                this.utils.showAlert("ERRO", "Erro ao tentar logar!", "Campos não devem estar em branco!", Alert.AlertType.INFORMATION);
+                return;
+            }
+
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
                     this.txtPassword.getText(), userType);
 
             if (checked) {
                 this.callMainPage(this.txtEmail.getText().split("@")[0]);
+
             } else {
-                textError.setText("Usuario ou senha invalido!");
+                this.textError.setText("Usuario ou senha invalido!");
                 this.reloadLoginScreen();
             }
 
         } else {
-            this.checkLoginAndPasswordField();
-            checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
+
+            if (this.txtEmail.getText().compareTo(empty) == 0
+                    || this.txtPassword.getText().compareTo(empty) == 0) {
+
+                utils.showAlert("ERRO", "Erro ao tentar logar!", "Campos não devem estar em branco!", Alert.AlertType.INFORMATION);
+            }
+
+            checked = this.login.verifyLoginAndPassword(this.txtEmail.getText(),
                     this.txtPassword.getText(), userType);
 
-            Long id = login.getCodUser(this.txtEmail.getText());
+            Long id = this.login.getCodUser(this.txtEmail.getText());
 
             if (checked) {
 
@@ -142,16 +156,6 @@ public class LoginController implements Initializable {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
-
-    private void checkLoginAndPasswordField() {
-        String empty = "";
-
-        if (this.txtEmail.getText().compareTo(empty) == 0
-                || this.txtPassword.getText().compareTo(empty) == 0) {
-
-            utils.showAlert("ERRO", "Erro ao tentar logar!", "Campos não devem estar em branco!", Alert.AlertType.INFORMATION);
-        }
     }
 
     private void closeLoginScreen() {
