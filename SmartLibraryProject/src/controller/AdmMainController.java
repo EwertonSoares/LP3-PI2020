@@ -21,6 +21,7 @@ import screens.AdmReleaseAndReturnBook;
 import utils.Utils;
 import screens.AdmTablePage;
 import screens.AdmUsersPage;
+import screens.AuthorTablePage;
 import screens.GenreTablePage;
 import screens.Login;
 
@@ -98,6 +99,12 @@ public class AdmMainController implements Initializable {
         } else if (this.rdbPub.isSelected()) {
 
         } else if (this.rdbAut.isSelected()) {
+            try {
+                AuthorTablePage authorTablePage = new AuthorTablePage();
+                authorTablePage.start(new Stage());
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else {
             utils.showAlert("ERRO", "Topico não selecionada",

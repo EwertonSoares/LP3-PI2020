@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AuthorTablePageController">
+   <children>
+      <TableView fx:id="tableViewGenre" layoutX="19.0" layoutY="49.0" prefHeight="229.0" prefWidth="594.0">
+        <columns>
+            <TableColumn fx:id="clnCodAuthor" prefWidth="107.0" text="Codigo " />
+          <TableColumn fx:id="clnAuthor" minWidth="0.0" onEditCommit="#getGenre" prefWidth="113.0" text="Autor" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button fx:id="btnRemove" layoutX="544.0" layoutY="353.0" mnemonicParsing="false" onAction="#removeAuthor" styleClass="return" text="Remover" />
+      <Button fx:id="btnUpdate" layoutX="453.0" layoutY="354.0" mnemonicParsing="false" onAction="#updateAuthor" prefHeight="25.0" prefWidth="87.0" styleClass="update" text="Atualizar" />
+      <Button fx:id="btnClose" layoutX="545.0" mnemonicParsing="false" onAction="#closeActualPage" prefHeight="25.0" prefWidth="87.0" styleClass="cancel" text="Fechar" />
+      <TextField fx:id="txtAut" layoutX="18.0" layoutY="317.0" prefHeight="25.0" prefWidth="601.0" />
+      <Button fx:id="btnInsert" layoutX="375.0" layoutY="355.0" mnemonicParsing="false" onAction="#InsertAuthor" prefHeight="25.0" prefWidth="76.0" styleClass="rent" text="Inserir" />
+      <Label layoutX="18.0" layoutY="301.0" prefHeight="15.0" prefWidth="177.0" text="Autor" textFill="WHITE" />
+      <Text fill="WHITE" layoutX="20.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adicione um novo autor abaixo!" wrappingWidth="231.7294921875" />
+      <Button fx:id="btnReload" layoutY="-1.0" mnemonicParsing="false" onAction="#reloadBookTable" prefHeight="25.0" prefWidth="94.0" styleClass="reload" text="Recarregar" />
+   </children>
+</AnchorPane>
