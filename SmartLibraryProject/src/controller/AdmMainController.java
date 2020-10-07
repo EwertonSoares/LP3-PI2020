@@ -24,6 +24,7 @@ import screens.AdmUsersPage;
 import screens.AuthorTablePage;
 import screens.GenreTablePage;
 import screens.Login;
+import screens.PublisherTablePage;
 
 /**
  *
@@ -97,6 +98,12 @@ public class AdmMainController implements Initializable {
             }
 
         } else if (this.rdbPub.isSelected()) {
+            try {
+                PublisherTablePage publisherTablePage = new PublisherTablePage();
+                publisherTablePage.start(new Stage());
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else if (this.rdbAut.isSelected()) {
             try {
