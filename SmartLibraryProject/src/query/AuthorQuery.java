@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Author;
 import model.Genre;
 import model.User;
 
@@ -26,22 +27,21 @@ public class AuthorQuery {
     /*
     
      */
-    public boolean insertGenre(String genre) {
+    public boolean insertAuthor(String author) {
 
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
-        ResultSet result;
         boolean saved = false;
 
         try {
 
-            stmt = con.prepareStatement("INSERT INTO genres (genre) VALUES(?)");
-            stmt.setString(1, genre);
+            stmt = con.prepareStatement("INSERT INTO authors (authorName) VALUES (?);");
+            stmt.setString(1, author);
 
             saved = stmt.execute();
 
-            if (!saved) {
+            if (saved == false) {
                 saved = true;
             }
 
@@ -57,7 +57,7 @@ public class AuthorQuery {
     /*
     
      */
-    public boolean removeGenre(Long codGenre) {
+    public boolean removeAuthor(Long codAuthor) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -67,8 +67,8 @@ public class AuthorQuery {
 
         try {
 
-            stmet = conn.prepareStatement("DELETE FROM genres WHERE codGenre = ?");
-            stmet.setLong(1, codGenre);
+            stmet = conn.prepareStatement("DELETE FROM authors WHERE codAuthor = ?");
+            stmet.setLong(1, codAuthor);
 
             removed = stmet.execute();
 
@@ -88,7 +88,7 @@ public class AuthorQuery {
     /*
     
      */
-    public Boolean updateGenre(Genre genre) {
+    public Boolean updateAuthor(Author author) {
 
         Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmet = null;
@@ -98,10 +98,10 @@ public class AuthorQuery {
 
         try {
 
-            stmet = conn.prepareStatement("UPDATE genres SET genre = ? WHERE codGenre = ?;");
+            stmet = conn.prepareStatement("UPDATE authors SET authorName = ? WHERE codAuthor = ?;");
 
-            stmet.setString(1, genre.getGenre());
-            stmet.setLong(2, genre.getCodGenre());
+            stmet.setString(1, author.getAuthorName());
+            stmet.setLong(2, author.getCodAuthor());
 
             updated = stmet.execute();
 
@@ -121,27 +121,27 @@ public class AuthorQuery {
     /*
     
      */
-    public List<Genre> getGenreList() {
+    public List<Author> getAuthorList() {
 
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         ResultSet result;
-        List<Genre> genreList = new ArrayList();
+        List<Author> authorList = new ArrayList();
 
         try {
 
-            stmt = con.prepareStatement("SELECT * FROM genres");
+            stmt = con.prepareStatement("SELECT * FROM authors");
 
             result = stmt.executeQuery();
 
             while (result.next()) {
-                Long codGenre = result.getLong("codGenre");
-                String genres = result.getString("genre");
+                Long codAuthor = result.getLong("codAuthor");
+                String authorName = result.getString("authorName");
 
-                Genre genre = new Genre(codGenre, genres);
+                Author author = new Author(codAuthor, authorName);
 
-                genreList.add(genre);
+                authorList.add(author);
             }
 
         } catch (SQLException ex) {
@@ -150,7 +150,7 @@ public class AuthorQuery {
             ConnectionFactory.closeConnection(con, stmt);
         }
 
-        return genreList;
+        return authorList;
     }
 
 }

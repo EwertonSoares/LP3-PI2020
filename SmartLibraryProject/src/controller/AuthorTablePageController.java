@@ -7,7 +7,6 @@ package controller;
 
 import javafx.fxml.Initializable;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,25 +25,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.DateStringConverter;
-import javafx.util.converter.FloatStringConverter;
-import javafx.util.converter.LongStringConverter;
 import model.Author;
-import model.Book;
-import model.Genre;
-import model.Publisher;
-import query.AdmTablePageQuery;
 import query.AuthorQuery;
-import query.GenreQuery;
 import utils.Utils;
 import screens.AdmTablePage;
+import screens.AuthorTablePage;
 import screens.GenreTablePage;
 
 /**
  *
  * @author ewerton
  */
-public class AuthorTablePageController1 implements Initializable {
+public class AuthorTablePageController implements Initializable {
 
     @FXML
     private TableView<Author> tableViewAuthor;
@@ -65,7 +57,7 @@ public class AuthorTablePageController1 implements Initializable {
     private Button btnReload;
 
     private Author authorSelected;
-    private final AuthorQuery genreQuery = new AuthorQuery();
+    private final AuthorQuery authorQuery = new AuthorQuery();
     private final Utils utils = new Utils();
     private ObservableList<Author> observableAuthorList;
 
@@ -74,13 +66,13 @@ public class AuthorTablePageController1 implements Initializable {
      * @param event
      */
     @FXML
-    private void updateGenre(ActionEvent event) {
+    private void updateAuthor(ActionEvent event) {
         boolean updated = false;
         Author author = this.tableViewAuthor.getSelectionModel().getSelectedItem();
 
-        updated = this.genreQuery.updateGenre(author);
+        updated = this.authorQuery.updateAuthor(author);
         if (updated) {
-            utils.showAlert("Sucesso", "Gênero atualizado", "O gênero foi atualizado com sucesso",
+            utils.showAlert("Sucesso", "Autor atualizado", "O autor foi atualizado com sucesso",
                     Alert.AlertType.INFORMATION);
         } else {
             utils.showAlert("Erro", "Erro ao atualizar", "Algo inesperado ocorreu!",
@@ -89,24 +81,25 @@ public class AuthorTablePageController1 implements Initializable {
     }
 
     @FXML
-    private void InsertGenre(ActionEvent event) {
+    private void InsertAuthor(ActionEvent event) {
         String empty = "";
         boolean inserted = false;
 
         if (this.txtAut.getText().compareTo(empty) == 0) {
-            utils.showAlert("Atençao", "Campos obrigatório!",
-                    "Gênero é uma campo obrigatório!'",
+            utils.showAlert("Atençao", "Campo obrigatório!",
+                    "Autor é uma campo obrigatório!'",
                     Alert.AlertType.INFORMATION);
+            
+            return;
         }
 
-        inserted = this.genreQuery.insertGenre(this.txtAut.getText());
-
+        inserted = this.authorQuery.insertAuthor(this.txtAut.getText());
         if (inserted) {
-            utils.showAlert("Sucesso", "Gênero inserido", "O gênero foi inserido com sucesso",
+            utils.showAlert("Sucesso", "Autor inserido", "O autor foi inserido com sucesso",
                     Alert.AlertType.INFORMATION);
 
         } else {
-            utils.showAlert("Erro", "Algo inesperado ocorreu", "Erro a o inserir o gênero",
+            utils.showAlert("Erro", "Algo inesperado ocorreu", "Erro a o inserir o autor",
                     Alert.AlertType.ERROR);
 
             this.txtAut.setText("");
@@ -114,13 +107,13 @@ public class AuthorTablePageController1 implements Initializable {
     }
 
     @FXML
-    private void removeGenre(ActionEvent event) {
+    private void removeAuthor(ActionEvent event) {
         Author author = this.tableViewAuthor.getSelectionModel().getSelectedItem();
 
-        boolean removed = this.genreQuery.removeGenre(author.getCodAuthor());
+        boolean removed = this.authorQuery.removeAuthor(author.getCodAuthor());
         if (removed) {
-            this.tableViewAuthor.getItems().remove(genre);
-            utils.showAlert("Sucesso", "Gênero removido", "O gênero foi removido com sucesso!",
+            this.tableViewAuthor.getItems().remove(author);
+            utils.showAlert("Sucesso", "Autor removido", "O autor foi removido com sucesso!",
                     Alert.AlertType.INFORMATION);
         } else {
             utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",
@@ -129,40 +122,42 @@ public class AuthorTablePageController1 implements Initializable {
     }
 
     @FXML
-    public void getGenre(CellEditEvent editcell) {
+    public void getAuthor(CellEditEvent editcell) {
         this.authorSelected = tableViewAuthor.getSelectionModel().getSelectedItem();
         this.authorSelected.setAuthorName(editcell.getNewValue().toString());
     }
 
+    @FXML
     public void reloadBookTable() {
         try {
             Stage stage = (Stage) btnReload.getScene().getWindow();
             stage.close();
 
-            GenreTablePage genreTablePage = new GenreTablePage();
-            genreTablePage.start(new Stage());
+            AuthorTablePage authorTablePage = new AuthorTablePage();
+            authorTablePage.start(new Stage());
 
         } catch (Exception ex) {
-            Logger.getLogger(AuthorTablePageController1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthorTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    @FXML
     public void closeActualPage() {
         try {
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();
         } catch (Exception ex) {
-            Logger.getLogger(AuthorTablePageController1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AuthorTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void loadGenreTable() {
+    private void loadAuthorTable() {
 
         //Preenchendo tabela
         this.clnCodAuthor.setCellValueFactory(new PropertyValueFactory<>("codAuthor"));
-        this.clnAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+        this.clnAuthor.setCellValueFactory(new PropertyValueFactory<>("authorName"));
 
-        List<Author> authorList = this.genreQuery.getGenreList();
+        List<Author> authorList = this.authorQuery.getAuthorList();
 
         this.observableAuthorList = FXCollections.observableArrayList(authorList);
         this.tableViewAuthor.setItems(observableAuthorList);
@@ -174,6 +169,6 @@ public class AuthorTablePageController1 implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.loadGenreTable();
+        this.loadAuthorTable();
     }
 }
