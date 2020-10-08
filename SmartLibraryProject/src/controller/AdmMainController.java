@@ -144,6 +144,7 @@ public class AdmMainController implements Initializable {
             this.rdbRelAndRet.setDisable(true);
             this.rdbAut.setDisable(true);
             this.rdbPub.setDisable(true);
+            this.rdbMyInfo.setDisable(true);
         }
 
         if (!this.rdbGen.isSelected()) {
@@ -152,6 +153,8 @@ public class AdmMainController implements Initializable {
             this.rdbRelAndRet.setDisable(false);
             this.rdbAut.setDisable(false);
             this.rdbPub.setDisable(false);
+            this.rdbMyInfo.setDisable(false);
+
         }
 
     }
@@ -165,6 +168,8 @@ public class AdmMainController implements Initializable {
             this.rdbRelAndRet.setDisable(true);
             this.rdbAut.setDisable(true);
             this.rdbGen.setDisable(true);
+            this.rdbMyInfo.setDisable(true);
+
         }
 
         if (!this.rdbPub.isSelected()) {
@@ -173,6 +178,8 @@ public class AdmMainController implements Initializable {
             this.rdbRelAndRet.setDisable(false);
             this.rdbAut.setDisable(false);
             this.rdbGen.setDisable(false);
+            this.rdbMyInfo.setDisable(false);
+
         }
     }
 
@@ -185,6 +192,7 @@ public class AdmMainController implements Initializable {
             this.rdbRelAndRet.setDisable(true);
             this.rdbPub.setDisable(true);
             this.rdbGen.setDisable(true);
+            this.rdbMyInfo.setDisable(true);
         }
 
         if (!this.rdbAut.isSelected()) {
@@ -193,6 +201,8 @@ public class AdmMainController implements Initializable {
             this.rdbRelAndRet.setDisable(false);
             this.rdbPub.setDisable(false);
             this.rdbGen.setDisable(false);
+            this.rdbMyInfo.setDisable(false);
+
         }
     }
 
@@ -204,7 +214,7 @@ public class AdmMainController implements Initializable {
             this.rdbGen.setDisable(true);
             this.rdbAut.setDisable(true);
             this.rdbPub.setDisable(true);
-
+            this.rdbMyInfo.setDisable(true);
         }
 
         if (!this.rdbUsers.isSelected()) {
@@ -213,6 +223,7 @@ public class AdmMainController implements Initializable {
             this.rdbAut.setDisable(false);
             this.rdbPub.setDisable(false);
             this.rdbGen.setDisable(false);
+            this.rdbMyInfo.setDisable(false);
         }
 
     }
@@ -225,6 +236,7 @@ public class AdmMainController implements Initializable {
             this.rdbGen.setDisable(true);
             this.rdbAut.setDisable(true);
             this.rdbPub.setDisable(true);
+            this.rdbMyInfo.setDisable(true);
 
         }
 
@@ -234,6 +246,7 @@ public class AdmMainController implements Initializable {
             this.rdbAut.setDisable(false);
             this.rdbPub.setDisable(false);
             this.rdbGen.setDisable(false);
+            this.rdbMyInfo.setDisable(false);
 
         }
     }
@@ -246,6 +259,7 @@ public class AdmMainController implements Initializable {
             this.rdbGen.setDisable(true);
             this.rdbAut.setDisable(true);
             this.rdbPub.setDisable(true);
+            this.rdbMyInfo.setDisable(true);
 
         }
 
@@ -255,7 +269,7 @@ public class AdmMainController implements Initializable {
             this.rdbAut.setDisable(false);
             this.rdbPub.setDisable(false);
             this.rdbGen.setDisable(false);
-
+            this.rdbMyInfo.setDisable(false);
         }
     }
 
@@ -311,8 +325,7 @@ public class AdmMainController implements Initializable {
     public void setNewText(String newText) {
         this.newText = newText;
     }
-    
-    
+
     public Long getId() {
         return id;
     }
