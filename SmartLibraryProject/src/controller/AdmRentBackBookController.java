@@ -82,7 +82,7 @@ public class AdmRentBackBookController implements Initializable {
      */
     @FXML
     private void rentBook() {
-        
+
         if (this.userAndBook.getQuantity() == 0) {
             utils.showAlert("Atenção", "Não é possivel reservar esse livro",
                     " Não ha o livro " + this.userAndBook.getBookName()
@@ -122,22 +122,6 @@ public class AdmRentBackBookController implements Initializable {
             this.utils.showAlert("Atenção", "Não é posivel fazer a reserva!",
                     "Numero de livros excedido para este usuario", Alert.AlertType.WARNING);
             return;
-        }
-
-        boolean checkUserRentedBook = this.admRentBackQuery.checkBookRented(
-                this.userAndBook.getCodUser(), this.userAndBook.getCodBook());
-        if (checkUserRentedBook) {
-            if ((total + this.userAndBook.getQtt()) <= 5) {
-                Long codUserBook = this.admRentBackQuery.getCodUserBook(this.userAndBook.getCodUser(),
-                        this.userAndBook.getCodBook());
-
-                this.query = this.admRentBackQuery.updateReserveBook(codUserBook,
-                        this.userAndBook.getCodBook(), this.userAndBook.getQtt());
-
-                this.successRented(this.query);
-
-                return;
-            }
         }
 
         this.query = this.admRentBackQuery.reserveBook(this.userAndBook.getCodUser(),
@@ -215,9 +199,9 @@ public class AdmRentBackBookController implements Initializable {
         dialogEmail.showAndWait();
 
         if (dialogEmail.getResult().compareTo(empty) == 0) {
-            
+
             this.emailDialog();
-            
+
         } else {
             this.userAndBook.setEmail(dialogEmail.getResult());
 
@@ -227,26 +211,13 @@ public class AdmRentBackBookController implements Initializable {
                         "Este usuario não esta cadastrado", Alert.AlertType.ERROR);
                 return;
             }
-            this.quantityDialog();
+            this.setQttValue();
         }
 
     }
 
-    private void quantityDialog() {
-        String empty = "";
-        TextInputDialog dialogQtt = new TextInputDialog();
-
-        dialogQtt.setTitle("Para reservar/devolver este livro");
-        dialogQtt.setHeaderText("Digite a quantidade!:");
-        dialogQtt.setContentText("QTD: ");
-        dialogQtt.showAndWait();
-
-        if (dialogQtt.getResult().compareTo(empty) == 0) {
-            this.quantityDialog();
-        } else {
-            this.userAndBook.setQtt(Long.parseLong(dialogQtt.getResult()));
-        }
-
+    private void setQttValue() {
+        this.userAndBook.setQtt(1L);
     }
 
     private void successRented(boolean reserved) {

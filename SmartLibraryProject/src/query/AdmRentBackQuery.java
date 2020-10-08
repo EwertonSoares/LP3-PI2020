@@ -127,40 +127,6 @@ public class AdmRentBackQuery {
     /*
     
      */
-    public boolean updateReserveBook(Long codUserBook, Long codBook, Long qtt) {
-
-        Connection conn = ConnectionFactory.getConnection();
-        PreparedStatement stmet = null;
-
-        ResultSet result;
-        boolean check = false;
-
-        try {
-
-            stmet = conn.prepareStatement("CALL updateReserveBooksProcedure(?,?,?);");
-
-            stmet.setLong(1, codUserBook);
-            stmet.setLong(2, codBook);
-            stmet.setLong(3, qtt);
-
-            check = stmet.execute();
-
-            if (!check) {
-                check = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(AdmRentBackQuery.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            ConnectionFactory.closeConnection(conn, stmet);
-        }
-
-        return check;
-    }
-
-    /*
-    
-     */
     public boolean reserveBook(Long codUser, Long codBook, Long qtd) {
 
         Connection conn = ConnectionFactory.getConnection();
@@ -171,7 +137,7 @@ public class AdmRentBackQuery {
 
         try {
 
-            stmet = conn.prepareStatement("CALL reserveBooksProcedure(?,?,?);");
+            stmet = conn.prepareStatement("CALL rentBooksProcedure(?,?,?);");
 
             stmet.setLong(1, codUser);
             stmet.setLong(2, codBook);
@@ -179,7 +145,7 @@ public class AdmRentBackQuery {
 
             reserved = stmet.execute();
 
-            if (!reserved) {
+            if (reserved == false) {
                 reserved = true;
             }
 

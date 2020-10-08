@@ -6,7 +6,6 @@
 package model;
 
 import java.util.Date;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 /**

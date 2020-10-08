@@ -52,8 +52,6 @@ public class UserBookTableController implements Initializable {
     @FXML
     private TableColumn<UserAndBook, Long> clnCodBook;
 
-    @FXML
-    private TableColumn<UserAndBook, Long> clnquantity;
 
     @FXML
     private Button btnBack;
@@ -72,7 +70,6 @@ public class UserBookTableController implements Initializable {
         this.clnExpectedDate.setCellValueFactory(new PropertyValueFactory<>("expectedDate"));
         this.clnRetDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         this.clnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        this.clnquantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
     }
 
     public void setDataTable(Long id) {
@@ -81,6 +78,7 @@ public class UserBookTableController implements Initializable {
         this.observableUserAndBookList = FXCollections.observableArrayList(userAndBookList);
         this.tableBooksUserBooks.setItems(this.observableUserAndBookList);
     }
+    
 
     @FXML
     public void closeActualPage(ActionEvent event) {

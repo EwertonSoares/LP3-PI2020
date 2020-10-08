@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserBookTableController">
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserBookTableController">
    <children>
       <TableView fx:id="tableBooksUserBooks" layoutX="4.0" layoutY="54.0" prefHeight="280.0" prefWidth="711.0">
         <columns>
             <TableColumn fx:id="clnCodBook" prefWidth="77.0" text="Codigo" />
           <TableColumn fx:id="clnBookName" prefWidth="129.0" style="-: ;" text="Livro " />
           <TableColumn fx:id="clnPrice" minWidth="0.0" prefWidth="66.0" text="Preço" />
-            <TableColumn fx:id="clnquantity" prefWidth="50.0" style="fx-background-color: lightblue;" text="Qtd" />
             <TableColumn fx:id="clnReaDate" prefWidth="60.0" style="-: ;" text="Retirada" />
             <TableColumn fx:id="clnExpectedDate" prefWidth="89.0" text="Retorno &#10;esperado" />
             <TableColumn fx:id="clnRetDate" prefWidth="69.0" style="-: ;" text="Retorno" />
@@ -24,5 +23,10 @@
          </columnResizePolicy>
       </TableView>
       <Button fx:id="btnBack" layoutX="658.0" layoutY="2.0" mnemonicParsing="false" onAction="#closeActualPage" styleClass="cancel" text="Voltar" />
+      <Text fill="WHITE" layoutX="6.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livros alugados por voce" wrappingWidth="278.7294921875">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
