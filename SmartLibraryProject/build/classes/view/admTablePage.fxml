@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmTablePageController">
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="712.0" style="-fx-background-color: darkblue;" stylesheets="@../javafxcss/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdmTablePageController">
    <children>
       <TableView fx:id="tableViewBooks" layoutX="4.0" layoutY="39.0" prefHeight="229.0" prefWidth="711.0">
         <columns>
             <TableColumn fx:id="clnCodBook" prefWidth="107.0" text="Codigo " />
             <TableColumn fx:id="clnquantity" onEditCommit="#getNewQuantity" prefWidth="43.0" resizable="false" style="fx-background-color: lightblue;" text="Qtd" />
-          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="100.0" resizable="false" style="-fx-background-color: lightblue;" text="Livro " />
+          <TableColumn fx:id="clnBookName" onEditCommit="#getNewBookName" prefWidth="100.0" resizable="false" text="Livro " />
             <TableColumn fx:id="clnPrice" minWidth="0.0" onEditCommit="#getNewPrice" prefWidth="55.0" resizable="false" style="-: lightblue;" text="Preço" />
-            <TableColumn fx:id="clnReaDate" onEditCommit="#getReleaseDate" prefWidth="103.0" resizable="false" style="-fx-background-color: lightblue;" text="Retirada" />
+            <TableColumn fx:id="clnReaDate" onEditCommit="#getReleaseDate" prefWidth="103.0" resizable="false" text="Retirada" />
             <TableColumn fx:id="clnExpectedDate" prefWidth="101.0" text="Retorno &#10;esperado" />
-            <TableColumn fx:id="clnRetDate" onEditCommit="#getNewReturnDate" prefWidth="105.0" resizable="false" style="-fx-background-color: lightblue;" text="Retorno" />
+            <TableColumn fx:id="clnRetDate" onEditCommit="#getNewReturnDate" prefWidth="105.0" resizable="false" text="Retorno" />
           <TableColumn fx:id="clnGenre" minWidth="0.0" prefWidth="113.0" text="Gênero" />
             <TableColumn fx:id="clnPub" minWidth="0.0" prefWidth="4.0" text="Editora" />
             <TableColumn fx:id="clnAut" minWidth="0.0" prefWidth="59.0" resizable="false" text="Autor" />
@@ -34,7 +35,7 @@
       <ComboBox fx:id="cbPub" layoutX="238.0" layoutY="321.0" onAction="#getCodPublisher" prefHeight="25.0" prefWidth="184.0" />
       <ComboBox fx:id="cbAlt" layoutX="426.0" layoutY="322.0" onAction="#getCodAuthor" prefHeight="25.0" prefWidth="159.0" />
       <TextField fx:id="txtBook" layoutX="18.0" layoutY="321.0" prefHeight="25.0" prefWidth="125.0" />
-      <TextField fx:id="txtPrice" layoutX="643.0" layoutY="321.0" prefHeight="25.0" prefWidth="54.0" />
+      <TextField fx:id="txtPrice" layoutX="643.0" layoutY="321.0" prefHeight="26.0" prefWidth="54.0" />
       <Button fx:id="btnInsert" layoutX="455.0" layoutY="362.0" mnemonicParsing="false" onAction="#InsertBook" prefHeight="25.0" prefWidth="76.0" styleClass="rent" text="Inserir" />
       <Label layoutX="146.0" layoutY="306.0" prefHeight="15.0" prefWidth="87.0" text="Gênero" textFill="WHITE" />
       <Label layoutX="240.0" layoutY="306.0" prefHeight="15.0" prefWidth="159.0" text="Editora" textFill="WHITE" />

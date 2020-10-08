@@ -17,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -25,14 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import model.Author;
 import model.Publisher;
-import query.AuthorQuery;
 import query.PublisherQuery;
 import utils.Utils;
-import screens.AdmTablePage;
-import screens.AuthorTablePage;
-import screens.GenreTablePage;
 import screens.PublisherTablePage;
 
 /**
@@ -102,7 +96,7 @@ public class PublisherTablePageController implements Initializable {
                     Alert.AlertType.INFORMATION);
 
         } else {
-            utils.showAlert("Erro", "Algo inesperado ocorreu", "Erro a o inserir o autor",
+            utils.showAlert("Erro", "Algo inesperado ocorreu", "Erro a o inserir a editora",
                     Alert.AlertType.ERROR);
 
             this.txtPub.setText("");
@@ -116,7 +110,7 @@ public class PublisherTablePageController implements Initializable {
         boolean removed = this.publisherQuery.removePublisher(publisher.getCodPublisher());
         if (removed) {
             this.tableViewPublisher.getItems().remove(publisher);
-            utils.showAlert("Sucesso", "Editora removido", "A editora foi removida com sucesso!",
+            utils.showAlert("Sucesso", "Editora removida", "A editora foi removida com sucesso!",
                     Alert.AlertType.INFORMATION);
         } else {
             utils.showAlert("ERRO", "Tente novamente", "Algo inesperado ocorreu!",

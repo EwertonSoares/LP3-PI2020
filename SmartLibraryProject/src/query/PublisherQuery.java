@@ -36,7 +36,7 @@ public class PublisherQuery {
 
         try {
 
-            stmt = con.prepareStatement("INSERT INTO publishers (genre) VALUES(?)");
+            stmt = con.prepareStatement("INSERT INTO publishers (publisher) VALUES(?)");
             stmt.setString(1, publisher);
 
             saved = stmt.execute();

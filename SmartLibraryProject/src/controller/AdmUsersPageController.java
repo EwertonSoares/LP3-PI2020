@@ -23,15 +23,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.DateStringConverter;
-import javafx.util.converter.FloatStringConverter;
-import javafx.util.converter.LongStringConverter;
 import model.User;
 import query.AdmUsersPageQuery;
-import query.GeneralQuery;
-import screens.AdmTablePage;
 import screens.AdmUsersPage;
-import screens.Login;
 import utils.Utils;
 
 /**

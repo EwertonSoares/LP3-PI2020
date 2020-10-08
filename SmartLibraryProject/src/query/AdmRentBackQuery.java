@@ -171,7 +171,7 @@ public class AdmRentBackQuery {
 
         try {
 
-            stmet = conn.prepareStatement("CALL reserveBookProcedure(?,?,?);");
+            stmet = conn.prepareStatement("CALL reserveBooksProcedure(?,?,?);");
 
             stmet.setLong(1, codUser);
             stmet.setLong(2, codBook);

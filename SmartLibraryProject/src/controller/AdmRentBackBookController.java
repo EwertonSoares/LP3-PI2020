@@ -7,7 +7,6 @@ package controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,10 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.LongStringConverter;
-import model.Book;
 import model.UserAndBook;
 import query.AdmRentBackQuery;
 import screens.AdmReleaseAndReturnBook;
