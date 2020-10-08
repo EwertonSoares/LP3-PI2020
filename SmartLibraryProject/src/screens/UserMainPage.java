@@ -5,7 +5,6 @@
  */
 package screens;
 
-import controller.AdmMainController;
 import controller.UserMainPageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,10 +17,11 @@ import javafx.stage.Stage;
  * @author ewerton
  */
 public class UserMainPage extends Application {
-    
-    private String text; 
-    private Long id;
 
+    private String text;
+    private Long id;
+    private String userType;
+;
     public String getText() {
         return text;
     }
@@ -38,6 +38,15 @@ public class UserMainPage extends Application {
         this.id = id;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+    
+  
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/userMainPage.fxml"));
@@ -46,7 +55,8 @@ public class UserMainPage extends Application {
         UserMainPageController userMainPageController = loader.getController();
         userMainPageController.setInitialText(this.getText());
         userMainPageController.setCodUser(this.getId());
-        
+        userMainPageController.setUserType(this.getUserType());
+
         Scene scene = new Scene(root);
 
         stage.setScene(scene);

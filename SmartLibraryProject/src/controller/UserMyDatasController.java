@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.User;
 import query.UpdateUserDataQuery;
+import screens.AdmMainPage;
 import utils.Utils;
 
 /**
@@ -52,6 +53,7 @@ public class UserMyDatasController implements Initializable {
 
     private final UpdateUserDataQuery updateUserDataQuery = new UpdateUserDataQuery();
     private final Utils utils = new Utils();
+    private String userType;
 
     @FXML
     public void updateUserData() {
@@ -73,13 +75,28 @@ public class UserMyDatasController implements Initializable {
 
     @FXML
     public void closeActualPage(ActionEvent event) {
-        try {
+        String user = "user";
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
 
-            Stage stage = (Stage) btnCancel.getScene().getWindow();
+        if (this.getUserType().compareTo(user) == 0) {
+
+            try {
+
+                stage.close();
+
+            } catch (Exception ex) {
+                Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
             stage.close();
 
-        } catch (Exception ex) {
-            Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                AdmMainPage admMainPage = new AdmMainPage();
+                admMainPage.start(new Stage());
+
+            } catch (Exception ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -113,6 +130,20 @@ public class UserMyDatasController implements Initializable {
     public void setCodUser(Long codUser) {
         this.codUser = codUser;
         this.loadUserDatas(codUser);
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        String user = userType;
+
+        if (userType == null) {
+            user = "adm";
+        }
+
+        this.userType = user;
     }
 
     @Override

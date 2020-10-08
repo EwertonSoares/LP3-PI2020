@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import screens.AdmMainPage;
 import screens.Login;
 import screens.UserMyDatasPage;
 import screens.UserTablePage;
@@ -42,6 +43,8 @@ public class UserMainPageController implements Initializable {
 
     @FXML
     private Button btnClose;
+
+    private String userType;
 
     @FXML
     public void changeScreen(ActionEvent event) {
@@ -70,6 +73,7 @@ public class UserMainPageController implements Initializable {
         try {
             UserTablePage userTablePage = new UserTablePage();
             userTablePage.setId(id);
+            userTablePage.setUserType(this.getUserType());
             userTablePage.start(new Stage());
         } catch (Exception ex) {
             Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,6 +85,7 @@ public class UserMainPageController implements Initializable {
 
             UserMyDatasPage userMyDatasPage = new UserMyDatasPage();
             userMyDatasPage.setId(id);
+            userMyDatasPage.setUserType(this.getUserType());
             userMyDatasPage.start(new Stage());
 
         } catch (Exception ex) {
@@ -119,15 +124,21 @@ public class UserMainPageController implements Initializable {
 
     @FXML
     public void closeActualPage(ActionEvent event) {
-        try {
-            Login login = new Login();
-            login.start(new Stage());
+        String user = "user";
+        Stage stage = (Stage) btnClose.getScene().getWindow();
 
-            Stage stage = (Stage) btnClose.getScene().getWindow();
+        if (this.getUserType().compareTo(user) == 0) {
             stage.close();
+        } else {
+            try {
+                stage.close();
 
-        } catch (Exception ex) {
-            Logger.getLogger(ForgetPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+                AdmMainPage admMainPage = new AdmMainPage();
+                admMainPage.start(new Stage());
+            } catch (Exception ex) {
+                Logger.getLogger(UserMainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -137,6 +148,19 @@ public class UserMainPageController implements Initializable {
 
     public Long getCodUser() {
         return this.codUser;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        String user = userType;
+        if (userType == null) {
+            user = "adm";
+        }
+
+        this.userType = user;
     }
 
     @Override

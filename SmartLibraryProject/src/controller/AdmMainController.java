@@ -25,6 +25,7 @@ import screens.AuthorTablePage;
 import screens.GenreTablePage;
 import screens.Login;
 import screens.PublisherTablePage;
+import screens.UserMainPage;
 
 /**
  *
@@ -57,9 +58,14 @@ public class AdmMainController implements Initializable {
     private RadioButton rdbAut;
 
     @FXML
+    private RadioButton rdbMyInfo;
+
+    @FXML
     private Button btnClose;
 
-    Utils utils = new Utils();
+    private final Utils utils = new Utils();
+    private Long id;
+    private String newText;
 
     @FXML
     private void changeScreen() {
@@ -109,6 +115,16 @@ public class AdmMainController implements Initializable {
             try {
                 AuthorTablePage authorTablePage = new AuthorTablePage();
                 authorTablePage.start(new Stage());
+            } catch (Exception ex) {
+                Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (this.rdbMyInfo.isSelected()) {
+            try {
+                UserMainPage userMainPage = new UserMainPage();
+                userMainPage.setText(this.getNewText());
+                userMainPage.setId(this.getId());
+                userMainPage.start(new Stage());
             } catch (Exception ex) {
                 Logger.getLogger(AdmMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -243,10 +259,28 @@ public class AdmMainController implements Initializable {
         }
     }
 
-    public void setInitialText(String text) {
-        String welcome = "bem vindo a smart library ";
+    @FXML
+    private void checkRdbMyInfo() {
+        if (this.rdbMyInfo.isSelected()) {
+            this.rdbBooks.setDisable(true);
+            this.rdbRelAndRet.setDisable(true);
+            this.rdbGen.setDisable(true);
+            this.rdbAut.setDisable(true);
+            this.rdbPub.setDisable(true);
+            this.rdbUsers.setDisable(true);
 
-        this.txtStr.setText(welcome.concat(text).toUpperCase());
+        }
+
+        if (!this.rdbMyInfo.isSelected()) {
+            this.rdbBooks.setDisable(false);
+            this.rdbRelAndRet.setDisable(false);
+            this.rdbAut.setDisable(false);
+            this.rdbPub.setDisable(false);
+            this.rdbGen.setDisable(false);
+            this.rdbUsers.setDisable(false);
+
+        }
+
     }
 
     @FXML
@@ -260,6 +294,31 @@ public class AdmMainController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(AdmTablePageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void setInitialText(String text) {
+        String welcome = "bem vindo a smart library ";
+
+        this.txtStr.setText(welcome.concat(text).toUpperCase());
+
+        this.setNewText(text);
+    }
+
+    public String getNewText() {
+        return newText;
+    }
+
+    public void setNewText(String newText) {
+        this.newText = newText;
+    }
+    
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

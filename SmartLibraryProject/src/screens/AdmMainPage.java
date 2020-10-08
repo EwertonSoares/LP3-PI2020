@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 public class AdmMainPage extends Application {
 
     private String text;
+    private Long id;
 
     public String getText() {
         return text;
@@ -28,6 +29,14 @@ public class AdmMainPage extends Application {
         this.text = text;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admMainPage.fxml"));
@@ -35,6 +44,7 @@ public class AdmMainPage extends Application {
 
         AdmMainController admMainController = loader.getController();
         admMainController.setInitialText(this.getText());
+        admMainController.setId(this.id);
 
         Scene scene = new Scene(root);
 

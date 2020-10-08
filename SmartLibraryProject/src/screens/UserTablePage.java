@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 public class UserTablePage extends Application {
     
     private Long id;
+    private String userType;
 
     public Long getId() {
         return id;
@@ -27,6 +28,15 @@ public class UserTablePage extends Application {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+    
     
   
     @Override
@@ -37,6 +47,7 @@ public class UserTablePage extends Application {
 
         UserBookTableController userTableBooksController = loader.getController();
         userTableBooksController.setCodUser(this.getId());
+        userTableBooksController.setUserType(this.getUserType());
         
         
         Scene scene = new Scene(root);

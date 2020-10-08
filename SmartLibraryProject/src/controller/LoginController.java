@@ -47,6 +47,10 @@ public class LoginController implements Initializable {
     @FXML
     private TextField txtPassword;
 
+    private Long id;
+    
+    private String newUserType = "user";
+
     LoginQuery login = new LoginQuery();
     Utils utils = new Utils();
 
@@ -62,12 +66,16 @@ public class LoginController implements Initializable {
             if (this.txtEmail.getText().compareTo(empty) == 0
                     || this.txtPassword.getText().compareTo(empty) == 0) {
 
-                this.utils.showAlert("ERRO", "Erro ao tentar logar!", "Campos não devem estar em branco!", Alert.AlertType.INFORMATION);
+                this.utils.showAlert("ERRO", "Erro ao tentar logar!",
+                        "Campos não devem estar em branco!", Alert.AlertType.INFORMATION);
+
                 return;
             }
 
             checked = login.verifyLoginAndPassword(this.txtEmail.getText(),
                     this.txtPassword.getText(), userType);
+
+            this.id = this.login.getCodUser(this.txtEmail.getText());
 
             if (checked) {
                 this.callMainPage(this.txtEmail.getText().split("@")[0]);
@@ -82,13 +90,14 @@ public class LoginController implements Initializable {
             if (this.txtEmail.getText().compareTo(empty) == 0
                     || this.txtPassword.getText().compareTo(empty) == 0) {
 
-                utils.showAlert("ERRO", "Erro ao tentar logar!", "Campos não devem estar em branco!", Alert.AlertType.INFORMATION);
+                utils.showAlert("ERRO", "Erro ao tentar logar!", "Campos não devem estar em branco!",
+                        Alert.AlertType.INFORMATION);
             }
 
             checked = this.login.verifyLoginAndPassword(this.txtEmail.getText(),
                     this.txtPassword.getText(), userType);
 
-            Long id = this.login.getCodUser(this.txtEmail.getText());
+            this.id = this.login.getCodUser(this.txtEmail.getText());
 
             if (checked) {
 
@@ -107,6 +116,7 @@ public class LoginController implements Initializable {
             AdmMainPage admMainPage = new AdmMainPage();
 
             admMainPage.setText(text);
+            admMainPage.setId(this.id);
             admMainPage.start(new Stage());
 
             closeLoginScreen();
@@ -122,6 +132,7 @@ public class LoginController implements Initializable {
 
             userMainPage.setText(text);
             userMainPage.setId(id);
+            userMainPage.setUserType(this.newUserType);
             userMainPage.start(new Stage());
 
             closeLoginScreen();
@@ -138,7 +149,7 @@ public class LoginController implements Initializable {
         try {
             register.start(new Stage());
             closeLoginScreen();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
